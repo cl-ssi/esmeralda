@@ -179,7 +179,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        Milon\Barcode\BarcodeServiceProvider::class,
+        /* Creo que no es necesario esta línea acá, descomentar si trae problemas */
+        //Milon\Barcode\BarcodeServiceProvider::class,
 
     ],
 
