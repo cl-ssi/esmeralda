@@ -3,7 +3,7 @@
 
 ### Programas
 
-- Instalar PHP >= 7.3
+- Instalar PHP >= 7.4
 - Instalar Composer
 - Instalar Git
 - (opcional) Instalar MySql
@@ -15,8 +15,8 @@
 
 ### Ejecutar en interprete de comandos
 
-- $ git clone https://github.com/cl-ssi/monitor
-- $ cd monitor
+- $ git clone https://github.com/cl-ssi/esmeralda
+- $ cd esmeralda
 - $ cp .env.example .env (copy en vez de cp en windows)
 - $ composer install
 - $ php artisan key:generate
