@@ -52,6 +52,8 @@ use Throwable;
 
 class SuspectCaseController extends Controller
 {
+    const CASE_PDF_PATH_GCS = 'esmeralda/suspect_cases/';
+
     /**
      * Display a listing of the resource.
      *
@@ -158,12 +160,6 @@ class SuspectCaseController extends Controller
         $from = Carbon::now()->subDays(3);
         $to = Carbon::now();
 
-        /*
-        where(function($q){
-                            $q->whereIn('establishment_id', Auth::user()->establishments->pluck('id'));
-                        })
-                        ->
-            */
         $suspectCases = SuspectCase::whereHas('patient', function ($q) {
             $q->whereHas('demographic', function ($q) {
                 $q->whereIn('commune_id', auth()->user()->communes());
@@ -284,54 +280,6 @@ class SuspectCaseController extends Controller
         if ($barcodeReception) return true;
         return redirect()->back();
     }
-
-//    public function reception(Request $request, SuspectCase $suspectCase) //recepcion antes en pntm y luego monitor
-//    {
-//        /* Webservice minsal */
-//        //####### recepciona en webservice ########
-//        if (env('ACTIVA_WS', false) == true) {
-//            if ($suspectCase->minsal_ws_id) {
-//                if ($suspectCase->laboratory_id != null) {
-//                    if ($suspectCase->laboratory->minsal_ws == true) {
-//                        // recepciona en minsal
-//                        $response = WSMinsal::recepciona_muestra($suspectCase);
-//                        if ($response['status'] == 1) {
-//                            $suspectCase->receptor_id = Auth::id();
-//                            $suspectCase->reception_at = date('Y-m-d H:i:s');
-//                            $suspectCase->save();
-//                        } else {
-//                            session()->flash('info', 'Error al recepcionar muestra ' . $suspectCase->id . ' en MINSAL. ' . $response['msg'] . ".");
-////                            $suspectCase->receptor_id = NULL;
-////                            $suspectCase->reception_at = NULL;
-////                            $suspectCase->save();
-//                            return redirect()->back()->withInput();
-//                        }
-//                    }else{
-//                        $suspectCase->receptor_id = Auth::id();
-//                        $suspectCase->reception_at = date('Y-m-d H:i:s');
-//                        if (!$suspectCase->minsal_ws_id) $suspectCase->laboratory_id = Auth::user()->laboratory->id;
-//                    }
-//                } else {
-//                    session()->flash('info', 'Error al recepcionar muestra ' . $suspectCase->id . ' en MINSAL. ' . 'No existe laboratory_id' . ".");
-//                    return redirect()->back()->withInput();
-//                }
-//            } else {
-//                $suspectCase->receptor_id = Auth::id();
-//                $suspectCase->reception_at = date('Y-m-d H:i:s');
-//                $suspectCase->laboratory_id = Auth::user()->laboratory->id;
-//            }
-//        } else {
-//            $suspectCase->receptor_id = Auth::id();
-//            $suspectCase->reception_at = date('Y-m-d H:i:s');
-//            if (!$suspectCase->minsal_ws_id) $suspectCase->laboratory_id = Auth::user()->laboratory->id;
-//        }
-//
-//        session()->flash('info', 'Se ha recepcionada la muestra: '
-//            . $suspectCase->id . ' en laboratorio: '
-//            . Auth::user()->laboratory->name);
-//
-//        return redirect()->back();
-//    }
 
     /**
      * Recepciona masivamente muestras
@@ -768,8 +716,16 @@ class SuspectCaseController extends Controller
 
         if ($request->hasFile('forfile')) {
             $file = $request->file('forfile');
-            $file->storeAs('suspect_cases', $suspectCase->id . '.pdf');
-            $suspectCase->file = true;
+
+            $filenameGcs = Str::uuid();
+            $suspectCase->filename_gcs = $filenameGcs;
+            $suspectCase->save();
+
+            $successful = Storage::disk('gcs')->put(self::CASE_PDF_PATH_GCS . $filenameGcs . '.pdf' , $file->get(), ['CacheControl' => 'no-cache, must-revalidate']);
+
+            if ($successful) {
+                $suspectCase->file = true;
+            }
         }
 
 
@@ -957,7 +913,7 @@ class SuspectCaseController extends Controller
                                 // dd($exists);
 
                                 $message = new NewNegative($suspectCase);
-                                $message->attachFromStorage('suspect_cases/' . $suspectCase->id . '.pdf', $suspectCase->id . '.pdf', [
+                                $message->attachFromStorageDisk('gcs',self::CASE_PDF_PATH_GCS . $suspectCase->filename_gcs . '.pdf', $suspectCase->id . '.pdf', [
                                     'mime' => 'application/pdf',
                                 ]);
                                 Mail::to($email)->send($message);
@@ -1039,11 +995,17 @@ class SuspectCaseController extends Controller
 
     public function fileDelete(SuspectCase $suspectCase)
     {
-        /* TODO: implementar auditable en file delete  */
-        if (Storage::delete('suspect_cases/' . $suspectCase->id . '.pdf')) {
-            $suspectCase->file = false;
-            $suspectCase->save();
-            session()->flash('info', 'Se ha eliminado el archivo correctamente.');
+        if (Storage::disk('gcs')->exists(self::CASE_PDF_PATH_GCS . $suspectCase->filename_gcs . '.pdf')) {
+            $successful = Storage::disk('gcs')->delete(self::CASE_PDF_PATH_GCS . $suspectCase->filename_gcs . '.pdf');
+
+            if ($successful) {
+                $suspectCase->file = false;
+                $suspectCase->filename_gcs = null;
+                $suspectCase->save();
+                session()->flash('info', 'Se ha eliminado el archivo correctamente.');
+            }else{
+                session()->flash('warning', 'Ha ocurrido un problema al eliminar el archivo, por favor intente nuevamente.');
+            }
         }
 
         return redirect()->back();
@@ -1305,62 +1267,14 @@ class SuspectCaseController extends Controller
         return view('lab.suspect_cases.reports.positive_average_by_commune', compact('cases_by_days'));
     }
 
-//    public function estadistico_diario_covid19(Request $request)
-//    {
-//        $yesterday = Carbon::now()->subDays(1)->format('Y-m-d 21:00');
-//        $now = Carbon::now()->format('Y-m-d 21:00');
-//        //dd($yesterday, $now);
-//
-//        $array = array();
-//        $cases = SuspectCase::whereBetween('created_at',[$yesterday,$now])
-//                            ->where('external_laboratory',NULL)
-//                            ->whereNotNull('laboratory_id')
-//                            ->get();
-//        //dd($cases);
-//        foreach ($cases as $key => $case) {
-//          $array[$case->laboratory->name]['muestras_en_espera'] = 0;
-//          $array[$case->laboratory->name]['muestras_recibidas'] = 0;
-//          $array[$case->laboratory->name]['muestras_procesadas'] = 0;
-//          $array[$case->laboratory->name]['muestras_positivas'] = 0;
-//          $array[$case->laboratory->name]['muestras_procesadas_acumulados'] = 0;
-//          $array[$case->laboratory->name]['muestras_procesadas_positivo'] = 0;
-//          $array[$case->laboratory->name]['commune'] = '';
-//        }
-//
-//        foreach ($cases as $key => $case) {
-//          if($case->pcr_sars_cov_2 == "pending"){
-//            $array[$case->laboratory->name]['muestras_en_espera'] += 1;
-//          }
-//          $array[$case->laboratory->name]['muestras_recibidas'] += 1;
-//          if($case->pcr_sars_cov_2 != "pending" || $case->pcr_sars_cov_2 != "rejected"){
-//            $array[$case->laboratory->name]['muestras_procesadas'] += 1;
-//          }
-//          if($case->pcr_sars_cov_2 == "positive"){
-//            $array[$case->laboratory->name]['muestras_positivas'] += 1;
-//          }
-//
-//          $array[$case->laboratory->name]['muestras_procesadas_acumulados'] = SuspectCase::where('external_laboratory',NULL)
-//                                                                                         ->where('laboratory_id',$case->laboratory_id)
-//                                                                                         ->where('pcr_sars_cov_2','<>','pending')
-//                                                                                         ->where('pcr_sars_cov_2','<>','rejected')
-//                                                                                         ->count();
-//
-//          $array[$case->laboratory->name]['muestras_procesadas_positivo'] = SuspectCase::where('external_laboratory',NULL)
-//                                                                                         ->where('laboratory_id',$case->laboratory_id)
-//                                                                                         ->where('pcr_sars_cov_2','positive')
-//                                                                                         ->count();
-//          $array[$case->laboratory->name]['commune'] = $case->laboratory->commune->name;
-//        }
-//
-//        //dd($array);
-//
-//        return view('lab.suspect_cases.reports.estadistico_diario_covid19', compact('array','yesterday', 'now'));
-//    }
-
-
     public function download(SuspectCase $suspectCase)
     {
-        return Storage::response('suspect_cases/' . $suspectCase->id . '.pdf', mb_convert_encoding($suspectCase->id . '.pdf', 'ASCII'));
+        return Storage::disk('gcs')
+            ->response(
+                self::CASE_PDF_PATH_GCS . $suspectCase->filename_gcs . '.pdf',
+                mb_convert_encoding($suspectCase->id . '.pdf', 'ASCII'),
+                ['CacheControl' => 'no-cache, must-revalidate']
+            );
     }
 
     public function login($access_token = null)
@@ -1506,13 +1420,6 @@ class SuspectCaseController extends Controller
         return view('lab.suspect_cases.reception_barcode');
 
     }
-
-//    public function exportExcel($cod_lab){
-////    public function exportExcel(Request $request, $cod_lab){
-//
-//        //        return Excel::download(new SuspectCasesExport($cod_lab, $request->get('date_filter')), 'lista-examenes.xlsx');
-//        return Excel::download(new SuspectCasesExport($cod_lab), 'lista-examenes.xlsx');
-//    }
 
     public function exportExcel($cod_lab, $date = null)
     {
@@ -2191,8 +2098,14 @@ class SuspectCaseController extends Controller
                     $isSaved = $new_suspect_case->save();
 
                     if ($isSaved && $new_suspect_case->pcr_sars_cov_2_at != null && $new_suspect_case->pcr_sars_cov_2 != null) {
-                        \PDF::loadView('lab.results.result', ['case' => $new_suspect_case])
-                            ->save(storage_path() . '/app/suspect_cases/' . $new_suspect_case->id . '.pdf');
+                        $file = \PDF::loadView('lab.results.result', ['case' => $new_suspect_case]);
+
+                        $filenameGcs = Str::uuid();
+                        $new_suspect_case->filename_gcs = $filenameGcs;
+                        $new_suspect_case->save();
+
+                        $successful = Storage::disk('gcs')->put(self::CASE_PDF_PATH_GCS . $filenameGcs . '.pdf' , $file->output(), ['CacheControl' => 'no-cache, must-revalidate']);
+
                         $new_suspect_case->file = true;
                         $new_suspect_case->save();
                         $casesInsertedNumber++;
@@ -2283,8 +2196,14 @@ class SuspectCaseController extends Controller
                         $isSaved = $new_suspect_case->save();
 
                         if ($isSaved && $new_suspect_case->pcr_sars_cov_2_at != null && $new_suspect_case->pcr_sars_cov_2 != null) {
-                            \PDF::loadView('lab.results.result', ['case' => $new_suspect_case])
-                                ->save(storage_path() . '/app/suspect_cases/' . $new_suspect_case->id . '.pdf');
+                            $file = \PDF::loadView('lab.results.result', ['case' => $new_suspect_case]);
+
+                            $filenameGcs = Str::uuid();
+                            $new_suspect_case->filename_gcs = $filenameGcs;
+                            $new_suspect_case->save();
+
+                            $successful = Storage::disk('gcs')->put(self::CASE_PDF_PATH_GCS . $filenameGcs . '.pdf' , $file->output(), ['CacheControl' => 'no-cache, must-revalidate']);
+
                             $new_suspect_case->file = true;
                             $new_suspect_case->save();
                             $casesInsertedNumber++;
@@ -2310,68 +2229,6 @@ class SuspectCaseController extends Controller
 
         return redirect()->route('lab.bulk_load_from_pntm.index');
     }
-
-
-//    public function bulk_load_import_from_pntm_passport(Request $request){
-//        set_time_limit(0);
-//        $file = $request->file('file');
-//
-//        $patientsCollection = Excel::toCollection(new PatientImport, $file);
-//
-//        foreach ($patientsCollection[0] as $patient) {
-//            $new_patient = new Patient();
-//
-//            $new_patient->run = null;
-//            $new_patient->dv  = null;
-//
-//            $new_patient->other_identification  = $patient['id_paciente'];
-//
-//            $new_patient->name            = $patient['nombre_paciente'];
-//            $new_patient->fathers_family  = $patient['apellido_paterno_paciente'];
-//            $new_patient->mothers_family  = $patient['apellido_materno_paciente'];
-//
-//            if($patient['sexo_paciente'] == 'M'){
-//                $new_patient->gender = 'male';
-//            }
-//            if($patient['sexo_paciente'] == 'F'){
-//                $new_patient->gender = 'female';
-//            }
-//            if($patient['sexo_paciente'] == 'Intersex'){
-//                $new_patient->gender = 'other';
-//            }
-//            if($patient['sexo_paciente'] == 'Desconocido'){
-//                $new_patient->gender = 'unknown';
-//            }
-//
-//            //                $new_patient->birthday        = Carbon::parse($patient['fecha_nacimiento_paciente']);
-//            $new_patient->birthday = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($patient['fecha_nacimiento_paciente']))->format('Y-m-d H:i:s');
-//            $new_patient->save();
-//
-//            $new_demographic = new Demographic();
-//
-//            $commune = Commune::where('name', 'like', '%' . trim($patient['comuna_paciente']) . '%')->first();
-//
-//            $new_demographic->address       = $patient['dirección_paciente'];
-//            $new_demographic->commune_id    = $commune->id;
-//            $new_demographic->region_id     = $commune->region_id;
-//            $new_demographic->nationality   = $patient['pais_origen_paciente'];
-//            $new_demographic->telephone     = $patient['telefono_paciente'];
-//            $new_demographic->email         = $patient['paciente_email'];
-//            $new_demographic->patient_id    = $new_patient->id;
-//
-//            $new_demographic->save();
-//
-//            $suspectCase = SuspectCase::find($patient['codigo_muestra_cliente']);
-//            $suspectCase->sample_type = 'TÓRULAS NASOFARÍNGEAS';
-//            $suspectCase->patient_id = $new_patient->id;
-//            // dd($suspectCase);
-//            $suspectCase->save();
-//
-//        }
-//
-//        session()->flash('success', 'El archivo fue cargado exitosamente.');
-//        return redirect()->route('lab.bulk_load_from_pntm.index');
-//    }
 
     /**
      * Importa planilla de resultados, genera pdf y carga a pntm si requiere.
@@ -2450,8 +2307,15 @@ class SuspectCaseController extends Controller
                     $cont += 1;
 
                     if ($request->generate_pdf == true) {
-                        \PDF::loadView('lab.results.result', ['case' => $suspectCase])
-                            ->save(storage_path() . '/app/suspect_cases/' . $suspectCase->id . '.pdf');
+                        $file = \PDF::loadView('lab.results.result', ['case' => $suspectCase]);
+
+                        $filenameGcs = Str::uuid();
+                        $suspectCase->filename_gcs = $filenameGcs;
+                        $suspectCase->save();
+
+
+                        $successful = Storage::disk('gcs')->put(self::CASE_PDF_PATH_GCS . $filenameGcs . '.pdf' , $file->output(), ['CacheControl' => 'no-cache, must-revalidate']);
+
                         $suspectCase->file = true;
                         $suspectCase->save();
                     }
@@ -2577,13 +2441,13 @@ class SuspectCaseController extends Controller
     }
 
     /**
-     * En desarrollo. Web service que obtiene data de archivos HL7 enviados por herramienta de integración
+     * Web service que obtiene data de archivos HL7 enviados por herramienta de integración
      * Mirth Connect.
      * @param Request $request
      */
     public function getHl7Files(Request $request)
     {
-        //Asignacion de variables
+        //Asignación de variables
         $patientIdentifier = $request->input('patient_identifier');
         $patientNames = $request->input('patient_names');
         $patientFamilyFather = $request->input('patient_family_father');
@@ -2607,7 +2471,6 @@ class SuspectCaseController extends Controller
         $hl7ResultMessage->sample_observation_datetime = $sampleAt;
         $hl7ResultMessage->status = 'pending';
         $hl7ResultMessage->save();
-
 
         //Búsqueda de casos por run o other_identification
         if ($patientIdentifier != null) {
@@ -2692,11 +2555,17 @@ class SuspectCaseController extends Controller
                 $suspectCase->validator_id = Auth::id();
             }
 
+            $filenameGcs = Str::uuid();
+            $suspectCase->filename_gcs = $filenameGcs;
+            $suspectCase->save();
+
             if ($pdfFile) {
-                $sucesfulStore = Storage::put('suspect_cases/' . $suspectCase->id . '.pdf', $pdfFile);
+                $sucesfulStore = Storage::disk('gcs')->put(self::CASE_PDF_PATH_GCS . $filenameGcs . '.pdf' , $pdfFile, ['CacheControl' => 'no-cache, must-revalidate']);
+                $sucesfulStore = Storage::put('suspect_cases/' . $suspectCase->id . '.pdf', $pdfFile); //TODO ELIMINAR AL SUBIR A GCS
                 $suspectCase->file = true;
             } elseif ($hl7ResultMessage->pdf_file) {
-                $sucesfulStore = Storage::put('suspect_cases/' . $suspectCase->id . '.pdf', $hl7ResultMessage->pdf_file);
+                $sucesfulStore = Storage::disk('gcs')->put(self::CASE_PDF_PATH_GCS . $filenameGcs . '.pdf' , $hl7ResultMessage->pdf_file, ['CacheControl' => 'no-cache, must-revalidate']);
+                $sucesfulStore = Storage::put('suspect_cases/' . $suspectCase->id . '.pdf', $hl7ResultMessage->pdf_file); //TODO ELIMINAR AL SUBIR A GCS
                 $suspectCase->file = true;
             } else {
                 $newHl7ErrorMessage = new Hl7ErrorMessage();

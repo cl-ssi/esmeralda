@@ -70,17 +70,21 @@
                     </div>
                 </div>
 
-{{--                <fieldset class="form-group col-5 col-md-3">--}}
-{{--                    <label for="for_laboratory_id">Laboratorio local</label>--}}
+                @can('Developer')
+                    @if(Auth::user()->laboratory->id === 1 && $suspectCase->patient->run != null)
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <button
+                                type="submit"
+                                class="btn btn-outline-{{$suspectCase->hasSuccessfulWsHetgRequests() ? 'success' : 'primary'}} mt-1"
+                                title="{{$suspectCase->hasSuccessfulWsHetgRequests() ? 'Enviado' : 'Enviar'}} a YANI"
+                                form="sendToYani">
+                                <i class="fas fa-paper-plane"></i> {{$suspectCase->hasSuccessfulWsHetgRequests() ? 'Enviado' : 'Enviar'}} a YANI
+                            </button>
+                        </div>
+                    @endif
+                @endcan
+
                 <input type="hidden" name="laboratory_id" id="for_laboratory_id" value="{{$suspectCase->laboratory_id}}">
-{{--                    <select name="laboratory_id" id="for_laboratory_id" class="form-control">--}}
-{{--                        <option value="">No Recepcionado</option>--}}
-{{--                        @foreach($local_labs as $local_lab)--}}
-{{--                            <option--}}
-{{--                                value="{{ $local_lab->id }}" {{ ($suspectCase->laboratory_id == $local_lab->id)?'selected':'' }}>{{ $local_lab->alias }}</option>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
-{{--                </fieldset>--}}
             </div>
         @endcan
 
@@ -94,18 +98,12 @@
             <fieldset class="form-group col-7 col-md-3">
                 <label for="for_sample_type">Tipo de Muestra</label>
                 <select name="sample_type" id="for_sample_type" class="form-control">
-                    {{-- <option value=""></option>
-                    <option value="TÓRULAS NASOFARÍNGEAS" {{ ($suspectCase->sample_type == 'TÓRULAS NASOFARÍNGEAS')?'selected':'' }}>TORULAS NASOFARINGEAS</option>
-                    <option value="ESPUTO" {{ ($suspectCase->sample_type == 'ESPUTO')?'selected':'' }}>ESPUTO</option>
-                    <option value="TÓRULAS NASOFARÍNGEAS/ESPUTO" {{ ($suspectCase->sample_type == 'TÓRULAS NASOFARÍNGEAS/ESPUTO')?'selected':'' }}>TÓRULAS NASOFARÍNGEAS/ESPUTO</option>
-                    <option value="ASPIRADO NASOFARÍNGEO" {{ ($suspectCase->sample_type == 'ASPIRADO NASOFARÍNGEO')?'selected':'' }}>ASPIRADO NASOFARÍNGEO</option> --}}
                     <option value=""></option>
                     <option
                         value="TÓRULAS NASOFARÍNGEAS" {{ ($suspectCase->sample_type == 'TÓRULAS NASOFARÍNGEAS')?'selected':'' }}>
                         TORULAS NASOFARINGEAS
                     </option>
                     <option value="ESPUTO" {{ ($suspectCase->sample_type == 'ESPUTO')?'selected':'' }}>ESPUTO</option>
-                    {{-- <option value="TÓRULAS NASOFARÍNGEAS/ESPUTO">TÓRULAS NASOFARÍNGEAS/ESPUTO</option> --}}
                     <option
                         value="ASPIRADO NASOFARÍNGEO" {{ ($suspectCase->sample_type == 'ASPIRADO NASOFARÍNGEO')?'selected':'' }}>
                         ASPIRADO NASOFARÍNGEO
@@ -142,6 +140,7 @@
                 </select>
             </fieldset>
 
+
             <fieldset class="form-group col-12 col-md-3">
                 <label for="for_origin">Estab. Detalle (Opcional)</label>
                 <select name="origin" id="for_origin" class="form-control">
@@ -154,6 +153,7 @@
                     @endforeach
                 </select>
             </fieldset>
+
 
         </div>
 
@@ -168,7 +168,7 @@
                            name="result_ifd_at"
                            value="{{( isset($suspectCase->result_ifd_at))?  $suspectCase->result_ifd_at->format('Y-m-d\TH:i:s'):'' }}"
                            max="{{ date('Y-m-d\T23:59:59') }}"
-                           >
+                    >
                 </fieldset>
 
                 <fieldset class="form-group col-6 col-md-2 alert-warning">
@@ -266,25 +266,6 @@
                     </select>
                 </fieldset>
 
-{{--                <fieldset class="form-group col-6 col-md-2">--}}
-{{--                    <label for="for_sent_external_lab_at">Fecha envío lab externo</label>--}}
-{{--                    <input type="date" class="form-control" id="for_sent_external_lab_at"--}}
-{{--                           name="sent_external_lab_at"--}}
-{{--                           value="{{ isset($suspectCase->sent_external_lab_at)? $suspectCase->sent_external_lab_at->format('Y-m-d'):'' }}">--}}
-{{--                </fieldset>--}}
-
-{{--                <fieldset class="form-group col-6 col-md-2">--}}
-{{--                    <label for="for_external_laboratory">Laboratorio externo</label>--}}
-{{--                    <select name="external_laboratory" id="for_external_laboratory" class="form-control">--}}
-{{--                        <option value=""></option>--}}
-{{--                        @foreach($external_labs as $external_lab)--}}
-{{--                            <option--}}
-{{--                                value="{{ $external_lab->name }}" {{ ($suspectCase->external_laboratory == $external_lab->name)?'selected':'' }}>{{ $external_lab->name }}</option>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
-{{--                </fieldset>--}}
-
-
                 <fieldset class="form-group col-12 col-md-3">
                     <label for="for_file">Archivo</label>
                     <div class="custom-file">
@@ -309,22 +290,22 @@
             </div>
 
             @can('SuspectCase: sequencing')
-            <div class="form-row">
-                <fieldset class="form-group col-6 col-md-1">
-                    <label for="for_ct"> C. T.</label>
-                    <input type="number" class="form-control" name="ct" step=".1" max="45"
-                        id="for_ct" value="{{ $suspectCase->ct }}">
-                </fieldset>
+                <div class="form-row">
+                    <fieldset class="form-group col-6 col-md-1">
+                        <label for="for_ct"> C. T.</label>
+                        <input type="number" class="form-control" name="ct" step=".1" max="45"
+                               id="for_ct" value="{{ $suspectCase->ct }}">
+                    </fieldset>
 
-                <fieldset class="form-group col-6 col-md-3">
-                <label for="for_candit">Candidato a Secuenciación</label>
-                <select name="candidate_for_sq" id="for_candidate_for_sq" class="form-control">
-                    <option value=""></option>
-                    <option value="1" {{ ($suspectCase->candidate_for_sq == 1) ? 'selected' : '' }}>Si</option>
-                    <option value="0" {{ ($suspectCase->candidate_for_sq === 0) ? 'selected' : '' }}>No</option>                    
-                </select>
-            </fieldset>
-            </div>
+                    <fieldset class="form-group col-6 col-md-3">
+                        <label for="for_candit">Candidato a Secuenciación</label>
+                        <select name="candidate_for_sq" id="for_candidate_for_sq" class="form-control">
+                            <option value=""></option>
+                            <option value="1" {{ ($suspectCase->candidate_for_sq == 1) ? 'selected' : '' }}>Si</option>
+                            <option value="0" {{ ($suspectCase->candidate_for_sq === 0) ? 'selected' : '' }}>No</option>
+                        </select>
+                    </fieldset>
+                </div>
             @endcan
 
         @else
@@ -358,7 +339,7 @@
                        name="symptoms_at"
                        value="{{ ($suspectCase->symptoms_at)?$suspectCase->symptoms_at->format('Y-m-d\TH:i:s'):'' }}"
                        max="{{ date('Y-m-d\T23:59:59') }}"
-                       >
+                >
             </fieldset>
 
             <fieldset class="form-group col-4 col-md-1">
@@ -394,14 +375,6 @@
                 </select>
             </fieldset>
 
-            {{-- <!-- <fieldset class="form-group col-4 col-md-2">
-                <label for="for_discharge_test">Test de salida</label>
-                <select name="discharge_test" id="for_discharge_test" class="form-control">
-                    <option value=""></option>
-                    <option value="0" {{ ($suspectCase->discharge_test === 0) ? 'selected' : '' }}>No</option>
-                    <option value="1" {{ ($suspectCase->discharge_test == 1) ? 'selected' : '' }}>Si</option>
-                </select>
-            </fieldset> --> --}}
         </div>
         <div class="form-row">
             <fieldset class="form-group col-6 col-md-4">
@@ -508,6 +481,11 @@
         </a>
     </form>
 
+    <form method="POST" name="sendToYani" id="sendToYani" class="form-inline" action="{{ route('lab.suspect_cases.send_to_yani', $suspectCase) }}">
+        @csrf
+        @method('POST')
+    </form>
+
     @can('SuspectCase: delete')
         <form method="POST" class="form-horizontal" action="{{ route('lab.suspect_cases.destroy',$suspectCase) }}">
             @csrf
@@ -524,15 +502,15 @@
     </form>
 
     @if($suspectCase->patient->suspectCases->where('pcr_sars_cov_2','positive')->count() > 1 and $suspectCase->pcr_sars_cov_2 == 'positive')
-    <hr>
-    <h4 class="mt-4">Casos Recuperados (Nueva Muestra)</h4>
-    <form method="POST" class="form-horizontal" action="{{ route('lab.suspect_cases.positiveCondition', $suspectCase) }}">
-        @csrf
-        @method('PATCH')
+        <hr>
+        <h4 class="mt-4">Casos Recuperados (Nueva Muestra)</h4>
+        <form method="POST" class="form-horizontal" action="{{ route('lab.suspect_cases.positiveCondition', $suspectCase) }}">
+            @csrf
+            @method('PATCH')
 
-        <input type="hidden" name="referer" value="{{ request()->headers->get('referer') }}">
+            <input type="hidden" name="referer" value="{{ request()->headers->get('referer') }}">
 
-        <fieldset class="form-group col-6 col-md-3">
+            <fieldset class="form-group col-6 col-md-3">
                 <select name="positive_condition" id="for_positive_condition" class="form-control" required>
                     <option></option>
                     <option value="Excreción Viral Remanente"
@@ -544,13 +522,13 @@
                         Reinfección
                     </option>
                 </select>
-        </fieldset>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Guardar</button>
 
-        <a class="btn btn-outline-secondary" href="{{ route('lab.suspect_cases.index') }}">
-            Cancelar
-        </a>
-    </form>
+            <a class="btn btn-outline-secondary" href="{{ route('lab.suspect_cases.index') }}">
+                Cancelar
+            </a>
+        </form>
     @endif
 
     <h4 class="mt-4">Otros Exámenes realizados</h4>

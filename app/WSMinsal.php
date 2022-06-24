@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class WSMinsal extends Model
 {
+    const CASE_PDF_PATH_GCS = 'esmeralda/suspect_cases/';
 
     public static function valida_crea_muestra($request)
     {
@@ -267,8 +268,8 @@ class WSMinsal extends Model
 
         try {
             $response = $client->request('POST', env('WS_RECEPCIONA_MUESTRA'), [
-                  'json' => $array,
-                  'headers'  => [ 'ACCESSKEY' => $suspectCase->laboratory->token_ws]
+                'json' => $array,
+                'headers'  => [ 'ACCESSKEY' => $suspectCase->laboratory->token_ws]
             ]);
 
             $suspectCase->ws_recepciona_muestra_added_at = Carbon::now();
@@ -314,11 +315,19 @@ class WSMinsal extends Model
                         'headers'  => [ 'ACCESSKEY' => $suspectCase->laboratory->token_ws]
                     ]);
                 }else {
+                    $missingOnGcs = Storage::disk('gcs')->missing(self::CASE_PDF_PATH_GCS . $suspectCase->filename_gcs . '.pdf');
+                    if($missingOnGcs) {
+                        session()->flash('warning', 'No se encuentra archivo pdf.');
+                        return redirect()->back();
+                    }
+
+                    $file = Storage::disk('gcs')->get(self::CASE_PDF_PATH_GCS . $suspectCase->filename_gcs . '.pdf');
                     $response = $client->request('POST', env('WS_RESULTADO_MUESTRA'), [
                         'multipart' => [
                             [
                                 'name'     => 'upfile',
-                                'contents' => Storage::get('suspect_cases/' . $suspectCase->id . '.pdf'),
+//                                'contents' => Storage::get('suspect_cases/' . $suspectCase->id . '.pdf'),
+                                'contents' => $file,
                                 'filename' => $suspectCase->id . '.pdf'
                             ],
                             [
@@ -366,12 +375,12 @@ class WSMinsal extends Model
         $response = [];
         $client = new Client();
         $array = array('raw' => array('id_muestra' => $minsal_ws_id,
-                                      'id_nuevo_laboratorio' => $laboratory_id));
+            'id_nuevo_laboratorio' => $laboratory_id));
 
         try {
             $response = $client->request('POST', env('WS_CAMBIA_LABORATORIO'), [
-                  'json' => $array,
-                  'headers'  => [ 'ACCESSKEY' => $suspectCase->laboratory->token_ws]
+                'json' => $array,
+                'headers'  => [ 'ACCESSKEY' => $suspectCase->laboratory->token_ws]
             ]);
 
             $suspectCase->ws_cambia_laboratorio_added_at = Carbon::now();
