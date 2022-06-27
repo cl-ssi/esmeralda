@@ -15,3 +15,4 @@ yarn-error.log
 .idea
 *.code-workspace
 /.tic-ssi.json
+.vscode
