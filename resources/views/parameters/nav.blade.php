@@ -40,6 +40,9 @@
         <a class="nav-link" href="{{ route('parameters.establishment') }}">
             <i class="fas fa-store"></i> Establecimientos</a>            
     </li>
-    
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('users.last-access') }}">
+            <i class="fas fa-list-alt"></i> Últimos Accesos</a>
+    </li>
 </ul>
 @endcan

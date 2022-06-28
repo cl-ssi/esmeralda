@@ -7,6 +7,7 @@ use App\Laboratory;
 use App\Establishment;
 use App\EstablishmentUser;
 use App\Dialysis\DialysisCenter;
+use App\LogSession;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -315,5 +316,19 @@ class UserController extends Controller
 
         session()->flash('info', 'Password: '. $password);
         return redirect()->back();
+    }
+
+    /**
+     * Last access
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function lastAccess()
+    {
+        $logSessions = LogSession::query()
+            ->latest()
+            ->paginate(100);
+
+        return view('users.last-access', compact('logSessions'));
     }
 }
