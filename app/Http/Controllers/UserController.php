@@ -329,7 +329,7 @@ class UserController extends Controller
     {
         $logSessions = LogSession::query()
             ->latest()
-            ->paginate(100);
+            ->paginate(200);
 
         return view('users.last-access', compact('logSessions'));
     }
