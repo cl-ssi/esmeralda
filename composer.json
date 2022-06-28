@@ -22,8 +22,8 @@
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^9.0",
         "owen-it/laravel-auditing": "^13.0",
-        "spatie/laravel-permission": "^3.11",
-        "superbalist/laravel-google-cloud-storage": "^2.2"
+        "spatie/laravel-google-cloud-storage": "*",
+        "spatie/laravel-permission": "^3.11"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
