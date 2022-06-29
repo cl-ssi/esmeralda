@@ -6,10 +6,8 @@ use App\User;
 use App\Laboratory;
 use App\Establishment;
 use App\EstablishmentUser;
-use App\Dialysis\DialysisCenter;
 use App\LogSession;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
@@ -27,7 +25,7 @@ class UserController extends Controller
             ->with('establishments')
             ->orderBy('name', 'asc')
             ->paginate(100);
-        
+
         $request->flash();
 
         return view('users.index', compact('users'));
@@ -109,34 +107,34 @@ class UserController extends Controller
 
         session()->flash('success', 'Estimado Usuari@
 
- 
+
 
         Mediante el presente correo se hace entrega de su clave para el monitor Esmeralda. El link para ingresar es el siguiente
-        
-         
-        
+
+
+
         https://i.saludiquique.cl/monitor/
-        
-         
-        
+
+
+
         en correo deberá digitar al correo que le está llegando este mail y su  contraseña temporal será
-        
-         
-        
+
+
+
         '.$password.'
-        
-         
-        
+
+
+
         Se recomienda cambiar la contraseña a una que sea más fácil de recordar, para eso podrá apretar en la esquina superior derecha en el sistema en la opción" cambiar clave. Y seguir los pasos correspondientes
-        
-         
-        
-         
-        
+
+
+
+
+
         Se despide atentamente
-        
-         
-        
+
+
+
         Atte.');
 
         return redirect()->route('users.index');
@@ -326,5 +324,23 @@ class UserController extends Controller
             ->paginate(200);
 
         return view('users.last-access', compact('logSessions'));
+    }
+
+    /**
+     * Update the active field of the user
+     *
+     * @param \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function updateActive(User $user)
+    {
+        $user->update([
+            'active' => !$user->active
+        ]);
+
+        $msg = $user->active ? 'activado' : 'desactivado';
+
+        session()->flash('success', "El usuario $user->name fue $msg.");
+        return redirect()->route('users.edit', $user);
     }
 }

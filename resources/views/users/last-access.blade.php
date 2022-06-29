@@ -21,7 +21,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($logSessions as $logSession)
+            @forelse($logSessions as $logSession)
             <tr>
                 <td class="text-center">
                     {{ $logSession->id }}
@@ -46,7 +46,13 @@
                     </span>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr class="text-center">
+                <td colspan="6">
+                    <em>No hay registros</em>
+                </td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 
