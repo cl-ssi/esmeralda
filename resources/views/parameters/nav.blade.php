@@ -1,5 +1,6 @@
-@can('Admin')
+
 <ul class="nav nav-tabs mb-3">
+    @can('Admin')
     <li class="nav-item">
         <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fas fa-user"></i> Usuarios</a>
@@ -12,10 +13,14 @@
         <a class="nav-link" href="{{ route('parameters.lab') }}">
             <i class="fas fa-vial"></i> Laboratorios</a>
     </li>
+    @endcan
+    @canany(['Admin','SuspectCase: origin'])
     <li class="nav-item">
         <a class="nav-link" href="{{ route('lab.sample_origins.index') }}">
             <i class="fas fa-house-damage"></i> Origenes muestra</a>
     </li>
+    @endcanany
+    @can('Admin')
     <li class="nav-item">
         <a class="nav-link" href="{{ route('parameters.ventilators.edit') }}">
             <i class="fas fa-fan"></i> Ventiladores</a>
@@ -44,5 +49,6 @@
         <a class="nav-link" href="{{ route('users.last-access') }}">
             <i class="fas fa-list-alt"></i> Últimos Accesos</a>
     </li>
+    @endcan
 </ul>
-@endcan
+
