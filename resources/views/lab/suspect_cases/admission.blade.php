@@ -53,15 +53,6 @@
                 placeholder="Extranjeros sin run" name="other_identification">
         </fieldset>
 
-        {{-- <fieldset class="form-group col-6 col-md-2">
-            <label for="for_country_id">País</label>
-            <select name="country_id" id="for_country_id" class="form-control" readonly>
-              @foreach ($countries as $key => $countrie)
-                <option value="{{$countrie->id}}" {{ ($countrie->id == 41)?'selected':'' }}>{{$countrie->name}}</option>
-              @endforeach
-            </select>
-        </fieldset> --}}
-
         <fieldset class="form-group col-6 col-md-2">
             <label for="for_gender">Género *</label>
             <select name="gender" id="for_gender" class="form-control" required>
@@ -152,8 +143,8 @@
             <label for="for_origin">Estab. Detalle (Opcional)</label>
             <select name="origin" id="for_origin" class="form-control">
                 <option value=""></option>
-                @foreach($sampleOrigins as $sampleOrigin)
-                    <option value="{{ $sampleOrigin->name }}" {{(old('origin') == $sampleOrigin->name) ? 'selected' : '' }} >{{ $sampleOrigin->alias }}</option>
+                @foreach($sampleOrigins as $id => $sampleOrigin)
+                    <option value="{{ $id }}" {{(old('origin') == $sampleOrigin) ? 'selected' : '' }} >{{ $sampleOrigin }}</option>
                 @endforeach
             </select>
         </fieldset>

@@ -30,6 +30,9 @@
                     <a href="{{ route('users.edit', $logSession->user) }}">
                         {{ $logSession->user->name }}
                     </a>
+                    @if(!$logSession->user->active)
+                    <i class="fas fa-user-slash"></i>
+                    @endif
                 </td>
                 <td>
                     {{ optional($logSession->user->establishment)->alias }}
