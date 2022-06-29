@@ -21,7 +21,7 @@
         @endcan
         <div class="col-12 col-md-5 mb-3">
             <label for="" class="sr-only"></label>
-            <input class="form-control" type="text" name="search" value="" placeholder="Nombre y/o apellido">
+            <input class="form-control" type="text" name="search" value="{{ old('search') }}" placeholder="Nombre y/o apellido">
         </div>
 
         <div class="col-12 col-md-2 mb-3">
@@ -33,24 +33,15 @@
 </form>
 
 
-
-<h5>
-        @if($search)
-        <div class="alert alert-primary" role="alert">
-            Los resultados para tu búsqueda "{{ $search }}" son:
-        </div>
-        @endif
-</h5>
-
 <div class="table-responsive">
     <table class="table table-sm">
         <thead>
             <tr>
                 <th>Run</th>
                 <th>Nombre</th>
-                <th>Email</th>
+                <th>Establecimiento</th>
                 <th>Función</th>
-                <th>Establecimientos</th>
+                <th>Acceso a</th>
             </tr>
         </thead>
         <tbody>
@@ -58,7 +49,7 @@
             <tr>
                 <td nowrap>{{ $user->run }}-{{$user->dv}}</td>
                 <td nowrap><a href="{{ route('users.edit', $user) }}">{{ $user->name }}</a></td>
-                <td nowrap>{{ $user->email }}</td>
+                <td nowrap>{{ optional($user->establishment)->alias }}</td>
                 <td>{{ $user->function }}</td>
                 <td class="small">
                     @if($user->establishments->count()<=3)
@@ -84,6 +75,8 @@
         </tbody>
     </table>
 </div>
+
+{{ $users->links() }}
 
 @endsection
 

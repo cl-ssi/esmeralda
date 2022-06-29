@@ -23,21 +23,15 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-        $users = User::orderBy('name', 'asc')->get();
+        $users = User::search($request->input('search'))
+            ->with('establishments')
+            ->orderBy('name', 'asc')
+            ->paginate(50);
+        
+        $request->flash();
 
-        if ($request) {
+        return view('users.index', compact('users'));
 
-            $query = trim($request->get('search'));
-
-            $users = User::where('name', 'LIKE', '%' . $query . '%')
-                    ->orderBy('name', 'asc')
-                    ->get();
-
-            return view('users.index', ['users' => $users, 'search' => $query]);
-
-        }
-
-        return view('users.index', compact('users', 'request', 'query'));
     }
 
     /**

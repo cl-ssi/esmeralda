@@ -16,8 +16,8 @@
                 <th>Usuario</th>
                 <th>Establecimiento</th>
                 <th>Función</th>
-                <th class="text-center small">Fecha y hora</th>
-                <th class="text-center small">IP</th>
+                <th class="text-center">Fecha y hora</th>
+                <th class="text-center">IP</th>
             </tr>
         </thead>
         <tbody>
@@ -37,10 +37,10 @@
                 <td>
                     {{ $logSession->user->function }}
                 </td>
-                <td class="text-center" nowrap>
+                <td class="text-center small" nowrap>
                     {{ $logSession->created_at }}
                 </td>
-                <td class="text-center">
+                <td class="text-center small">
                     <span class="text-monospace">
                         {{ $logSession->ip }}
                     </span>

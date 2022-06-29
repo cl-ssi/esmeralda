@@ -23,6 +23,11 @@ class User extends Authenticatable
         'run', 'dv', 'name', 'email', 'password','telephone', 'function','laboratory_id', 'establishment_id'
     ];
 
+    public function scopeSearch($query,$search)
+    {
+        return $query->where('name', 'LIKE', '%' . $search . '%');
+    }
+
     public function logs() {
         return $this->morphMany('App\Log','model');
     }
