@@ -32,7 +32,7 @@ class WebserviceController extends Controller
         if ($response->failed()) {
             return json_encode("No se pudo conectar a FONASA: " . $response->reason());
         }
-        
+
         return $response->body();
     }
 
