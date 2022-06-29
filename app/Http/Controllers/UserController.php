@@ -26,7 +26,7 @@ class UserController extends Controller
         $users = User::search($request->input('search'))
             ->with('establishments')
             ->orderBy('name', 'asc')
-            ->paginate(50);
+            ->paginate(100);
         
         $request->flash();
 

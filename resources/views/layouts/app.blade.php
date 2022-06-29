@@ -30,7 +30,7 @@
             background-color:
                 @switch(App::environment()) @case('local') #CE9DD9;
             @break @case('testing') #B5EAD7;
-            @break @case('production') #FFFFFF;
+            @break @case('production') #999999;
             @break @endswitch
         }
     </style>
