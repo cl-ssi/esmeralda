@@ -82,6 +82,13 @@ class User extends Authenticatable implements Auditable
     /**
     * The establishment that belong to the user.
     */
+    public function establishment() {
+        return $this->belongsTo('App\Establishment');
+    }
+    
+    /**
+    * The establishments where has access the user.
+    */
     public function establishments() {
         return $this->belongsToMany('App\Establishment');
     }
