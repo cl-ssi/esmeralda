@@ -10,16 +10,39 @@ use App\SuspectCase;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class WebserviceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return false|string
      */
     public function fonasa(Request $request)
+    {
+        /* Si se le envió el run y el dv por GET */
+        if (!$request->has('run') or !$request->has('dv')) {
+            return json_encode("Debe incluir run y dv");
+        }
+
+        $urlWs = env('FONASA_WS_URL');
+        $response = Http::get($urlWs, ['run' => $request->run, 'dv' => $request->dv]);
+
+        if ($response->failed()) {
+            return json_encode("No se pudo conectar a FONASA: " . $response->reason());
+        }
+        
+        return $response->body();
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function fonasa_old(Request $request)
     {
         /* Si se le envió el run y el dv por GET */
         if ($request->has('run') and $request->has('dv')) {
