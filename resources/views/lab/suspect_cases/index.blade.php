@@ -6,7 +6,7 @@
 
 <h3 class="mb-3"><i class="fas fa-lungs-virus"></i>
     @if($laboratory)
-        Exámenes del laboratorio {{ $laboratory->alias }}
+        Exámenes del laboratorio {{ $laboratory->alias??'' }}
     @else
         Listado de todos los exámenes
     @endif
@@ -157,7 +157,7 @@
         <tr class="row_{{$case->covid19}} {{ ($case->pcr_sars_cov_2 == 'positive')?'table-danger':''}}">
             <td class="text-center">
                 {{ $case->id }}<br>
-                <small>{{ $case->laboratory->alias }}</small>
+                <small>{{ $case->laboratory->alias??'s' }}</small>
                 @canany(['SuspectCase: edit','SuspectCase: tecnologo'])
                 <a href="{{ route('lab.suspect_cases.edit', $case) }}" class="btn_edit"><i class="fas fa-edit"></i></a>
                 @endcan

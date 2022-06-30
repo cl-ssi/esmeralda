@@ -98,7 +98,7 @@ class SuspectCaseController extends Controller
             $suspectCases = SuspectCase::getCaseByPatientLaboratory($patients, $laboratory->id)
                 ->latest('id')
                 ->whereIn('pcr_sars_cov_2', $filtro)
-                ->whereNotNull('reception_at')                
+                ->whereNotNull('reception_at')            
                 ->paginate(200);
             DB::connection()->getPdo()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } else {
@@ -121,6 +121,58 @@ class SuspectCaseController extends Controller
             DB::connection()->getPdo()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         }
         return view('lab.suspect_cases.index', compact('suspectCases', 'request', 'laboratory', 'cases'));
+    }
+
+    public function index2(request $request, Laboratory $laboratory)
+    {
+        //$suspectCases = collect();        
+        //$cases = collect();
+        $collection = collect(['positivos', 'negativos', 'pendientes', 'rechazados', 'indeterminados']);
+
+        
+
+        $filtro = collect([]);
+        $collection->each(function ($item, $key) use ($request, $filtro) {
+            switch ($item) {
+                case "positivos":
+                    $request->get('positivos') == "on" ? $filtro->push('positive') : true;
+                    break;
+                case "negativos":
+                    $request->get('negativos') == "on" ? $filtro->push('negative') : true;
+                    break;
+                case "pendientes":
+                    $request->get('pendientes') == "on" ? $filtro->push('pending') : true;
+                    break;
+                case "rechazados":
+                    $request->get('rechazados') == "on" ? $filtro->push('rejected') : true;
+                    break;
+                case "indeterminados":
+                    $request->get('indeterminados') == "on" ? $filtro->push('undetermined') : true;
+                    break;
+            }
+        });
+
+
+        $searchText = $request->get('text');
+        $suspectCases = SuspectCase::whereNotNull('reception_at')
+        ->whereIn('pcr_sars_cov_2', $filtro)
+        ->patientTextFilter($searchText)
+        // ->when($request->get('text') != null, function($request, $query){ 
+        //     //dd('entre');
+        //     //dd($request->get('text'));
+        //     //return $q->where('type',  $request->type);
+            
+        //     $query->patientTextFilter($request->get('text')); 
+        // })
+        ->latest('id')->paginate(200);
+        // if($request->get('text') != null)
+        // {
+        //     $suspectCases=$suspectCases->patientTextFilter($request->get('text'));
+
+        // }
+
+        return view('lab.suspect_cases.index', compact('suspectCases', 'request', 'laboratory'));
+
     }
 
     /**

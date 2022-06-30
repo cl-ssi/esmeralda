@@ -37,37 +37,44 @@ class SuspectCase extends Model implements Auditable
         'gestation', 'gestation_week', 'close_contact', 'functionary',
         'notification_at', 'notification_mechanism',
         'discharged_at',
-        'observation', 'minsal_ws_id','case_type', 'positive_condition',
+        'observation', 'minsal_ws_id', 'case_type', 'positive_condition',
         'patient_id', 'laboratory_id', 'establishment_id',
         'user_id',
         'ct', 'candidate_for_sq', 'hl7_result_message_id', 'filename_gcs'
     ];
 
-    public function patient() {
+    public function patient()
+    {
         return $this->belongsTo('App\Patient');
     }
 
-    public function validator() {
-        return $this->belongsTo('App\User','validator_id');
+    public function validator()
+    {
+        return $this->belongsTo('App\User', 'validator_id');
     }
 
-    public function laboratory() {
+    public function laboratory()
+    {
         return $this->belongsTo('App\Laboratory')->withTrashed();
     }
 
-    public function logs() {
-        return $this->morphMany('App\Log','model');
+    public function logs()
+    {
+        return $this->morphMany('App\Log', 'model');
     }
 
-    public function establishment() {
+    public function establishment()
+    {
         return $this->belongsTo('App\Establishment');
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('App\User');
     }
 
-    public function hl7ResultMessage() {
+    public function hl7ResultMessage()
+    {
         return $this->belongsTo('App\Hl7ResultMessage');
     }
 
@@ -84,42 +91,54 @@ class SuspectCase extends Model implements Auditable
             ->count() > 0;
     }
 
-    function getCovid19Attribute(){
-        switch($this->pcr_sars_cov_2) {
-            case 'pending': return 'Pendiente'; break;
-            case 'positive': return 'Positivo'; break;
-            case 'negative': return 'Negativo'; break;
-            case 'undetermined': return 'Indeterminado'; break;
-            case 'rejected': return 'Muestra no apta'; break;
+    function getCovid19Attribute()
+    {
+        switch ($this->pcr_sars_cov_2) {
+            case 'pending':
+                return 'Pendiente';
+                break;
+            case 'positive':
+                return 'Positivo';
+                break;
+            case 'negative':
+                return 'Negativo';
+                break;
+            case 'undetermined':
+                return 'Indeterminado';
+                break;
+            case 'rejected':
+                return 'Muestra no apta';
+                break;
         }
     }
 
-    function getSentExternalAtAttribute() {
-        return ($this->sent_external_lab_at)?
-            $this->sent_external_lab_at->format('d-m-Y'):'';
+    function getSentExternalAtAttribute()
+    {
+        return ($this->sent_external_lab_at) ?
+            $this->sent_external_lab_at->format('d-m-Y') : '';
     }
 
-    function getProcesingLabAttribute() {
-        if($this->external_laboratory) {
+    function getProcesingLabAttribute()
+    {
+        if ($this->external_laboratory) {
             return $this->external_laboratory;
-        }elseif ($this->laboratory){
+        } elseif ($this->laboratory) {
             return $this->laboratory->alias;
-        }
-        else return '';
+        } else return '';
     }
 
     /**
      * Retorna edad del paciente calculado desde modelo paciente
      * @return int|string|null
      */
-    function getAgePatientAttribute(){
-        if ($this->patient->birthday){
+    function getAgePatientAttribute()
+    {
+        if ($this->patient->birthday) {
             $age = Carbon::parse($this->patient->birthday)->age;
             if ($age == 0)
                 $age = Carbon::parse($this->patient->birthday)->diff(Carbon::now())->format('%mM %dd');
             return $age;
-        }
-        else return null;
+        } else return null;
     }
 
     function getSymptomEspAttribute()
@@ -131,7 +150,6 @@ class SuspectCase extends Model implements Auditable
         } else {
             return '';
         }
-
     }
 
     function getGestationEspAttribute()
@@ -159,7 +177,7 @@ class SuspectCase extends Model implements Auditable
     public function scopeSearch($query, $search)
     {
         if ($search) {
-            $query->where('id','LIKE', '%'.$search.'%');
+            $query->where('id', 'LIKE', '%' . $search . '%');
         }
     }
 
@@ -170,12 +188,18 @@ class SuspectCase extends Model implements Auditable
      */
     public function scopePatientTextFilter($query, $searchText)
     {
-        $query->whereHas('patient', function($q) use ($searchText){
-            $q->Where('name', 'LIKE', '%'.$searchText.'%')
-                ->orWhere('fathers_family','LIKE','%'.$searchText.'%')
-                ->orWhere('mothers_family','LIKE','%'.$searchText.'%')
-                ->orWhere('run','LIKE','%'.$searchText.'%');
-        });
+        if ($searchText != null) {
+            $array_search = explode(' ', $searchText);
+            foreach ($array_search as $word) {
+                $query->whereHas('patient', function ($q) use ($word) {
+                    $q->Where('name', 'LIKE', '%' . $word . '%')
+                        ->orWhere('fathers_family', 'LIKE', '%' . $word . '%')
+                        ->orWhere('mothers_family', 'LIKE', '%' . $word . '%')
+                        ->orWhere('run', 'LIKE', '%' . $word . '%')
+                        ->orwhere('other_identification', 'LIKE', '%' . $word . '%');
+                });
+            }
+        }
     }
 
 
@@ -184,25 +208,27 @@ class SuspectCase extends Model implements Auditable
      * @param $query
      * @param $searchText
      */
-    public static function getCaseByPatientLaboratory($patients, $laboratory_id){
-          $patients_id = $patients->pluck('id');
-          $suspectCases = SuspectCase::latest('id')
-              ->where('laboratory_id',$laboratory_id)
-              ->whereIntegerInRaw('patient_id', $patients_id);
-          return $suspectCases;
-        }// End getSuspectCasesByPatients
+    public static function getCaseByPatientLaboratory($patients, $laboratory_id)
+    {
+        $patients_id = $patients->pluck('id');
+        $suspectCases = SuspectCase::latest('id')
+            ->where('laboratory_id', $laboratory_id)
+            ->whereIntegerInRaw('patient_id', $patients_id);
+        return $suspectCases;
+    } // End getSuspectCasesByPatients
 
-        /**
-         * Obtiene SuspectCase por Patient Collection
-         * @param $query
-         * @param $searchText
-         */
-        public static function getCaseByPatient($patients){
-              $patients_id = $patients->pluck('id');
-              $suspectCases = SuspectCase::latest('id')
-                  ->whereIntegerInRaw('patient_id', $patients_id);
-              return $suspectCases;
-            }// End getSuspectCasesByPatients
+    /**
+     * Obtiene SuspectCase por Patient Collection
+     * @param $query
+     * @param $searchText
+     */
+    public static function getCaseByPatient($patients)
+    {
+        $patients_id = $patients->pluck('id');
+        $suspectCases = SuspectCase::latest('id')
+            ->whereIntegerInRaw('patient_id', $patients_id);
+        return $suspectCases;
+    } // End getSuspectCasesByPatients
 
 
 

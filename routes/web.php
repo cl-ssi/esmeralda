@@ -212,7 +212,8 @@ Route::prefix('lab')->name('lab.')->group(function () {
         //Route::get('download/{file}','SuspectCaseController@download')->name('download');
         Route::get('file/{suspect_case}','SuspectCaseController@fileDelete')->name('fileDelete')->middleware('auth','can:SuspectCase: file delete');
 
-        Route::get('/index/{laboratory?}','SuspectCaseController@index')->name('index')->middleware('auth','can:SuspectCase: list');
+        Route::get('/index/{laboratory?}','SuspectCaseController@index2')->name('index')->middleware('auth','can:SuspectCase: list');
+        //Route::get('/index/{laboratory?}','SuspectCaseController@index')->name('index')->middleware('auth','can:SuspectCase: list');
 
         //DIALISIS
         Route::get('/dialysis/covid/{establishment?}','DialysisPatientController@covid')->name('dialysis.covid')->middleware('auth');
