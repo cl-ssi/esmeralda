@@ -220,7 +220,13 @@ class BookingController extends Controller
 
     public function excelall()
     {
+        
+        //dd(Carbon::now()->startOfYear());
+        //$start = new Carbon();
         $bookings = Booking::where('status','Residencia Sanitaria')
+                    ->whereNull('real_to')
+                    ->whereDate('from','>=',Carbon::now()->startOfYear())
+                    //->where('from',Carbon::now())
                     ->whereHas('patient', function ($q) {
                         $q->where('status','Residencia Sanitaria');
                     })->get();

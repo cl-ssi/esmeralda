@@ -6,11 +6,11 @@
 
 @include('sanitary_residences.nav')
 
-
+<h1>Bookig Actuales Todas las Residencias</h1>
 
 <a class="btn btn-outline-success btn-sm mb-3" id="downloadLink" onclick="exportF(this)">Descargar en excel</a>
 
-@foreach(Auth::user()->residences as $residence)
+@foreach($residences as $residence)
 <h6> {{ $residence->name }} {{ $bookings->where('room.residence_id',$residence->id)->count() }} </h6>
 
 @endforeach
@@ -49,11 +49,9 @@
     </thead>
     <tbody>
         @php $pos=1;
-        @endphp
-        @foreach(Auth::user()->residences as $residence)
-        @foreach($residence->rooms as $room)
-        @foreach($room->bookings as $booking)
-        @if ($booking->status == 'Residencia Sanitaria' and $booking->patient->status == 'Residencia Sanitaria')
+        @endphp        
+        @foreach($bookings as $booking)
+        
 
         <tr>
 
@@ -86,10 +84,7 @@
             <td nowrap>{{ $booking->real_to }}</td>            
             <td nowrap> {{ $booking->observations }}</td>
         </tr>
-        @endif
-        @endforeach
-        @endforeach
-        @endforeach
+        @endforeach        
     </tbody>
 
 </table>

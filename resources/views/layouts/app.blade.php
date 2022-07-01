@@ -252,7 +252,7 @@
 
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item" href="{{ route('sanitary_residences.bookings.excelall') }}">Booking Actuales</a>
+                                <a class="dropdown-item" href="{{ route('sanitary_residences.bookings.excelall') }}">Booking Actuales (Todas las R.S.)</a>
 
                                 @endcan
 
