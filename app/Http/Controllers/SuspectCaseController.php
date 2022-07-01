@@ -152,6 +152,11 @@ class SuspectCaseController extends Controller
             }
         });
 
+        if (empty($laboratory->id)) {
+            $laboratory = null;
+
+        }
+
 
         $searchText = $request->get('text');
         $suspectCases = SuspectCase::whereNotNull('reception_at')
@@ -170,6 +175,7 @@ class SuspectCaseController extends Controller
         //     $suspectCases=$suspectCases->patientTextFilter($request->get('text'));
 
         // }
+        
 
         return view('lab.suspect_cases.index', compact('suspectCases', 'request', 'laboratory'));
 
