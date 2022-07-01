@@ -59,6 +59,7 @@ Route::prefix('users')->name('users.')->middleware('auth')->group(function () {
     Route::delete('/{user}', 'UserController@destroy')->name('destroy')->middleware('can:Admin');
     Route::post('/{user}/update-active', 'UserController@updateActive')->name('update-active')->middleware('can:Admin');
     Route::get('/last-access', 'UserController@lastAccess')->name('last-access')->middleware('can:Admin');
+    Route::get('/test-mail', 'UserController@sendTestMail');
 });
 
 /*

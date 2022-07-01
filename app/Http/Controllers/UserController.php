@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Test1;
 use App\User;
 use App\Laboratory;
 use App\Establishment;
@@ -9,6 +10,7 @@ use App\EstablishmentUser;
 use App\LogSession;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
@@ -343,4 +345,12 @@ class UserController extends Controller
         session()->flash('success', "El usuario $user->name fue $msg.");
         return redirect()->route('users.edit', $user);
     }
+
+    public function sendTestMail() {
+        $message = new Test1();
+        Mail::to(env('MAIL_TO_TEST'))->send($message);
+
+        dd('Enviado');
+    }
+    
 }
