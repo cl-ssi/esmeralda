@@ -25,6 +25,8 @@ RUN docker-php-ext-install soap
 
 RUN docker-php-ext-install zip
 
+RUN docker-php-ext-install bcmath
+
 RUN mkdir -p /run/nginx
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
