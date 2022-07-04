@@ -520,5 +520,5 @@ Route::prefix('pending_patient')->name('pending_patient.')->middleware('auth')->
 
 
 Route::get('/email_queue_test', 'SuspectCaseController@emailQueueTest');
-Route::get('/handle-task ', 'SuspectCaseController@emailQueueTest');
+Route::get('/handle-task ', 'SuspectCaseController@handleTask');
 
