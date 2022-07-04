@@ -2483,6 +2483,11 @@ class SuspectCaseController extends Controller
         echo 'sent emails:' . $i;
     }
 
+    public function handleTask(Request $request)
+    {
+        return json_encode($request);
+    }
+
     public function ws_test()
     {
         $case = SuspectCase::find(507934);
