@@ -518,9 +518,6 @@ Route::prefix('pending_patient')->name('pending_patient.')->middleware('auth')->
 
 });
 
-Route::prefix('mail')->name('mail')->group(function (){
-    Route::get('/handle-task ', 'SuspectCaseController@handleTask');
-});
-
+Route::get('/handle-task ', 'SuspectCaseController@handleTask');
 Route::get('/email_queue_test', 'SuspectCaseController@emailQueueTest');
 
