@@ -17,6 +17,7 @@
                 <th>Establecimiento</th>
                 <th>Función</th>
                 <th class="text-center">Fecha y hora</th>
+                <th class="text-center">App Name</th>
                 <th class="text-center">IP</th>
             </tr>
         </thead>
@@ -42,6 +43,9 @@
                 </td>
                 <td class="text-center small" nowrap>
                     {{ $logSession->created_at }}
+                </td>
+                <td>
+                    {{ $logSession->app_name }}
                 </td>
                 <td class="text-center small">
                     <span class="text-monospace">

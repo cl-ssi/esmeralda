@@ -23,6 +23,7 @@ class LogSession extends Model
      */
     protected $fillable = [
         'ip',
+        'app_name',
         'user_agent',
         'user_id',
     ];
