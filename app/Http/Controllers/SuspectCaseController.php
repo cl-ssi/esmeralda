@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Test1;
 use App\Rules\UniqueSampleDateByPatient;
 use App\SuspectCase;
 use App\Patient;
@@ -2485,6 +2486,7 @@ class SuspectCaseController extends Controller
 
     public function handleTask(Request $request)
     {
+        Mail::to( env('MAIL_TO_TEST') )->send(new Test1());
         return json_encode($request);
     }
 
