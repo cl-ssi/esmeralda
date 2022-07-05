@@ -23,7 +23,7 @@ class TestEmailJob implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        $this->email = env('MAIL_TO_TEST');
     }
 
     public function retryAfter(){
@@ -37,8 +37,7 @@ class TestEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->email = env('MAIL_TO_TEST');
-        Mail::to($this->email)->send(new Test1());
+
     }
     
 }
