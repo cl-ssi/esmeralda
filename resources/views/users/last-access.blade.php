@@ -13,11 +13,11 @@
         <thead>
             <tr>
                 <th class="text-center">ID</th>
+                <th class="text-center">App Name</th>
                 <th>Usuario</th>
                 <th>Establecimiento</th>
                 <th>Función</th>
                 <th class="text-center">Fecha y hora</th>
-                <th class="text-center">App Name</th>
                 <th class="text-center">IP</th>
             </tr>
         </thead>
@@ -26,6 +26,9 @@
             <tr>
                 <td class="text-center">
                     {{ $logSession->id }}
+                </td>
+                <td>
+                    {{ $logSession->app_name }}
                 </td>
                 <td>
                     <a href="{{ route('users.edit', $logSession->user) }}">
@@ -46,9 +49,6 @@
                 </td>
                 <td class="text-center small" nowrap>
                     {{ $logSession->created_at }}
-                </td>
-                <td>
-                    {{ $logSession->app_name }}
                 </td>
                 <td class="text-center small">
                     <span class="text-monospace">
