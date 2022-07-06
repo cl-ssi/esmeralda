@@ -29,7 +29,10 @@
                 </td>
                 <td>
                     <a href="{{ route('users.edit', $logSession->user) }}">
-                        {{ $logSession->user->name }}
+                        {{ $logSession->user->name }} 
+                        @if( $logSession->user->can('Redirection: https://esmeralda.saludtarapaca.org/') )
+                            <i class="fas fa-caret-right"></i>
+                        @endif
                     </a>
                     @if(!$logSession->user->active)
                     <i class="fas fa-user-slash"></i>
