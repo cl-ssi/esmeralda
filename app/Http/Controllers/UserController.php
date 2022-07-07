@@ -321,7 +321,7 @@ class UserController extends Controller
      */
     public function lastAccess()
     {
-        $logSessions = LogSession::query()
+        $logSessions = LogSession::with('user','user.establishment')
             ->latest()
             ->paginate(200);
 
