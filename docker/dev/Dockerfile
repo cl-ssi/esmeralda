@@ -28,7 +28,7 @@ RUN docker-php-ext-install zip
 RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer"
 
 # Algunos alias
-RUN echo "PS1='\[\033[01;35m\]Esmeralda\[\033[00m\]@\[\033[01;34m\]\w\[\033[00m\]:\\$ '" >> ~/.bashrc
+RUN echo "PS1='\[\033[01;90m\]Esmeralda\[\033[00m\]@\[\033[01;34m\]\w\[\033[00m\]:\\$ '" >> ~/.bashrc
 RUN echo "alias serve='php -S 0.0.0.0:8000 -t public'" >> ~/.bashrc
 RUN echo "alias tinker='php artisan tinker'" >> ~/.bashrc
 RUN echo "alias ll='ls -l'" >> ~/.bashrc
