@@ -13,6 +13,7 @@
         <thead>
             <tr>
                 <th class="text-center">ID</th>
+                <th class="text-center">App Name</th>
                 <th>Usuario</th>
                 <th>Establecimiento</th>
                 <th>Función</th>
@@ -27,8 +28,14 @@
                     {{ $logSession->id }}
                 </td>
                 <td>
+                    {{ $logSession->app_name }}
+                </td>
+                <td>
                     <a href="{{ route('users.edit', $logSession->user) }}">
-                        {{ $logSession->user->name }}
+                        {{ $logSession->user->name }} 
+                        @if( $logSession->user->can('Redirection: https://esmeralda.saludtarapaca.org/') )
+                            <i class="fas fa-caret-right"></i>
+                        @endif
                     </a>
                     @if(!$logSession->user->active)
                     <i class="fas fa-user-slash"></i>
