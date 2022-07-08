@@ -29,10 +29,14 @@ class TestEmailJob implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws \Exception
      */
     public function handle()
     {
-        Mail::to( env('MAIL_TO_TEST') )->send(new Test1());
+        Mail::to( env('MAIL_TO_TEST') )->send(
+            (new Test1())->attachFromStorageDisk('gcs','esmeralda/suspect_cases/000002ee-dc60-4a85-9e67-11a06642f271.pdf', 'test.pdf', [
+                'mime' => 'application/pdf',
+            ])
+        );
     }
-    
 }
