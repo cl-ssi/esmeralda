@@ -2473,10 +2473,10 @@ class SuspectCaseController extends Controller
         return view('lab.suspect_cases.import_results');
     }
 
-    public function emailQueueTest()
+    public function emailQueueTest($cant)
     {
         $i = 0;
-        while ($i < 3) {
+        while ($i < $cant) {
             $delay = \DB::table('jobs')->count() * 60;
             $emailJob = ((new TestEmailJob())->delay($delay));
             dispatch($emailJob);
