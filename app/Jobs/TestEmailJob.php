@@ -13,7 +13,6 @@ use App\Mail\Test1;
 class TestEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $tries = 3;
     public string $email;
 
     /**
@@ -26,10 +25,6 @@ class TestEmailJob implements ShouldQueue
         $this->email = env('MAIL_TO_TEST');
     }
 
-    public function retryAfter(){
-        return 20;
-    }
-
     /**
      * Execute the job.
      *
@@ -37,7 +32,7 @@ class TestEmailJob implements ShouldQueue
      */
     public function handle()
     {
-
+        Mail::to( env('MAIL_TO_TEST') )->send(new Test1());
     }
     
 }
