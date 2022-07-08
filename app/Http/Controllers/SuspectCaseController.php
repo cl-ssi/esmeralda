@@ -27,6 +27,7 @@ use App\Mail\NewNegative;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -2487,25 +2488,14 @@ class SuspectCaseController extends Controller
     public function handleTask(Request $request)
     {
         Mail::to( env('MAIL_TO_TEST') )->send(new Test1());
-        return json_encode($request);
-    }
-
-    public function ws_test()
-    {
-        $case = SuspectCase::find(507934);
-        $estadoMuestra = WSMinsal::obtiene_estado_muestra($case);
-        dd($estadoMuestra);
-        return redirect()->back();
     }
 
     public function positiveCondition(Request $request, SuspectCase $suspectCase)
     {
-
         $suspectCase->positive_condition = $request->positive_condition;
         $suspectCase->save();
         session()->flash('success', 'Se añadio el tipo de infección correctamente');
         return redirect()->back();
-
     }
 
     /**
