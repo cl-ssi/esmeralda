@@ -12,7 +12,7 @@
     <table class="table table-sm table-striped table-bordered">
         <thead>
             <tr>
-                <th class="text-center">ID</th>
+                <th>Permisos</th>
                 <th class="text-center">App Name</th>
                 <th>Usuario</th>
                 <th>Establecimiento</th>
@@ -24,21 +24,29 @@
         <tbody>
             @forelse($logSessions as $logSession)
             <tr>
-                <td class="text-center">
-                    {{ $logSession->id }}
+                <td nowrap> 
+                    {!! $logSession->user->can('SuspectCase: admission') ? '<i class="text-success fas fa-vial" title="Admission"></i>':'' !!}
+                    {!! $logSession->user->can('SuspectCase: own') ? '<i class="text-success fas fa-eye" title="SuspectCase own (ver sus propios exámenes)"></i>':'' !!}
+                    {!! $logSession->user->can('SuspectCase: list') ? '<i class="fas fa-eye" title="SuspectCase List (Ver todos los exámenes)"></i>':'' !!}
+                    {!! ($logSession->user->can('SanitaryResidence: user') OR $logSession->user->can('SanitaryResidence: view')) ? '<i class="fas fa-hotel" title="Residencia"></i>':'' !!}
+                    {!! $logSession->user->can('SuspectCase: tecnologo') ? '<i class="fas fa-diagnoses" title="Tecnólogo"></i>':'' !!}
+                    {!! $logSession->user->can('SuspectCase: tecnologo edit') ? '<i class="text-danger fas fa-diagnoses" title="Tecnólgo Editar"></i>':'' !!}
+                    {!! ($logSession->user->can('SuspectCase: delete') OR $logSession->user->can('SuspectCase: file delete')) ? '<i class="text-danger fas fa-trash" title="SuspectCase Delete o File Delete"></i>':'' !!}
+                    {!! $logSession->user->can('Patient: delete') ? '<i class="text-danger fas fa-user-slash" title="Patient Delete"></i>':'' !!}
+                    {!! ($logSession->user->can('Admin') OR $logSession->user->can('Developer')) ? '<i class="text-danger fas fa-chess-king" title="Admin o Developer"></i>':'' !!}
                 </td>
-                <td>
+                <td nowrap>
+                    @if( $logSession->user->can('Redirection: https://esmeralda.saludtarapaca.org/') )
+                            <i class="fas fa-caret-right"></i>
+                    @endif
                     {{ $logSession->app_name }}
                 </td>
                 <td>
                     <a href="{{ route('users.edit', $logSession->user) }}">
                         {{ $logSession->user->name }} 
-                        @if( $logSession->user->can('Redirection: https://esmeralda.saludtarapaca.org/') )
-                            <i class="fas fa-caret-right"></i>
-                        @endif
                     </a>
                     @if(!$logSession->user->active)
-                    <i class="fas fa-user-slash"></i>
+                    <i class="fas fa-ban"></i>
                     @endif
                 </td>
                 <td>

@@ -78,18 +78,20 @@
             @foreach($users as $user)
             <tr>
                 <td nowrap> 
-                    {!! $user->can('SuspectCase: admission') ? '<i class="fas fa-vial" title="Admission"></i>':'' !!}
-                    {!! $user->can('SuspectCase: list') ? '<i class="fas fa-eye" title="SuspectCase List"></i>':'' !!}
+                    {!! $user->can('SuspectCase: admission') ? '<i class="text-success fas fa-vial" title="Admission"></i>':'' !!}
+                    {!! $user->can('SuspectCase: own') ? '<i class="text-success fas fa-eye" title="SuspectCase own (ver sus propios exámenes)"></i>':'' !!}
+                    {!! $user->can('SuspectCase: list') ? '<i class="fas fa-eye" title="SuspectCase List (Ver todos los exámenes)"></i>':'' !!}
                     {!! ($user->can('SanitaryResidence: user') OR $user->can('SanitaryResidence: view')) ? '<i class="fas fa-hotel" title="Residencia"></i>':'' !!}
                     {!! $user->can('SuspectCase: tecnologo') ? '<i class="fas fa-diagnoses" title="Tecnólogo"></i>':'' !!}
                     {!! $user->can('SuspectCase: tecnologo edit') ? '<i class="text-danger fas fa-diagnoses" title="Tecnólgo Editar"></i>':'' !!}
-                    {!! $user->can('SuspectCase: delete') ? '<i class="text-danger fas fa-trash" title="SuspectCase Delete"></i>':'' !!}
-                    {!! $user->can('Admin') ? '<i class="text-danger fas fa-chess-king" title="Admin"></i>':'' !!}
+                    {!! ($user->can('SuspectCase: delete') OR $user->can('SuspectCase: file delete')) ? '<i class="text-danger fas fa-trash" title="SuspectCase Delete o File Delete"></i>':'' !!}
+                    {!! $user->can('Patient: delete') ? '<i class="text-danger fas fa-user-slash" title="Patient Delete"></i>':'' !!}
+                    {!! ($user->can('Admin') OR $user->can('Developer')) ? '<i class="text-danger fas fa-chess-king" title="Admin o Developer"></i>':'' !!}
                 </td>
                 <td nowrap>
-                    {!! $user->can('Redirection: https://esmeralda.saludtarapaca.org/') ? '<i class="text-success fas fa-check" title="NeoSalud"></i>':'' !!} 
+                    {!! $user->can('Redirection: https://esmeralda.saludtarapaca.org/') ? '<i class="fas fa-caret-right" title="Redirecciona a nuevo Esmeralda"></i>':'' !!} 
                     <a href="{{ route('users.edit', $user) }}">{{ $user->name }}</a> 
-                    {!! !$user->active ? '<i class="fas fa-user-alt-slash"></i>':'' !!}
+                    {!! !$user->active ? '<i class="fas fa-ban" title="Eliminado"></i>':'' !!}
                 </td>
                 <td class="small">{{ optional($user->establishment)->alias }}</td>
                 <td nowrap>{{ $user->function }}</td>
