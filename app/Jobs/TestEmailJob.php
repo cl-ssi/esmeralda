@@ -13,17 +13,6 @@ use App\Mail\Test1;
 class TestEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public string $email;
-
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->email = env('MAIL_TO_TEST');
-    }
 
     /**
      * Execute the job.
@@ -34,5 +23,4 @@ class TestEmailJob implements ShouldQueue
     {
         Mail::to( env('MAIL_TO_TEST') )->send(new Test1());
     }
-    
 }
