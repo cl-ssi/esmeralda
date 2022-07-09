@@ -28,10 +28,11 @@
     <style media="screen">
         .navbar-custom {
             background-color:
-                @switch(App::environment()) @case('local') #CE9DD9;
-            @break @case('testing') #B5EAD7;
-            @break @case('production') #999999;
-            @break @endswitch
+                @switch(App::environment()) 
+                    @case('local') #CE9DD9; @break 
+                    @case('testing') #B5EAD7; @break 
+                    @case('production') #4FB7DE; @break 
+                @endswitch
         }
     </style>
 </head>
