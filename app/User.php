@@ -60,6 +60,41 @@ class User extends Authenticatable implements Auditable
         return $query->where('name', 'LIKE', '%' . $search . '%');
     }
 
+    public function scopeSearchByEstab($query,$establishment)
+    {
+        switch($establishment)
+        {
+            case "all":
+                return $query;
+                break;
+            case "none":
+                return $query->doesntHave('establishment');
+                break;
+            default:
+                return $query->whereHas('establishment', function ($query) use($establishment){
+                    $query->where('id', $establishment);
+                });
+                break;
+        }
+
+    }
+
+    public function scopeAcceded($query,$acceded)
+    {
+        switch($acceded)
+        {
+            case 'yes':
+                return $query->has('lastLogin');
+                break;
+            case 'no':
+                return $query->doesntHave('lastLogin');
+                break;
+            default:
+                return $query;
+        }
+        
+    }
+
     public function logs() {
         return $this->morphMany('App\Log','model');
     }
@@ -116,6 +151,10 @@ class User extends Authenticatable implements Auditable
 
     public function logSessions() {
         return $this->hasMany('App\LogSession');
+    }
+    
+    public function lastLogin() {
+        return $this->hasOne('App\LogSession')->orderByDesc('created_at');
     }
 
     public function getLastSessionsAttribute() {
