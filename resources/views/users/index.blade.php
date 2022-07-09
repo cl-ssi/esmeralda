@@ -97,7 +97,7 @@
                     {!! ($user->can('Admin') OR $user->can('Developer')) ? '<i class="text-danger fas fa-chess-king" title="Admin o Developer"></i>':'' !!}
                 </td>
                 <td nowrap>
-                    {!! $user->can('Redirection: https://esmeralda.saludtarapaca.org/') ? '<i class="fas fa-caret-right" title="Redirecciona a nuevo Esmeralda"></i>':'' !!} 
+                    {!! $user->can('Redirection: https://esmeralda.saludtarapaca.org/') ? '<i class="fas fa-share" title="Redirecciona a nuevo Esmeralda"></i>':'' !!} 
                     <a href="{{ route('users.edit', $user) }}">{{ $user->name }}</a> 
                     {!! !$user->active ? '<i class="fas fa-ban" title="Eliminado"></i>':'' !!}
                 </td>

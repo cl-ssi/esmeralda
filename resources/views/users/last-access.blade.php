@@ -37,7 +37,7 @@
                 </td>
                 <td nowrap>
                     @if( $logSession->user->can('Redirection: https://esmeralda.saludtarapaca.org/') )
-                            <i class="fas fa-caret-right"></i>
+                            <i class="fas fa-share"></i>
                     @endif
                     {{ $logSession->app_name }}
                 </td>

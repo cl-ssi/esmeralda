@@ -186,6 +186,18 @@
                 <input class="form-check-input" type="checkbox" name="permissions[]" onclick="if('{{ $permission->name }}' === 'Admin'|| '{{ $permission->name }}' === 'Developer' && this.checked) return confirm('¿Estás seguro de que quieres darle el rol {{$permission->name}} a {{$user->name}}?\n¡Este es un permiso peligroso!')"
                     value="{{ $permission->name }}" {{ ($user->hasPermissionTo($permission->name))?'checked':'' }} >
                 <label class="form-check-label">
+                    {!! $permission->name == 'SuspectCase: admission' ? '<i class="text-success fas fa-vial" title="Admission"></i>':'' !!}
+                    {!! $permission->name == 'SuspectCase: own' ? '<i class="text-success fas fa-eye" title="SuspectCase own (ver sus propios exámenes)"></i>':'' !!}
+                    {!! $permission->name == 'SuspectCase: list' ? '<i class="fas fa-eye" title="SuspectCase List (Ver todos los exámenes)"></i>':'' !!}
+                    {!! ($permission->name == 'SanitaryResidence: user' OR $permission->name == 'SanitaryResidence: view') ? '<i class="fas fa-hotel" title="Residencia"></i>':'' !!}
+                    {!! $permission->name == 'SuspectCase: tecnologo' ? '<i class="fas fa-diagnoses" title="Tecnólogo"></i>':'' !!}
+                    {!! $permission->name == 'SuspectCase: tecnologo edit' ? '<i class="text-danger fas fa-diagnoses" title="Tecnólgo Editar"></i>':'' !!}
+                    {!! ($permission->name == 'SuspectCase: delete' OR $permission->name == 'SuspectCase: file delete') ? '<i class="text-danger fas fa-trash" title="SuspectCase Delete o File Delete"></i>':'' !!}
+                    {!! $permission->name == 'Patient: delete' ? '<i class="text-danger fas fa-user-slash" title="Patient Delete"></i>':'' !!}
+                    {!! ($permission->name == 'Admin' OR $permission->name == 'Developer') ? '<i class="text-danger fas fa-chess-king" title="Admin o Developer"></i>':'' !!}
+
+                    {!! $permission->name == 'Redirection: https://esmeralda.saludtarapaca.org/' ? '<b><i class="fas fa-share" title=""></i></b>':'' !!}
+
                     {{ $permission->name }}
                 </label>
                 <p class="text-muted">{{ $permission->description }}</p>
