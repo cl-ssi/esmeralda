@@ -28,7 +28,8 @@ class UserController extends Controller
             ->acceded($request->input('acceded'))
             ->with('establishments','lastLogin','permissions','roles')
             ->orderBy('name', 'asc')
-            ->paginate(100);
+            ->paginate(100)
+            ->withQueryString();
 
         $establishments = Establishment::whereIn('commune_id',explode(',',env('COMUNAS')))->orderBy('alias')->pluck('alias','id');
 
