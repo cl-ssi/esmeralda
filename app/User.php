@@ -91,6 +91,7 @@ class User extends Authenticatable implements Auditable
                 break;
             default:
                 return $query;
+                break;
         }
     }
 
@@ -106,6 +107,23 @@ class User extends Authenticatable implements Auditable
                 break;
             default:
                 return $query;
+                break;
+        }
+    }
+
+    public function scopeSearchByPermission($query,$permission)
+    {
+        if($permission)
+        {
+            switch($permission)
+            {
+                case 'any':
+                    return $query;
+                    break;
+                default:
+                    return $query->permission($permission);
+                    break;
+            }
         }
     }
 

@@ -6,28 +6,26 @@
 
 @include('parameters.nav')
 
-<h3 class="mb-3">Listado de usuarios</h3>
+<h3 class="mb-3">Listado de usuarios 
+    @can('Admin')
+    <a class="btn btn-primary btn-sm" href="{{ route('users.create') }}">
+        Crear nuevo
+    </a>
+    @endcan
+</h3>
 
 <form method="get" class="form-horizontal" action="{{ route('users.index') }}">
 
     <div class="form-row">
-        @can('Admin')
-        <div class="col-12 col-md-1 mb-3">
-            <label for="" class="sr-only"></label>
-            <a class="btn btn-primary btn-block" href="{{ route('users.create') }}">
-                Crear
-            </a>
-        </div>
-        @endcan
-        <div class="col-12 col-md-3 mb-3">
-            <label for="" class="sr-only"></label>
+        <div class="col-12 col-md-2 mb-3">
+            <label for="">Nombre y/o apellido</label>
             <input class="form-control" type="text" name="search" value="{{ old('search') }}" placeholder="Nombre y/o apellido">
         </div>
-
+       
         <div class="col-12 col-md-3 mb-3">
-            <label for="" class="sr-only"></label>
+            <label for="">Establecimientos</label>
             <select name="searchByEstab" id="" class="form-control">
-                <option value="all" {{ old('searchByEstab') == 'all' ? 'selected' : '' }}>Todos los establecimientos</option>
+                <option value="all" {{ old('searchByEstab') == 'all' ? 'selected' : '' }}>Todos</option>
                 <option value="none" {{ old('searchByEstab') == 'none' ? 'selected' : '' }}>Sin establecimiento</option>
                 @foreach($establishments as $id => $estab)
                 <option value="{{ $id }}" {{ old('searchByEstab') == $id ? 'selected' : '' }}>{{ $estab }}</option>
@@ -36,7 +34,7 @@
         </div>
 
         <div class="col-12 col-md-2 mb-3">
-            <label for="" class="sr-only"></label>
+            <label for="">Acceso</label>
             <select name="acceded" id="" class="form-control">
                 <option value="">Todos</option>
                 <option value="yes" {{ old('acceded') == 'yes' ? 'selected' : '' }}>Han accedido</option>
@@ -45,7 +43,17 @@
         </div>
 
         <div class="col-12 col-md-2 mb-3">
-            <label for="" class="sr-only"></label>
+            <label for="">Permisos</label>
+            <select name="searchByPermission" id="" class="form-control">
+                <option value="any" {{ old('searchByPermission') == 'any' ? 'selected' : '' }}></option>
+                @foreach($permissions as $permission)
+                <option value="{{ $permission }}" {{ old('searchByPermission') == $permission ? 'selected' : '' }}>{{ $permission }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-12 col-md-2 mb-3">
+            <label for="">Estado</label>
             <select name="active" id="" class="form-control">
                 <option value="yes" {{ old('active') == 'yes' ? 'selected' : '' }}>Activos</option>
                 <option value="no" {{ old('active') == 'no' ? 'selected' : '' }}>Inactivos</option>
@@ -54,7 +62,7 @@
         </div>
 
         <div class="col-12 col-md-1 mb-3">
-            <label for="" class="sr-only"></label>
+            <label for="">&nbsp;</label>
             <button type="submit" class="btn btn-outline-primary btn-block">Buscar</button>
         </div>
     </div>

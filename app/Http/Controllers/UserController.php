@@ -26,17 +26,20 @@ class UserController extends Controller
         $users = User::search($request->input('search'))
             ->searchByEstab($request->input('searchByEstab'))
             ->acceded($request->input('acceded'))
+            ->searchByPermission($request->input('searchByPermission'))
             ->active($request->input('active'))
             ->with('establishments','lastLogin','permissions','roles')
             ->orderBy('name', 'asc')
             ->paginate(100)
             ->withQueryString();
 
+        $permissions = Permission::orderBy('name')->pluck('name','id');
+
         $establishments = Establishment::whereIn('commune_id',explode(',',env('COMUNAS')))->orderBy('alias')->pluck('alias','id');
 
         $request->flash();
 
-        return view('users.index', compact('users','establishments'));
+        return view('users.index', compact('users','establishments','permissions'));
 
     }
 
