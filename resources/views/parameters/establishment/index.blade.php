@@ -14,30 +14,22 @@
 <table class="table table-sm table-bordered">
     <thead>
         <tr>
-            <th>Nombre</th>
+            <th>Comuna</th>
             <th>Alias</th>            
-            <th>Nuevo Código DEIS</th>            
-            <th>Dirección</th>
+            <th>Nuvo DEIS</th>
             <th>Telefono</th>
             <th>Email</th>
-            <th>Editar</th>
         </tr>
     </thead>
     <tbody>
     @foreach ($establishments as $establishment)
 
         <tr>
-            <td>{{$establishment->name}}</td>
-            <td>{{$establishment->alias}}</td>
+            <td>{{ $establishment->commune->name }}</td>
+            <td><a href="{{route('parameters.establishment.edit', $establishment)}}">{{$establishment->alias}}</a></td>
             <td>{{$establishment->new_code_deis}}</td>            
-            <td>{{$establishment->address}}</td>
             <td>{{$establishment->telephone}}</td>
             <td>{{$establishment->email}}</td>
-            <td>
-                <a href="{{route('parameters.establishment.edit', $establishment)}}">
-                <i class="fas fa-edit"></i>
-                </a>
-            </td>
         </tr>
     @endforeach
         

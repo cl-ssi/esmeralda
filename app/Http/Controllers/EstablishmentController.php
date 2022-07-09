@@ -13,7 +13,7 @@ class EstablishmentController extends Controller
     public function index()
     {
         $communes_ids = array_map('trim', explode(",", env('COMUNAS')));
-        $establishments = Establishment::where('commune_id',$communes_ids)->get();
+        $establishments = Establishment::with('commune')->whereIn('commune_id',$communes_ids)->orderBy('commune_id')->orderBy('alias')->get();
         //$communes = Commune::whereIn('id', $communes_ids)->get();
         return view('parameters.establishment.index', compact('establishments'));
     }
