@@ -10,6 +10,9 @@ RUN apk add --no-cache \
         libxml2-dev \
         libzip-dev \
         npm \
+        git \
+        shadow \
+        wget \
         bash
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql
@@ -29,11 +32,10 @@ RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar 
 
 # Algunos alias
 RUN echo "PS1='\[\033[01;90m\]Esmeralda\[\033[00m\]@\[\033[01;34m\]\w\[\033[00m\]:\\$ '" >> ~/.bashrc
-RUN echo "alias serve='php -S 0.0.0.0:8000 -t public'" >> ~/.bashrc
+RUN echo "alias serve='php artisan serve --host=0.0.0.0 --port=8000'" >> ~/.bashrc
 RUN echo "alias tinker='php artisan tinker'" >> ~/.bashrc
 RUN echo "alias ll='ls -l'" >> ~/.bashrc
 RUN echo "alias s='cd ..'" >> ~/.bashrc
 
-RUN chmod 666 /root
-RUN addgroup -g 1000 tic
-RUN adduser -G tic -u 1000 -D -h /root -s /bin/bash tic
+RUN chmod 777 /root
+RUN usermod -u 1000 -s /bin/bash -d /root www-data && groupmod -g 1000 www-data && usermod -s /bin/bash root
