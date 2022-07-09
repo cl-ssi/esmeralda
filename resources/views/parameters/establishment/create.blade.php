@@ -48,17 +48,17 @@
 
         <fieldset class="form-group col-6 col-md-4">
             <label for="for_address">Dirección</label>
-            <input type="text" class="form-control" name="address" id="for_address"  placeholder="Ej: Arturo Prat 123" required autocomplete="off">
+            <input type="text" class="form-control" name="address" id="for_address"  placeholder="Ej: Arturo Prat 123"  autocomplete="off">
         </fieldset>
 
         <fieldset class="form-group col-6 col-md-4">
             <label for="for_telephone">Teléfono</label>
-            <input type="text" class="form-control" name="telephone" id="for_telephone"  placeholder="" required autocomplete="off">
+            <input type="text" class="form-control" name="telephone" id="for_telephone"  placeholder=""  autocomplete="off">
         </fieldset>
 
         <fieldset class="form-group col-6 col-md-4">
             <label for="for_email">E-mail</label>
-            <input type="email" class="form-control" name="email" id="for_email"  placeholder="" required autocomplete="off">
+            <input type="email" class="form-control" name="email" id="for_email"  placeholder=""  autocomplete="off">
         </fieldset>
 
         <fieldset class="form-group col-6 col-md-4">
