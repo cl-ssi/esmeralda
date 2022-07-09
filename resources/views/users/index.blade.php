@@ -66,7 +66,7 @@
     <table class="table table-sm">
         <thead>
             <tr>
-                <th>Perm.</th>
+                <th>Permisos</th>
                 <th>Nombre</th>
                 <th>Establecimiento</th>
                 <th>Función</th>
@@ -77,7 +77,7 @@
         <tbody>
             @foreach($users as $user)
             <tr>
-                <td> 
+                <td nowrap> 
                     {!! $user->can('SuspectCase: admission') ? '<i class="fas fa-vial" title="Admission"></i>':'' !!}
                     {!! $user->can('SuspectCase: list') ? '<i class="fas fa-eye" title="SuspectCase List"></i>':'' !!}
                     {!! ($user->can('SanitaryResidence: user') OR $user->can('SanitaryResidence: view')) ? '<i class="fas fa-hotel" title="Residencia"></i>':'' !!}
@@ -91,8 +91,8 @@
                     <a href="{{ route('users.edit', $user) }}">{{ $user->name }}</a> 
                     {!! !$user->active ? '<i class="fas fa-user-alt-slash"></i>':'' !!}
                 </td>
-                <td nowrap>{{ optional($user->establishment)->alias }}</td>
-                <td>{{ $user->function }}</td>
+                <td class="small">{{ optional($user->establishment)->alias }}</td>
+                <td nowrap>{{ $user->function }}</td>
                 <td class="small">{{ $user->establishments->count() }} estab</td>
                 <td class="small" nowrap>{{ optional($user->lastLogin)->created_at }}</td>
             </tr>
