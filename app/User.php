@@ -92,7 +92,21 @@ class User extends Authenticatable implements Auditable
             default:
                 return $query;
         }
-        
+    }
+
+    public function scopeActive($query,$active)
+    {
+        switch($active)
+        {
+            case 'yes':
+                return $query->where('active',true);
+                break;
+            case 'no':
+                return $query->where('active',false);
+                break;
+            default:
+                return $query;
+        }
     }
 
     public function logs() {

@@ -26,6 +26,7 @@ class UserController extends Controller
         $users = User::search($request->input('search'))
             ->searchByEstab($request->input('searchByEstab'))
             ->acceded($request->input('acceded'))
+            ->active($request->input('active'))
             ->with('establishments','lastLogin','permissions','roles')
             ->orderBy('name', 'asc')
             ->paginate(100)

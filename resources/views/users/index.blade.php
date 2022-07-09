@@ -12,10 +12,10 @@
 
     <div class="form-row">
         @can('Admin')
-        <div class="col-12 col-md-2 mb-3">
+        <div class="col-12 col-md-1 mb-3">
             <label for="" class="sr-only"></label>
-            <a class="btn btn-primary" href="{{ route('users.create') }}">
-                Crear usuario
+            <a class="btn btn-primary btn-block" href="{{ route('users.create') }}">
+                Crear
             </a>
         </div>
         @endcan
@@ -38,9 +38,18 @@
         <div class="col-12 col-md-2 mb-3">
             <label for="" class="sr-only"></label>
             <select name="acceded" id="" class="form-control">
-                <option></option>
+                <option value="">Todos</option>
                 <option value="yes" {{ old('acceded') == 'yes' ? 'selected' : '' }}>Han accedido</option>
                 <option value="no" {{ old('acceded') == 'no' ? 'selected' : '' }}>No han accedido</option>
+            </select>
+        </div>
+
+        <div class="col-12 col-md-2 mb-3">
+            <label for="" class="sr-only"></label>
+            <select name="active" id="" class="form-control">
+                <option value="yes" {{ old('active') == 'yes' ? 'selected' : '' }}>Activos</option>
+                <option value="no" {{ old('active') == 'no' ? 'selected' : '' }}>Inactivos</option>
+                <option value="">Todos</option>
             </select>
         </div>
 
