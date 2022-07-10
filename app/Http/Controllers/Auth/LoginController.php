@@ -61,7 +61,7 @@ class LoginController extends Controller
         $user = User::whereEmail($request->email)->first();
 
         if($user && $user->active) {
-            if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            if(Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
                 $this->authenticated();
                 return redirect()->intended('home');
             } else {
