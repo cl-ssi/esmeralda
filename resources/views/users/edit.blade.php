@@ -19,13 +19,13 @@
                 <fieldset class="form-group col-8 col-md-2">
                     <label for="for_run">Run</label>
                     <input type="number" class="form-control" name="run" id="for_run"
-                        value="{{ $user->run }}" required>
+                        value="{{ $user->run }}" >
                 </fieldset>
 
                 <fieldset class="form-group col-4 col-md-1">
                     <label for="for_dv">Dv</label>
                     <input type="text" class="form-control" name="dv" id="for_dv"
-                        value="{{ $user->dv }}" required>
+                        value="{{ $user->dv }}" >
                 </fieldset>
 
                 <fieldset class="form-group col-12 col-md-4">
@@ -91,7 +91,7 @@
 
             <div class="form-row">
                 <fieldset class="form-group col-12 col-md-6">
-                    <a class="btn btn-primary btn-sm" href="{{ route('users.password.restore', $user) }}">
+                    <a class="btn btn-secondary btn-sm" href="{{ route('users.password.restore', $user) }}">
                         <i class="fas fa-plus"></i> Generar Nueva Contraseña
                     </a>
                 </fieldset>
@@ -117,7 +117,7 @@
                     </button>
                 </fieldset>
             </div>
-
+            <button type="submit" class="btn btn-primary mt-3">Guardar</button>
         </div>
     </div>
 
@@ -189,6 +189,7 @@
                     {!! $permission->name == 'SuspectCase: admission' ? '<i class="text-success fas fa-vial" title="Admission"></i>':'' !!}
                     {!! $permission->name == 'SuspectCase: own' ? '<i class="text-success fas fa-eye" title="SuspectCase own (ver sus propios exámenes)"></i>':'' !!}
                     {!! $permission->name == 'SuspectCase: list' ? '<i class="fas fa-eye" title="SuspectCase List (Ver todos los exámenes)"></i>':'' !!}
+                    {!! $permission->name == 'Patient: list' ? '<i class="fas fa-users" title="Patient: list (Listar todos los pacientes)"></i>':'' !!}
                     {!! ($permission->name == 'SanitaryResidence: user' OR $permission->name == 'SanitaryResidence: view') ? '<i class="fas fa-hotel" title="Residencia"></i>':'' !!}
                     {!! $permission->name == 'SuspectCase: tecnologo' ? '<i class="fas fa-diagnoses" title="Tecnólogo"></i>':'' !!}
                     {!! $permission->name == 'SuspectCase: tecnologo edit' ? '<i class="text-danger fas fa-diagnoses" title="Tecnólgo Editar"></i>':'' !!}

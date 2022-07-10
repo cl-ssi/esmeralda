@@ -89,6 +89,7 @@
                     {!! $user->can('SuspectCase: admission') ? '<i class="text-success fas fa-vial" title="Admission"></i>':'' !!}
                     {!! $user->can('SuspectCase: own') ? '<i class="text-success fas fa-eye" title="SuspectCase own (ver sus propios exámenes)"></i>':'' !!}
                     {!! $user->can('SuspectCase: list') ? '<i class="fas fa-eye" title="SuspectCase List (Ver todos los exámenes)"></i>':'' !!}
+                    {!! $user->can('Patient: list') ? '<i class="fas fa-users" title="Patient: list (Listar todos los pacientes)"></i>':'' !!}
                     {!! ($user->can('SanitaryResidence: user') OR $user->can('SanitaryResidence: view')) ? '<i class="fas fa-hotel" title="Residencia"></i>':'' !!}
                     {!! $user->can('SuspectCase: tecnologo') ? '<i class="fas fa-diagnoses" title="Tecnólogo"></i>':'' !!}
                     {!! $user->can('SuspectCase: tecnologo edit') ? '<i class="text-danger fas fa-diagnoses" title="Tecnólgo Editar"></i>':'' !!}

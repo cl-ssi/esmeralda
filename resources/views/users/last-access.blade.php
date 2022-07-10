@@ -28,6 +28,7 @@
                     {!! $logSession->user->can('SuspectCase: admission') ? '<i class="text-success fas fa-vial" title="Admission"></i>':'' !!}
                     {!! $logSession->user->can('SuspectCase: own') ? '<i class="text-success fas fa-eye" title="SuspectCase own (ver sus propios exámenes)"></i>':'' !!}
                     {!! $logSession->user->can('SuspectCase: list') ? '<i class="fas fa-eye" title="SuspectCase List (Ver todos los exámenes)"></i>':'' !!}
+                    {!! $logSession->user->can('Patient: list') ? '<i class="fas fa-users" title="Patient: list (Listar todos los pacientes)"></i>':'' !!}
                     {!! ($logSession->user->can('SanitaryResidence: user') OR $logSession->user->can('SanitaryResidence: view')) ? '<i class="fas fa-hotel" title="Residencia"></i>':'' !!}
                     {!! $logSession->user->can('SuspectCase: tecnologo') ? '<i class="fas fa-diagnoses" title="Tecnólogo"></i>':'' !!}
                     {!! $logSession->user->can('SuspectCase: tecnologo edit') ? '<i class="text-danger fas fa-diagnoses" title="Tecnólgo Editar"></i>':'' !!}

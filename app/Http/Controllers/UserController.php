@@ -248,6 +248,16 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
+
+    public function selfUpdate(Request $request, User $user)
+    {
+        $user->fill($request->all());
+        $user->save();
+
+        session()->flash('success', 'Gracias, hemos actualizado sus datos');
+        return redirect()->back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -259,7 +269,6 @@ class UserController extends Controller
         $user->delete();
         session()->flash('success', "Se ha eliminado usuario: '$user->name'");
         return redirect()->route('users.index');
-
     }
 
     /**

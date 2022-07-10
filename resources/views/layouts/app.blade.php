@@ -496,16 +496,26 @@
         <main class="py-4 container">
 
             @foreach (['danger', 'warning', 'success', 'info'] as $key)
-            @if(session()->has($key))
-            <div class="alert alert-{{ $key }} alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                {!! session()->get($key) !!}
-            </div>
-            @endif
+                @if(session()->has($key))
+                <div class="alert alert-{{ $key }} alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {!! session()->get($key) !!}
+                </div>
+                @endif
             @endforeach
 
+            @if(!auth()->user()->run OR 
+                !auth()->user()->dv OR 
+                !auth()->user()->name OR 
+                str_word_count(auth()->user()->name) <= 2 OR
+                !auth()->user()->telephone OR 
+                !auth()->user()->establishment_id OR 
+                !auth()->user()->function)
 
-            @yield('content')
+                @include('users.partials.self-update')
+            @else
+                @yield('content')
+            @endif
         </main>
     </div>
     @auth
