@@ -511,7 +511,7 @@
 
             @auth
                 @if(!auth()->user()->run OR 
-                    !auth()->user()->dv OR 
+
                     !auth()->user()->name OR 
                     count(preg_split('/\W+/u', auth()->user()->name, -1, PREG_SPLIT_NO_EMPTY)) <= 2 OR
                     !auth()->user()->telephone OR 
