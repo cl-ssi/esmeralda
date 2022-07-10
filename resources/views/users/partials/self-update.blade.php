@@ -17,7 +17,7 @@
 
 		<div class="form-row">
 
-			@if(!$user->run OR !$user->dv)
+			@if( is_null($user->run) OR is_null($user->dv) )
 			<fieldset class="form-group col-8 col-md-2">
 				<label for="for_run">Run</label>
 				<input type="number" class="form-control" name="run" id="for_run"
@@ -39,7 +39,7 @@
 			</fieldset>
 			@endif
 
-			@if(!$user->email)
+			@if(is_null($user->email))
 			<fieldset class="form-group col-12 col-md-3">
 				<label for="for_email">Email</label>
 				<input type="email" class="form-control" name="email" id="for_email"
@@ -47,7 +47,7 @@
 			</fieldset>
 			@endif
 
-			@if(!$user->telephone)
+			@if(is_null($user->telephone))
 			<fieldset class="form-group col-6 col-md-2">
 				<label for="for_telephone">Teléfono de contacto*</label>
 				<input type="tel" class="form-control" name="telephone" id="for_telephone" pattern="[0-9]{9}" placeholder="ej: 912345678"
@@ -57,7 +57,7 @@
 		</div>
 
 		<div class="form-row">
-			@if(!$user->establishment_id)
+			@if(is_null($user->establishment_id))
 			<fieldset class="form-group col-12 col-md-6">
 				<label for="for_establishment_id">Establecimiento al que pertenece*</label>
 				<select name="establishment_id" id="establishment_id" class="form-control" required>
@@ -69,7 +69,7 @@
 			</fieldset>
 			@endif
 
-			@if(!$user->function)
+			@if(is_null($user->function))
 			<fieldset class="form-group col-12 col-md-6">
 				<label for="for_function">Función que cumple*</label>
 				<input type="text" class="form-control" name="function" id="for_function"

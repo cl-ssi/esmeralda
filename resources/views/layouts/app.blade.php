@@ -510,13 +510,15 @@
             @endforeach
 
             @auth
-                @if(!auth()->user()->run OR 
-
-                    !auth()->user()->name OR 
+                @if(
+                    is_null(auth()->user()->run) OR 
+                    is_null(auth()->user()->dv) OR 
+                    is_null(auth()->user()->name) OR 
                     count(preg_split('/\W+/u', auth()->user()->name, -1, PREG_SPLIT_NO_EMPTY)) <= 2 OR
-                    !auth()->user()->telephone OR 
-                    !auth()->user()->establishment_id OR 
-                    !auth()->user()->function)
+                    is_null(auth()->user()->telephone) OR 
+                    is_null(auth()->user()->establishment_id) OR 
+                    is_null(auth()->user()->function)
+                )
 
                     @include('users.partials.self-update')
                 @else
