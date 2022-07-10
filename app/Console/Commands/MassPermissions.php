@@ -59,6 +59,7 @@ class MassPermissions extends Command
             if($user->can('Epp: list')) $user->revokePermissionTo('Epp: list');
             if($user->can('Report: other')) $user->revokePermissionTo('Report: other');
             if($user->can('SuspectCase: create')) $user->revokePermissionTo('SuspectCase: create');
+            if($user->can('Basket:')) $user->revokePermissionTo('Basket:');
             //if($user->can('SuspectCase: bulk load PNTM')) $user->revokePermissionTo('SuspectCase: bulk load PNTM');
 
             /** Si ya tiene el permiso, entonces no hago nada */
