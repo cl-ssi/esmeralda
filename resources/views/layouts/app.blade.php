@@ -494,7 +494,7 @@
         </nav>
 
         <main class="py-4 container">
-
+        
             @foreach (['danger', 'warning', 'success', 'info'] as $key)
                 @if(session()->has($key))
                 <div class="alert alert-{{ $key }} alert-dismissable">
@@ -504,18 +504,23 @@
                 @endif
             @endforeach
 
-            @if(!auth()->user()->run OR 
-                !auth()->user()->dv OR 
-                !auth()->user()->name OR 
-                str_word_count(auth()->user()->name) <= 2 OR
-                !auth()->user()->telephone OR 
-                !auth()->user()->establishment_id OR 
-                !auth()->user()->function)
+            @auth
+                @if(!auth()->user()->run OR 
+                    !auth()->user()->dv OR 
+                    !auth()->user()->name OR 
+                    str_word_count(auth()->user()->name) <= 2 OR
+                    !auth()->user()->telephone OR 
+                    !auth()->user()->establishment_id OR 
+                    !auth()->user()->function)
 
-                @include('users.partials.self-update')
+                    @include('users.partials.self-update')
+                @else
+                    @yield('content')
+                @endif
             @else
                 @yield('content')
-            @endif
+            @endauth
+        
         </main>
     </div>
     @auth
