@@ -31,7 +31,7 @@
 			</fieldset>
 			@endif
 
-			@if(!$user->name OR str_word_count($user->name) <= 2)
+			@if(!$user->name OR count(preg_split('/\W+/u', $user->name, -1, PREG_SPLIT_NO_EMPTY)) <= 2)
 			<fieldset class="form-group col-12 col-md-4">
 				<label for="for_name">Nombre completo (nombre y apellidos)</label>
 				<input type="text" class="form-control" name="name" id="for_name" pattern=".+?(?:[\s'].+?){2,}"
