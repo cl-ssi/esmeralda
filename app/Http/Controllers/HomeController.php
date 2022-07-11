@@ -5,6 +5,8 @@ use App\EstablishmentUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Log;
+
 class HomeController extends Controller
 {
     /**
@@ -24,6 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        Log::error('An error message.');
         $establishmentsusers = EstablishmentUser::where('user_id',Auth::id())->get();
         return view('home',compact('establishmentsusers'));
     }

@@ -24,7 +24,8 @@
         "owen-it/laravel-auditing": "^13.0",
         "spatie/laravel-google-cloud-storage": "*",
         "spatie/laravel-permission": "^3.11",
-        "stackkit/laravel-google-cloud-tasks-queue": "^3.1"
+        "stackkit/laravel-google-cloud-tasks-queue": "^3.1",
+        "superchairon/laravel-google-cloud-logging": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

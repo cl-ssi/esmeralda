@@ -35,6 +35,18 @@ return [
     */
 
     'channels' => [
+        'stackdriver' => [
+            'driver' => 'custom',
+            'via' => \SuperChairon\LaravelGoogleCloudLogging\StackdriverDriver::class,
+            'logName' => 'esmeralda',
+            'labels' => [
+                'application' => env('APP_NAME'),
+                'environment' => env('APP_ENV'),
+                'other labels' => '...',
+            ],
+            'level' => 'debug',
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'name' => 'laravel-local',
