@@ -6,7 +6,7 @@
 <div class="alert alert-info" role="alert">
 	<h4 class="alert-heading">Regularizar datos de la cuenta</h4>
 
-	<p>Estimado usuario, para continuar utilizando el sistema es neceario regularizar los datos que nos faltan de su cuenta.</p>
+	<p>Estimado usuario, para continuar utilizando el sistema es necesario regularizar los datos que nos faltan de su cuenta.</p>
 	<p class="mb-0"><strong>Debe proporcionar información fidedigna, de lo contrario, su cuenta podría ser deshabilitada.</strong></p>
 	<hr>
 
