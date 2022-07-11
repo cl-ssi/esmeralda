@@ -40,6 +40,7 @@ return [
             'labels' => [
                 'application' => env('APP_NAME'),
                 'environment' => env('APP_ENV'),
+		        'project' => 'esmeralda'
             ],
             'projectId'=> env('GOOGLE_CLOUD_PROJECT_ID'),
             'handler' => App\Logging\GoogleCloudHandler::class,
