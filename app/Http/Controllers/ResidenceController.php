@@ -21,7 +21,7 @@ class ResidenceController extends Controller
     {
         $residences = Residence::all();
         $users = User::orderBy('name')->get();
-        $residenceUsers = ResidenceUser::orderBy('residence_id')->get();
+        $residenceUsers = ResidenceUser::orderBy('residence_id')->paginate(100);
         return view('sanitary_residences.users',compact('residenceUsers','users','residences'));
 
     }

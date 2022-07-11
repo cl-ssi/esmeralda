@@ -68,6 +68,7 @@
 
     </tbody>
 </table>
+{{ $residenceUsers->links() }}
 
 @endsection
 
