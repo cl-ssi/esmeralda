@@ -34,9 +34,7 @@
                     <a href="mailto:sistemas.ssi@redsalud.gob.cl">
                         sistemas.ssi@redsalud.gob.cl
                     </a>
-                    @php 
-                    Log::debug('An informational message.');
-                    @endphp
+                    {{ env('LOG_CHANNEL') }}
                 </div>
             </div>
         </div>
