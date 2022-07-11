@@ -26,9 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        Log::info('aquarotorres');
-        Log::debug('aquarotorres');
-        Log::error('aquarotorres');
+
+        //Log::error('aquarotorres', ['my-string' => 'log me', 'run']);
+
         $establishmentsusers = EstablishmentUser::where('user_id',Auth::id())->get();
         return view('home',compact('establishmentsusers'));
     }

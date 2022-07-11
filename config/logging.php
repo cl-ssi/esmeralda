@@ -35,18 +35,17 @@ return [
     */
 
     'channels' => [
-        'stackdriver' => [
+        'google_cloud_logging' => [
             'driver' => 'custom',
-            'via' => \SuperChairon\LaravelGoogleCloudLogging\StackdriverDriver::class,
-            'logName' => 'esmeralda',
             'labels' => [
                 'application' => env('APP_NAME'),
                 'environment' => env('APP_ENV'),
-                'other labels' => '...',
             ],
+            'projectId'=> env('GOOGLE_CLOUD_PROJECT_ID'),
+            'handler' => App\Logging\GoogleCloudHandler::class,
+            'via' => App\Logging\GoogleCloudLogging::class,
             'level' => 'debug',
         ],
-
         'stack' => [
             'driver' => 'stack',
             'name' => 'laravel-local',

@@ -34,7 +34,7 @@
                     <a href="mailto:sistemas.ssi@redsalud.gob.cl">
                         sistemas.ssi@redsalud.gob.cl
                     </a>
-                    {{ env('LOG_CHANNEL') }}
+
                 </div>
             </div>
         </div>
