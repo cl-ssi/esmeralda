@@ -14,6 +14,7 @@
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
+        "google/cloud-logging": "^1.24",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.5",
         "laravel/framework": "^8.0",
@@ -24,8 +25,7 @@
         "owen-it/laravel-auditing": "^13.0",
         "spatie/laravel-google-cloud-storage": "*",
         "spatie/laravel-permission": "^3.11",
-        "stackkit/laravel-google-cloud-tasks-queue": "^3.1",
-        "superchairon/laravel-google-cloud-logging": "^1.0"
+        "stackkit/laravel-google-cloud-tasks-queue": "^3.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
