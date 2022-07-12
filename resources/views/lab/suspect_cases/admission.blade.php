@@ -143,8 +143,8 @@
             <label for="for_origin">Estab. Detalle (Opcional)</label>
             <select name="origin" id="for_origin" class="form-control">
                 <option value=""></option>
-                @foreach($sampleOrigins as $id => $sampleOrigin)
-                    <option value="{{ $id }}" {{(old('origin') == $sampleOrigin) ? 'selected' : '' }} >{{ $sampleOrigin }}</option>
+                @foreach($sampleOrigins as $sampleOrigin)
+                    <option value="{{ $sampleOrigin }}" {{(old('origin') == $sampleOrigin) ? 'selected' : '' }} >{{ $sampleOrigin }}</option>
                 @endforeach
             </select>
         </fieldset>

@@ -285,7 +285,7 @@ class SuspectCaseController extends Controller
 
         //dd($establishmentsusers);
 
-        $sampleOrigins = SampleOrigin::orderBy('alias')->pluck('alias','id');
+        $sampleOrigins = SampleOrigin::orderBy('name')->pluck('name');
         //dd($sampleOrigins);
 
         return view('lab.suspect_cases.admission', compact('sampleOrigins', 'regions', 'communes', 'establishmentsusers', 'countries'));
