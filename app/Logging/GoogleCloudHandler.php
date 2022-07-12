@@ -31,7 +31,7 @@ class GoogleCloudHandler extends AbstractProcessingHandler {
 
         $logger = (new LoggingClient([
             'projectId' => $this->projectId
-        ]))->logger(env('LOG_CHANNEL','unknown'), $options);
+        ]))->logger($this->projectId, $options);
 
         $data = array(
             'user_id'       => auth()->user()->id ?? '',

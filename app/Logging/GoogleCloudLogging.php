@@ -14,7 +14,7 @@ class GoogleCloudLogging
      * @return \Monolog\Logger
      */
     public function __invoke(array $config){
-        $logger = new Logger("GoogleCloudHandler");
+        $logger = new Logger(env('LOG_CHANNEL'));
         return $logger->pushHandler(
             new GoogleCloudHandler(
                 $config['projectId'], 
