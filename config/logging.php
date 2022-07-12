@@ -50,6 +50,7 @@ return [
             'via' => App\Logging\GoogleCloudLogging::class,
             'level' => 'debug',
         ],
+        
         'stack' => [
             'driver' => 'stack',
             'name' => 'laravel-local',
