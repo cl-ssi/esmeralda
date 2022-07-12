@@ -465,7 +465,7 @@ Route::prefix('sanitary_residences')->name('sanitary_residences.')->middleware('
 
 
     Route::prefix('vital_signs')->name('vital_signs.')->group(function () {
-        Route::get('/', 'VitalSignController@index')->name('index');
+        //Route::get('/', 'VitalSignController@index')->name('index');
         Route::get('/create', 'VitalSignController@create')->name('create');
         Route::post('/', 'VitalSignController@store')->name('store');
         // Route::get('/{room}/edit', 'RoomController@edit')->name('edit');

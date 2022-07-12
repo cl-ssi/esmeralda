@@ -14,12 +14,12 @@ class VitalSignController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-        $vitalsigns = VitalSign::all();
-        return view('sanitary_residences.vital_signs.index', compact('vitalsigns'));
-    }
+    // public function index()
+    // {
+    //     //
+    //     $vitalsigns = VitalSign::all();
+    //     return view('sanitary_residences.vital_signs.index', compact('vitalsigns'));
+    // }
 
     /**
      * Show the form for creating a new resource.
