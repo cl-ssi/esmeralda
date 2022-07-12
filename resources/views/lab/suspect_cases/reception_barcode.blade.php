@@ -99,7 +99,7 @@
                             <tr>
                                 <td>{{ $arraySuspectCase['id'] }}</td>
                                 <td>{{$arraySuspectCase['fullName']}}</td>
-                                <td>{{$arraySuspectCase['sampleAt']}}</td>
+{{--                                <td>{{$arraySuspectCase['sampleAt']}}</td>--}}
                                 <td><input type="checkbox" name="selected_cases_ids[]" id="selected_cases_ids"
                                            value="{{$arraySuspectCase['id']}}" checked></td>
                             </tr>

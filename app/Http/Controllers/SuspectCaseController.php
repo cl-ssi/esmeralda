@@ -1451,7 +1451,7 @@ class SuspectCaseController extends Controller
             $suspectCase = SuspectCase::find($request->get('id'));
             $arraySuspectCase['id'] = $suspectCase->id;
             $arraySuspectCase['fullName'] = $suspectCase->patient->fullName;
-            $arraySuspectCase['sampleAt'] = $suspectCase->sample_at;
+//            $arraySuspectCase['sampleAt'] = $suspectCase->sample_at;
         }
 
 
