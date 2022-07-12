@@ -17,7 +17,8 @@ class GoogleCloudLogging
         $logger = new Logger(env('LOG_CHANNEL'));
         return $logger->pushHandler(
             new GoogleCloudHandler(
-                $config['projectId'], 
+                $config['projectId'],
+                $config['logName'], 
                 $config['labels']
             )
         );
