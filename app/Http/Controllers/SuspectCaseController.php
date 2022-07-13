@@ -177,9 +177,11 @@ class SuspectCaseController extends Controller
         //     $suspectCases=$suspectCases->patientTextFilter($request->get('text'));
 
         // }
+
+        $counters = DB::table('suspect_cases')->select('pcr_sars_cov_2', DB::raw('count(*) as total'))->groupBy('pcr_sars_cov_2')->get();
         
 
-        return view('lab.suspect_cases.index', compact('suspectCases', 'request', 'laboratory'));
+        return view('lab.suspect_cases.index', compact('suspectCases', 'request', 'laboratory','counters'));
 
     }
 

@@ -27,32 +27,32 @@
     </div>
 
 </div>
-{{-- 
+
 <div class="table-responsive">
 <table class="table table-sm table-bordered">
     <thead>
         <tr class="text-center">
-            <th>Exámenes enviados a análisis</th>
             <th>Exámenes positivos</th>
             <th>Exámenes negativos</th>
             <th>Exámenes pendientes</th>
             <th>Exámenes rechazados</th>
             <th>Exámenes indeterminados</th>
+            <th>Exámenes enviados a análisis</th>
         </tr>
     </thead>
     <tbody>
         <tr class="text-center">
-            <td>{{ $cases['total'] }}</td>
-            <th class="text-danger">{{ $cases['positivos'] }}</th>
-            <td>{{ $cases['negativos'] }}</td>
-            <td>{{ $cases['pendientes'] }}</td>
-            <td>{{ $cases['rechazados'] }}</td>
-            <td>{{ $cases['indeterminados'] }}</td>
+            <th class="text-danger">{{ $positive = $counters->where('pcr_sars_cov_2','positive')->first()->total }}</th>
+            <td>{{ $negative = $counters->where('pcr_sars_cov_2','negative')->first()->total }}</td>
+            <td>{{ $pending = $counters->where('pcr_sars_cov_2','pending')->first()->total }}</td>
+            <td>{{ $rejected = $counters->where('pcr_sars_cov_2','rejected')->first()->total }}</td>
+            <td>{{ $undetermined = $counters->where('pcr_sars_cov_2','undetermined')->first()->total }}</td>
+            <td>{{ $positive + $negative + $pending + $rejected + $undetermined }}</td>
         </tr>
     </tbody>
 </table>
 </div>
---}}
+
 
 <!--------------------------------->
 @if($laboratory)

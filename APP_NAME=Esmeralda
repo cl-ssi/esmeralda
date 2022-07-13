@@ -1,0 +1,76 @@
+#local testing production
+APP_ENV=local
+APP_KEY=base64:WdC6NK5qLjsPjalwxr8Lp9NQuG2blipjL3TX2yVaKe4=
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+
+# Nombre del servicio de salud y mensaje para el HOME
+SERVICIO="Servicio de Salud Iquique"
+INFO_HOME="Consultas al número ..... o al mail a@b.c"
+
+# id de region y de comunas para reportes
+REGION=1
+COMUNAS=5,6,7,8,9,10,11
+
+# Envía correo en caso de haber un nuevo positivo
+EMAILS_ALERT=alvaro.torres@redsalud.gob.cl
+EMAILS_ALERT_BCC=alvaro.torres@redsalud.gob.cl
+
+# URL Webservice de FONASA
+FONASA_WS_URL=
+#FONASA_ENTIDAD=XXXXXX
+#FONASA_CLAVE=XXX
+
+# Coordenada de pocisionamiento del mapa
+LATITUD="-20.26"
+LONGITUD="-70.13"
+API_KEY_HERE=
+API_KEY_GOOGLE_MAPS=
+
+# WS Minsal
+WS_CREAR_MUESTRA=https://tomademuestras.api.openagora.org/328302d8-0ba3-5611-24fa-a7a2f146241f
+WS_RECEPCIONA_MUESTRA=https://tomademuestras.api.openagora.org/27f9298d-ead4-1746-8356-cc054f245118
+WS_RESULTADO_MUESTRA=https://tomademuestras.openagora.org/ws/a3772090-34dd-d3e3-658e-c75b6ebd211a
+WS_CAMBIA_LABORATORIO=https://tomademuestras.api.openagora.cl/cambioLaboratorio
+
+LOG_CHANNEL=stack
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=esmeralda
+DB_USERNAME=tic
+DB_PASSWORD=password
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=database
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_APP_CLUSTER=mt1
+
+MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+

@@ -251,6 +251,8 @@ Route::prefix('lab')->name('lab.')->group(function () {
         Route::post('/results_import', 'SuspectCaseController@results_import')->name('results_import');
 
         Route::prefix('reports')->name('reports.')->group(function () {
+            Route::get('/exams-stadistics','SuspectCaseReportController@examsStadisticsForm')->name('exams-stadistics-form');
+            Route::post('/exams-stadistics','SuspectCaseReportController@examsStadisticsPost')->name('exams-stadistics-posts');
             Route::get('/tracingbycommunes','SuspectCaseReportController@tracingByCommunes')->name('tracingbycommunes');
             Route::get('/positives','SuspectCaseReportController@positives')->name('positives')->middleware('auth','can:Report: positives');
             Route::get('case_tracing','SuspectCaseReportController@case_tracing')->name('case_tracing')->middleware('auth','can:Patient: tracing');

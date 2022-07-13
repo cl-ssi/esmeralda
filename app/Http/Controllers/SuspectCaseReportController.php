@@ -140,6 +140,79 @@ class SuspectCaseReportController extends Controller
         return view('lab.suspect_cases.reports.positives_own', compact('evolucion', 'communes', 'positives', 'ageRangeArray', 'totalPatients', 'totalDeceasedArray', 'casesByCommuneArray'));
     }
 
+    public function examsStadisticsForm()
+    {
+        $establishments = Establishment::orderBy('alias')
+            ->whereIn('commune_id', explode(' ', env('COMUNAS')))
+            ->pluck('alias','id');
+
+        return view('lab.suspect_cases.reports.exams-stadistics',compact('establishments'));
+    }
+    
+    public function examsStadisticsPost(Request $request)
+    {
+        $establishments = Establishment::orderBy('alias')
+            ->whereIn('commune_id', explode(' ', env('COMUNAS')))
+            ->pluck('alias','id');
+    
+		$from = $request->input('from');
+		$to = $request->input('to');
+		$dateFilter = false;
+
+		if(!is_null($from) OR !is_null($to)) {
+			if(!is_null($from) AND !is_null($to))
+			{
+				$date_from = new \DateTime($from);
+				$date_to = new \DateTime($to);
+				if($date_from < $date_to) {
+					$dateFilter = true;
+				}
+				else {
+					session()->flash('danger', 'La fecha Desde tiene que ser menor que Hasta');
+					return redirect()->back();
+				}
+			}
+			else {
+				session()->flash('danger', 'Debe especificar desde y hasta');
+				return redirect()->back()->withInput();
+			}
+		}
+
+        if(is_null($request->input('establishment_id') ))
+        {
+            $queryCounters = DB::table('suspect_cases')
+                ->select('pcr_sars_cov_2', DB::raw('count(*) as total'));
+				if($dateFilter)
+				{
+					$queryCounters->whereDate('sample_at','>=',$from)->whereDate('sample_at','<=',$to);
+				}
+                $queryCounters->groupBy('pcr_sars_cov_2');
+        }
+        else
+        {
+            $queryCounters = DB::table('suspect_cases')
+                ->select('pcr_sars_cov_2', DB::raw('count(*) as total'))
+                ->where('establishment_id',$request->input('establishment_id'));
+				if($dateFilter)
+				{
+					$queryCounters->whereDate('sample_at','>=',$from)->whereDate('sample_at','<=',$to);
+				}
+                $queryCounters->groupBy('pcr_sars_cov_2');
+        }
+
+		$counters['positive'] = with(clone $queryCounters)->where('pcr_sars_cov_2','positive')->first()->total ?? 0;
+		$counters['negative'] = with(clone $queryCounters)->where('pcr_sars_cov_2','negative')->first()->total ?? 0;
+		$counters['pending'] = with(clone $queryCounters)->where('pcr_sars_cov_2','pending')->first()->total ?? 0;
+		$counters['rejected'] = with(clone $queryCounters)->where('pcr_sars_cov_2','rejected')->first()->total ?? 0;
+		$counters['undetermined'] = with(clone $queryCounters)->where('pcr_sars_cov_2','undetermined')->first()->total ?? 0;
+		$counters['total'] = $counters['positive'] + $counters['negative'] + $counters['pending'] + $counters['rejected'] + $counters['undetermined'];
+
+		//dd($array);
+        session()->flashInput($request->input());
+
+        return view('lab.suspect_cases.reports.exams-stadistics',compact('establishments','counters'));
+    }
+
     /**
      * @return int
      */
