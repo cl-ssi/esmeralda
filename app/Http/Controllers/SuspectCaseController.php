@@ -131,8 +131,6 @@ class SuspectCaseController extends Controller
         //$cases = collect();
         $collection = collect(['positivos', 'negativos', 'pendientes', 'rechazados', 'indeterminados']);
 
-        
-
         $filtro = collect([]);
         $collection->each(function ($item, $key) use ($request, $filtro) {
             switch ($item) {
@@ -171,17 +169,14 @@ class SuspectCaseController extends Controller
             
         //     $query->patientTextFilter($request->get('text')); 
         // })
-        ->latest('id')->paginate(200);
+        ->latest('id')->paginate(100);
         // if($request->get('text') != null)
         // {
         //     $suspectCases=$suspectCases->patientTextFilter($request->get('text'));
 
         // }
 
-        $counters = DB::table('suspect_cases')->select('pcr_sars_cov_2', DB::raw('count(*) as total'))->groupBy('pcr_sars_cov_2')->get();
-        
-
-        return view('lab.suspect_cases.index', compact('suspectCases', 'request', 'laboratory','counters'));
+        return view('lab.suspect_cases.index', compact('suspectCases', 'request', 'laboratory'));
 
     }
 
@@ -209,7 +204,7 @@ class SuspectCaseController extends Controller
             })
             ->patientTextFilter($searchText)
             ->whereIn('pcr_sars_cov_2', $arrayFilter)
-            ->paginate(200);
+            ->paginate(100);
 
         return view('lab.suspect_cases.ownIndex', compact('suspectCases', 'arrayFilter', 'searchText', 'laboratory', 'suspectCasesTotal'));
     }

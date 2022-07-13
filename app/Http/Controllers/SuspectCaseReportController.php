@@ -169,7 +169,7 @@ class SuspectCaseReportController extends Controller
 				}
 				else {
 					session()->flash('danger', 'La fecha Desde tiene que ser menor que Hasta');
-					return redirect()->back();
+					return redirect()->back()->withInput();
 				}
 			}
 			else {
