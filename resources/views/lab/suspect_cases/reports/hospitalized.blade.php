@@ -51,6 +51,8 @@
     </tbody>
 </table>
 
+{{ $patients->links() }}
+
 @endsection
 
 @section('custom_js')

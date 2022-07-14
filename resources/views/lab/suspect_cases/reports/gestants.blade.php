@@ -5,6 +5,9 @@
 @section('content')
 <h3 class="mb-3">Gestantes</h3>
 
+<h4>Total: {{ $patients->total() }}</h4>
+
+
 <table class="table table-sm table-bordered">
     <thead>
         <tr>
@@ -19,9 +22,9 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($patients as $key => $patient)
+        @foreach($patients as $patient)
         <tr class="{{ ($covid = $patient->suspectCases->where('pcr_sars_cov_2','positive')->count() > 0)?'table-active':'' }}">
-            <td>{{ ++$key }}</td>
+            <td>{{ $patient->id }}</td>
             <td>
                 <a href="{{ route('patients.edit', $patient)}}">
                     {{ $patient->fullName }}
@@ -46,7 +49,7 @@
 </table>
 
 
-
+{{ $patients->links() }}
 
 
 @endsection

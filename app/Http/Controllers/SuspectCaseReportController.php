@@ -1117,7 +1117,7 @@ class SuspectCaseReportController extends Controller
     {
         $patients = Patient::whereHas('suspectCases', function ($q) {
             $q->where('gestation', 1);
-        })->with('suspectCases')->get();
+        })->with('suspectCases')->paginate(100);
 
         return view('lab.suspect_cases.reports.gestants', compact('patients'));
     }
@@ -1263,7 +1263,7 @@ class SuspectCaseReportController extends Controller
             'Hospitalizado UCI (Ventilador)'
         ])
             ->orderBy('status')
-            ->get();
+            ->paginate(100);
 
         return view('lab.suspect_cases.reports.hospitalized', compact('patients'));
     }
@@ -1286,7 +1286,7 @@ class SuspectCaseReportController extends Controller
             $q->whereIn('commune_id', auth()->user()->communes());
         })
             ->orderBy('status')
-            ->get();
+            ->paginate(100);
 
         $byUserCommune = true;
 
