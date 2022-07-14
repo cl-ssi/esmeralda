@@ -1496,7 +1496,9 @@ class SuspectCaseController extends Controller
             $filas = SuspectCase::where(function ($q) {
                 $q->whereIn('establishment_id', Auth::user()->establishments->pluck('id'))
                     ->orWhere('user_id', Auth::user()->id);
-            })->orderBy('suspect_cases.id', 'desc')->get();
+            })->orderBy('suspect_cases.id', 'desc')
+            ->with('patient','patient.demographic','establishment','laboratory')
+            ->get();
 
         } elseif ($cod_lab == 'all') {
             $month = Carbon::parse($date)->month;
@@ -1506,6 +1508,7 @@ class SuspectCaseController extends Controller
                 ->whereMonth('sample_at', '=', $month)
                 ->whereNotNull('laboratory_id')
                 ->orderBy('suspect_cases.id', 'desc')
+               ->with('patient','patient.demographic','establishment','laboratory')
                 ->get();
 
         } else {
@@ -1516,6 +1519,7 @@ class SuspectCaseController extends Controller
                 ->whereYear('sample_at', '=', $year)
                 ->whereMonth('sample_at', '=', $month)
                 ->orderBy('suspect_cases.id', 'desc')
+                ->with('patient','patient.demographic','establishment','laboratory')
                 ->get();
         }
 
@@ -1593,6 +1597,7 @@ class SuspectCaseController extends Controller
             fclose($file);
         };
         return response()->stream($callback, 200, $headers);
+        //return view('welcome');
     }
 
     public function exportMinsalExcel($laboratory, Request $request)
