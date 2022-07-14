@@ -27,6 +27,8 @@ Route::get('/adddata', function () {
 });
 
 Route::get('test/fonasa', 'TestController@fonasa');
+Route::get('test/error/{arg}', 'TestController@error');
+
 
 Route::prefix('webservices')->name('webservices.')->group(function () {
     Route::get('fonasa', 'WebserviceController@fonasa')->middleware('auth')->name('fonasa');
