@@ -36,6 +36,7 @@ RUN echo "alias serve='php artisan serve --host=0.0.0.0 --port=8000'" >> ~/.bash
 RUN echo "alias tinker='php artisan tinker'" >> ~/.bashrc
 RUN echo "alias ll='ls -l'" >> ~/.bashrc
 RUN echo "alias s='cd ..'" >> ~/.bashrc
+RUN echo "alias www='su www-data'" >> ~/.bashrc
 
 RUN chmod 777 /root
 RUN usermod -u 1000 -s /bin/bash -d /root www-data && groupmod -g 1000 www-data && usermod -s /bin/bash root
