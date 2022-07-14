@@ -42,13 +42,13 @@ class Handler extends ExceptionHandler
         if(env('APP_ENV') == 'production'){
             $projectId = 'saludiquique';
             $service = 'esmeralda';
-            $version = '1';
+            $version = '2';
 
             $metadata = new SimpleMetadataProvider([], $projectId, $service, $version);
 
             $logging = new LoggingClient(['projectId' => $projectId]);
 
-            $logger = $logging->psrLogger('error-log', [
+            $logger = $logging->psrLogger($service, [
                 'metadataProvider' => $metadata
             ]);
 
