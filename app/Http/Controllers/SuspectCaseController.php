@@ -1444,17 +1444,17 @@ class SuspectCaseController extends Controller
      */
     public function barcodeReception(Request $request)
     {
-        if ($request->has('id')) {
-            $suspectCase = SuspectCase::find($request->get('id'));
-            $arraySuspectCase['id'] = $suspectCase->id;
-            $arraySuspectCase['fullName'] = $suspectCase->patient->fullName;
-//            $arraySuspectCase['sampleAt'] = $suspectCase->sample_at;
-        }
-
-
+        $suspectCase = SuspectCase::find($request->get('id'));
         if (!$suspectCase) {
-            session()->flash('warning', "No se encuentra muestra con la id $request->get('id'.");
-        } elseif ($suspectCase->reception_at == NULL) {
+            session()->flash('warning', "No se encuentra muestra con la id {$request->get('id')} .");
+            return view('lab.suspect_cases.reception_barcode');
+        }
+            
+        $arraySuspectCase['id'] = $suspectCase->id;
+        $arraySuspectCase['fullName'] = $suspectCase->patient->fullName;
+//      $arraySuspectCase['sampleAt'] = $suspectCase->sample_at;
+
+        if ($suspectCase->reception_at == NULL) {
             $receptionSuccess = $this->reception($request, $suspectCase, true);
 
             if ($receptionSuccess) {
