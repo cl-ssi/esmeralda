@@ -7,6 +7,7 @@ use Throwable;
 use Google\Cloud\ErrorReporting\Bootstrap;
 use Google\Cloud\Logging\LoggingClient;
 use Google\Cloud\Core\Report\SimpleMetadataProvider;
+use Illuminate\Auth\AuthenticationException;
 
 class Handler extends ExceptionHandler
 {
@@ -16,7 +17,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        AuthenticationException::class,
     ];
 
     /**
