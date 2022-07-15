@@ -27,6 +27,9 @@ RUN docker-php-ext-install zip
 
 RUN docker-php-ext-install bcmath
 
+RUN cd /usr/local/etc/php/conf.d/ && \
+  echo 'memory_limit = 512M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+
 RUN mkdir -p /run/nginx
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
