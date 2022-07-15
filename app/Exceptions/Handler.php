@@ -7,7 +7,6 @@ use Throwable;
 use Google\Cloud\ErrorReporting\Bootstrap;
 use Google\Cloud\Logging\LoggingClient;
 use Google\Cloud\Core\Report\SimpleMetadataProvider;
-use Illuminate\Auth\AuthenticationException;
 
 class Handler extends ExceptionHandler
 {
@@ -17,7 +16,11 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        AuthenticationException::class,
+        \Illuminate\Auth\AuthenticationException::class,
+        \Illuminate\Auth\Access\AuthorizationException::class,
+        \Symfony\Component\HttpKernel\Exception\HttpException::class,
+        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+        \Illuminate\Validation\ValidationException::class,
     ];
 
     /**
