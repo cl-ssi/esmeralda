@@ -13,7 +13,7 @@ class PatientExternalController extends Controller
 
     public function showLoginForm()
     {
-        //dd('kk');
+        
         return view('auth.login-patient');
     }
 
@@ -21,12 +21,9 @@ class PatientExternalController extends Controller
      * Overwrite username por id
      *
      */
-    public function username()
-    {
-        return 'run';
-    }
+    
 
-    public function homepatient()
+    public function home()
     {
         return view('homepatient');
     }
@@ -35,6 +32,7 @@ class PatientExternalController extends Controller
 
     public function login(Request $request)
     {       
+        
 
         $this->validate($request, [
             'run'           => 'required|max:255',
@@ -49,12 +47,11 @@ class PatientExternalController extends Controller
 
         $patient = Patient::where('run', $run)->first();
 
-        if($patient) {            
-            $request->session()->put('LoggedUser', $patient->id);
-            return view('homepatient');
+        if($patient) {
+            Auth::guard('patients')->login($patient);            
+            return redirect()->route('examenes.home');
         }
-        else {
-            
+        else {         
 
             session()->flash('danger', 'La cuenta de usuario no existe o no está activa.');
             return redirect()->back();
@@ -63,11 +60,10 @@ class PatientExternalController extends Controller
 
     }
 
-    public function logout(){
-        if(session()->has('LoggedUser')){
-            session()->pull('LoggedUser');
-            return redirect('/');
-        }
+    public function logout(){                
+        Auth::guard('patients')->logout();
+        return redirect()->route('welcome');
+        
     }
     
     

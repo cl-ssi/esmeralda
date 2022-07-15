@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+
 Route::get('/secuenciacion', function () {
     return view('secuenciacion');
 });
@@ -44,19 +45,19 @@ Route::post('login', 'Auth\LoginController@login')->middleware('guest');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 //Rutas Módulo login paciente
-Route::get('login-patient-form', 'PatientExternalController@showLoginForm')->middleware('guest')->name('login-patient-form');
+
+Route::prefix('examenes')->name('examenes.')->middleware('auth:patients')->group(function () {
+
+
+
+    Route::get('home', 'PatientExternalController@home')->name('home');
+    Route::get('logout', 'PatientExternalController@logout')->name('logout');
+});
+
+Route::get('examenes', 'PatientExternalController@showLoginForm')->name('login-patient-form');
 Route::post('login-patient', 'PatientExternalController@login')->name('login-patient');
 
-//Route::get('/homepatient', 'HomeController@index')->name('homepatient');
-//Route::post('/login/external', [LoginController::class,'externalLogin']);
 
-Route::group(['middleware' => 'AuthPatient'], function () {
-    Route::view('/homepatient', 'homepatient')->name('homepatient');
-    Route::get('logout-patient', 'PatientExternalController@logout')->name('logout-patient');
-    });
-
-//Route::get('register', 'Auth\RegisterController@showRegistrationForm')->middleware('guest')->name('register');
-//Route::post('register', 'Auth\RegisterController@register')->middleware('guest');
 
 Route::prefix('users')->name('users.')->middleware('auth')->group(function () {
     Route::prefix('password')->name('password.')->group(function () {

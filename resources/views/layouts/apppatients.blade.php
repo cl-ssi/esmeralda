@@ -64,7 +64,7 @@
                         <!-- Authentication Links -->
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('logout-patient') }}">Cerrar Sesión</a>
+                            <a class="nav-link" href="{{ route('examenes.logout') }}">Cerrar Sesión</a>
                         </li>
                         
                     </ul>
@@ -81,26 +81,10 @@
                     {!! session()->get($key) !!}
                 </div>
                 @endif
-            @endforeach
-
-            @auth
-                @if(
-                    is_null(auth()->user()->run) OR 
-                    is_null(auth()->user()->dv) OR 
-                    is_null(auth()->user()->name) OR 
-                    count(preg_split('/\W+/u', auth()->user()->name, -1, PREG_SPLIT_NO_EMPTY)) <= 2 OR
-                    is_null(auth()->user()->telephone) OR 
-                    is_null(auth()->user()->establishment_id) OR 
-                    is_null(auth()->user()->function)
-                )
-
-                    @include('users.partials.self-update')
-                @else
-                    @yield('content')
-                @endif
-            @else
-                @yield('content')
-            @endauth
+            @endforeach            
+            
+            @yield('content')
+            
         
         </main>
     </div>

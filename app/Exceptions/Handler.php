@@ -38,20 +38,20 @@ class Handler extends ExceptionHandler
     {
         
         $this->reportable(function (Throwable $e) {
-            $projectId = 'saludiquique';
-            $service = 'esmeralda';
-            $version = '3';
+            // $projectId = 'saludiquique';
+            // $service = 'esmeralda';
+            // $version = '3';
             
-            $metadata = new SimpleMetadataProvider([], $projectId, $service, $version);
+            // $metadata = new SimpleMetadataProvider([], $projectId, $service, $version);
 
-            $logging = new LoggingClient(['projectId' => $projectId]);
+            // $logging = new LoggingClient(['projectId' => $projectId]);
 
-            $logger = $logging->psrLogger('error-log', [
-                'metadataProvider' => $metadata
-            ]);
+            // $logger = $logging->psrLogger('error-log', [
+            //     'metadataProvider' => $metadata
+            // ]);
 
-            Bootstrap::init($logger);
-            Bootstrap::exceptionHandler($e);
+            // Bootstrap::init($logger);
+            // Bootstrap::exceptionHandler($e);
         });
     }
 }
