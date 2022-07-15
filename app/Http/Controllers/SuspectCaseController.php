@@ -2485,6 +2485,12 @@ class SuspectCaseController extends Controller
         echo 'sent emails:' . $i;
     }
 
+    public function emailTest() {
+         Mail::to( env('MAIL_TO_TEST') )->send(
+            (new Test1())
+        );
+    }
+    
     public function positiveCondition(Request $request, SuspectCase $suspectCase)
     {
         $suspectCase->positive_condition = $request->positive_condition;

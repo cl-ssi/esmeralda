@@ -1641,8 +1641,6 @@ class SuspectCaseReportController extends Controller
         $status = "case_not_found";
       }
 
-      // dd($status);
-
       $hl7ResultMessages = Hl7ResultMessage::whereNotNull('status')
                                             ->when($status != null, function ($q) use ($status) {
                                                 return $q->where('status',$status)
@@ -1653,8 +1651,10 @@ class SuspectCaseReportController extends Controller
                                             })
                                             // ->whereNotNull('pdf_file')
                                             ->orderBy('observation_datetime','DESC')
-                                            ->get();
+                                            ->paginate(100);
 
+      $hl7ResultMessages->appends(['status' => $status]);
+      
       return view('lab.suspect_cases.reports.integration_hetg_monitor_pendings',compact('hl7ResultMessages','request'));
     }
 

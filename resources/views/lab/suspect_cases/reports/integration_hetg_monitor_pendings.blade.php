@@ -21,7 +21,7 @@
     </div>
 </form>
 
-<small>Filas: {{$hl7ResultMessages->count()}}</small>
+<small>Filas: {{$hl7ResultMessages->total()}}</small>
 
 <table class="table table-sm table-bordered table-striped small">
 	<thead>
@@ -55,6 +55,8 @@
     @endforeach
 	</tbody>
 </table>
+
+{{ $hl7ResultMessages->Links() }}
 
 @endsection
 
