@@ -28,7 +28,14 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-install bcmath
 
 RUN cd /usr/local/etc/php/conf.d/ && \
-  echo 'memory_limit = 512M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+  echo 'memory_limit = 512M' >> docker-php-memlimit.ini
+
+RUN echo 'display_errors = Off' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
+RUN echo 'display_startup_errors = Off' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
+RUN echo 'error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
+RUN echo 'html_errors = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
+RUN echo 'log_errors = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
+RUN echo 'error_log = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
 
 RUN mkdir -p /run/nginx
 
