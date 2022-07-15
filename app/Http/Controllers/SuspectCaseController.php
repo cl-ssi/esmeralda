@@ -1485,12 +1485,12 @@ class SuspectCaseController extends Controller
 
 
 
-    public function exportExcel($cod_lab, $date)
+    public function exportExcel($cod_lab, $date = null)
     {
         /** Query */
 
         $month = Carbon::parse($date)->month;
-        $year = Carbon::parse($date)->year;
+        $year  = Carbon::parse($date)->year;
 
         $suspectCases = SuspectCase::query();
         $suspectCases->with('patient','patient.demographic','establishment','laboratory')
@@ -1513,8 +1513,6 @@ class SuspectCaseController extends Controller
         $suspectCases->orderBy('suspect_cases.id', 'desc');
 
         $filas = $suspectCases->get();
-
-        //error_log($filas->count());
         
         /** Confeccionar el CSV */
 
