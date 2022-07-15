@@ -96,6 +96,9 @@
                 <div class="links">
                     <a href="https://www.minsal.cl">Minsal</a>
                     <a href="https://www.gob.cl/coronavirus/">Coronavirus</a>
+                    @if(env('APP_ENV') == 'local')
+                    <a href="{{ route('login-patient-form') }}">Descarga Resultado Pacientes</a>
+                    @endif
                 </div>
 
                 <br> <br>

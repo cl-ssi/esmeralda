@@ -43,6 +43,18 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->middleware('guest')->
 Route::post('login', 'Auth\LoginController@login')->middleware('guest');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
+//Rutas Módulo login paciente
+Route::get('login-patient-form', 'PatientExternalController@showLoginForm')->middleware('guest')->name('login-patient-form');
+Route::post('login-patient', 'PatientExternalController@login')->name('login-patient');
+
+//Route::get('/homepatient', 'HomeController@index')->name('homepatient');
+//Route::post('/login/external', [LoginController::class,'externalLogin']);
+
+Route::group(['middleware' => 'AuthPatient'], function () {
+    Route::view('/homepatient', 'homepatient')->name('homepatient');
+    Route::get('logout-patient', 'PatientExternalController@logout')->name('logout-patient');
+    });
+
 //Route::get('register', 'Auth\RegisterController@showRegistrationForm')->middleware('guest')->name('register');
 //Route::post('register', 'Auth\RegisterController@register')->middleware('guest');
 
