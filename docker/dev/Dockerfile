@@ -28,17 +28,10 @@ RUN docker-php-ext-install soap
 
 RUN docker-php-ext-install zip
 
+RUN docker-php-ext-install bcmath
+
 RUN cd /usr/local/etc/php/conf.d/ && \
-  echo 'memory_limit = 512M' >> docker-php-memlimit.ini
-
-
-RUN echo 'display_errors = Off' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
-RUN echo 'display_startup_errors = Off' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
-RUN echo 'error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
-RUN echo 'html_errors = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
-RUN echo 'log_errors = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
-RUN echo 'error_log = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
-
+  echo 'memory_limit = 256M' >> docker-php-memlimit.ini
 
 RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer"
 
@@ -50,6 +43,12 @@ RUN echo "alias ll='ls -l'" >> ~/.bashrc
 RUN echo "alias s='cd ..'" >> ~/.bashrc
 RUN echo "alias www='su www-data'" >> ~/.bashrc
 
+# Preparar el usuario www-data
 RUN chmod 777 /root
 RUN usermod -u 1000 -s /bin/bash -d /root www-data && groupmod -g 1000 www-data && usermod -s /bin/bash root
 
+##  Algunos Alias para el terminal
+# alias dbuild='docker build docker/dev -t `basename "$PWD"`'
+# alias drun='docker run --rm -it -v $(pwd):/var/www/html -p 8000:8000 -d --name `basename "$PWD"` `basename "$PWD"`'
+# alias dexec='docker exec -it `basename "$PWD"` /bin/bash'
+# alias dstop='docker stop `basename "$PWD"`'
