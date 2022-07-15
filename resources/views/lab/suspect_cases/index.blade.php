@@ -27,32 +27,7 @@
     </div>
 
 </div>
-{{-- 
-<div class="table-responsive">
-<table class="table table-sm table-bordered">
-    <thead>
-        <tr class="text-center">
-            <th>Exámenes enviados a análisis</th>
-            <th>Exámenes positivos</th>
-            <th>Exámenes negativos</th>
-            <th>Exámenes pendientes</th>
-            <th>Exámenes rechazados</th>
-            <th>Exámenes indeterminados</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="text-center">
-            <td>{{ $cases['total'] }}</td>
-            <th class="text-danger">{{ $cases['positivos'] }}</th>
-            <td>{{ $cases['negativos'] }}</td>
-            <td>{{ $cases['pendientes'] }}</td>
-            <td>{{ $cases['rechazados'] }}</td>
-            <td>{{ $cases['indeterminados'] }}</td>
-        </tr>
-    </tbody>
-</table>
-</div>
---}}
+
 
 <!--------------------------------->
 @if($laboratory)

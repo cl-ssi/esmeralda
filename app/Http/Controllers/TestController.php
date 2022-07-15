@@ -6,6 +6,26 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
+    public function error($arg)
+    {
+        switch($arg)
+        {
+            case 1:
+                return redirect()->route('inexistente');
+                break;
+            case 2:
+                echo $inexistente;
+                break;
+            case 3:
+                abort(400);
+                break;
+            default:
+                echo 'error page, no valid argument';
+                break;
+        }
+    }
+
+
     /**
      * Display a listing of the resource.
      *

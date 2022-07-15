@@ -41,6 +41,7 @@
         <th nowrap>Previsión de salud</th>
         <th nowrap>Teléfono de contacto</th>
         <th nowrap>Parentesco o relación con el contacto informado</th>
+        <th nowrap>Inicio de sintomas</th>
         <th nowrap>FECHA DE INGRESO</th>
         <th nowrap>NACIONALIDAD</th>
         <th nowrap>CAUSAL DE ALTA</th>
@@ -78,6 +79,7 @@
             <td nowrap>{{ $booking->prevision }}</td>
             <td nowrap>{{$booking->responsible_family_member}}</td>
             <td nowrap>{{ $booking->relationship }}</td>
+            <td nowrap>{{$booking->onset_on_symptoms}}</td>
             <td nowrap> {{ $booking->from }} </td>
             <td nowrap>{{ ($booking->patient->demographic)?$booking->patient->demographic->nationality:'' }}</td>
             <td nowrap>{{ $booking->released_cause }}</td>

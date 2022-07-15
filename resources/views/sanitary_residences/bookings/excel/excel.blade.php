@@ -29,7 +29,8 @@
             <th>Previsión de salud</th>
             <th>Teléfono de contacto</th>
             <th>Parentesco o relación con el contacto informado</th>
-            <th>FECHA DE INGRESO</th>
+            <th>Inicio de sintomas</th>
+            <th>Fecha De Ingreso</th>
             <th>NACIONALIDAD</th>
             <th>CAUSAL DE ALTA</th>
             <th>FECHA DE EGRESO</th>
@@ -59,6 +60,7 @@
                 <td>{{ $booking->prevision }}</td>
                 <td>{{$booking->responsible_family_member}}</td>
                 <td>{{ $booking->relationship }}</td>
+                <td>{{$booking->onset_on_symptoms}}</td>
                 <td> {{ $booking->from }} </td>
                 <td></td>
                 <td></td>

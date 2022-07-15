@@ -7,30 +7,7 @@
 <h3 class="mb-3"><i class="fas fa-lungs-virus"></i>
     Exámenes ingresados en el establecimiento del usuario.
 </h3>
-<div class="table-responsive">
-<table class="table table-sm table-bordered">
-    <thead>
-        <tr class="text-center">
-            <th>Exámenes enviados a análisis</th>
-            <th>Exámenes positivos</th>
-            <th>Exámenes negativos</th>
-            <th>Exámenes pendientes</th>
-            <th>Exámenes rechazados</th>
-            <th>Exámenes indeterminados</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="text-center">
-            <td>{{ $suspectCasesTotal->count() }}</td>
-            <th class="text-danger">{{ $suspectCasesTotal->where('pcr_sars_cov_2','positive')->count() }}</th>
-            <td>{{ $suspectCasesTotal->where('pcr_sars_cov_2','negative')->count() }}</td>
-            <td>{{ $suspectCasesTotal->where('pcr_sars_cov_2','pending')->count() }}</td>
-            <td>{{ $suspectCasesTotal->where('pcr_sars_cov_2','rejected')->count() }}</td>
-            <td>{{ $suspectCasesTotal->where('pcr_sars_cov_2','undetermined')->count() }}</td>
-        </tr>
-    </tbody>
-</table>
-</div>
+
 
 @if($laboratory->id)
 <a class="btn btn-outline-info btn-sm mb-3" href="{{ route('lab.suspect_cases.reports.minsal',$laboratory) }}">

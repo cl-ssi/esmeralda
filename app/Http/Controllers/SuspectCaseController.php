@@ -131,8 +131,6 @@ class SuspectCaseController extends Controller
         //$cases = collect();
         $collection = collect(['positivos', 'negativos', 'pendientes', 'rechazados', 'indeterminados']);
 
-        
-
         $filtro = collect([]);
         $collection->each(function ($item, $key) use ($request, $filtro) {
             switch ($item) {
@@ -171,13 +169,12 @@ class SuspectCaseController extends Controller
             
         //     $query->patientTextFilter($request->get('text')); 
         // })
-        ->latest('id')->paginate(200);
+        ->latest('id')->paginate(100);
         // if($request->get('text') != null)
         // {
         //     $suspectCases=$suspectCases->patientTextFilter($request->get('text'));
 
         // }
-        
 
         return view('lab.suspect_cases.index', compact('suspectCases', 'request', 'laboratory'));
 
@@ -207,7 +204,7 @@ class SuspectCaseController extends Controller
             })
             ->patientTextFilter($searchText)
             ->whereIn('pcr_sars_cov_2', $arrayFilter)
-            ->paginate(200);
+            ->paginate(100);
 
         return view('lab.suspect_cases.ownIndex', compact('suspectCases', 'arrayFilter', 'searchText', 'laboratory', 'suspectCasesTotal'));
     }
@@ -1484,8 +1481,137 @@ class SuspectCaseController extends Controller
 
     }
 
-    public function exportExcel($cod_lab, $date = null)
+
+
+
+
+    public function exportExcel($cod_lab, $date)
     {
+        /** Query */
+
+        $month = Carbon::parse($date)->month;
+        $year = Carbon::parse($date)->year;
+
+        $suspectCases = SuspectCase::query();
+        $suspectCases->with('patient','patient.demographic','establishment','laboratory')
+                     ->whereYear('sample_at',  '=', $year)
+                     ->whereMonth('sample_at', '=', $month);
+
+        switch($cod_lab) 
+        {
+            case 'own':
+                $suspectCases->whereIn('establishment_id', Auth::user()->establishments->pluck('id'));
+                break;
+            case 'all':
+                $suspectCases->whereNotNull('laboratory_id');
+                break;
+            default:
+                $suspectCases->where('laboratory_id', $cod_lab);
+                break;
+        }
+
+        $suspectCases->orderBy('suspect_cases.id', 'desc');
+
+        $filas = $suspectCases->get();
+
+        //error_log($filas->count());
+        
+        /** Confeccionar el CSV */
+
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=lista-examenes.csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+
+        $columnas = array(
+            '#',
+            'fecha_muestra',
+            'origen',
+            'nombres',
+            'apellido paterno',
+            'apellido materno',
+            'run',
+            'fecha de nacimiento',
+            'edad',
+            'sexo',
+            'Laboratorio',
+            'resultado_ifd',
+            'pcr_sars_cov2',
+            'Casos Recuperados (Nueva Muestra)',
+            'sem',
+            'epivigila',
+            'fecha de resultado',
+            'observación',
+            'mecanismo de notificación',
+            'fecha de notificación',
+            'teléfono',
+            'dirección',
+            'comuna',
+            'país',
+            'email',
+            'lugar de trabajo',
+            'funcionario de salud',
+            'fecha envío lab. externo',
+            'tipo de caso'
+        );
+
+
+        $callback = function () use ($filas, $columnas) {
+            $file = fopen('php://output', 'w');
+            fputs($file, $bom = (chr(0xEF) . chr(0xBB) . chr(0xBF)));
+            fputcsv($file, $columnas, ';');
+
+            foreach ($filas as $fila) {
+                fputcsv($file, array(
+                    $fila->id,
+                    $fila->sample_at,
+                    ($fila->establishment) ? $fila->establishment->alias . ' - ' . $fila->origin : '',
+                    ($fila->patient) ? $fila->patient->name : '',
+                    ($fila->patient) ? $fila->patient->fathers_family : '',
+                    ($fila->patient) ? $fila->patient->mothers_family : '',
+                    ($fila->patient) ? $fila->patient->Identifier : '',
+                    ($fila->patient && $fila->patient->birthday) ? $fila->patient->birthday->format('d-m-Y') : '',
+                    $fila->age,
+                    strtoupper($fila->gender[0]),
+                    $fila->laboratory->name,
+                    $fila->result_ifd,
+                    $fila->Covid19,
+                    $fila->positive_condition,
+                    $fila->epidemiological_week,
+                    $fila->epivigila,
+                    $fila->pcr_sars_cov_2_at,
+                    $fila->observation,
+                    $fila->notification_mechanism,
+                    ($fila->notification_at) ? $fila->notification_at->format('d-m-Y') : '',
+                    ($fila->patient && $fila->patient->demographic) ? $fila->patient->demographic->telephone : '',
+                    ($fila->patient && $fila->patient->demographic) ? $fila->patient->demographic->fullAddress : '',
+                    ($fila->patient && $fila->patient->demographic && $fila->patient->demographic->commune) ? $fila->patient->demographic->commune->name : '',
+                    ($fila->patient && $fila->patient->demographic && $fila->patient->demographic->nationality) ? $fila->patient->demographic->nationality : '',
+                    ($fila->patient && $fila->patient->demographic) ? $fila->patient->demographic->email : '',
+                    ($fila->patient && $fila->patient->demographic) ? $fila->patient->demographic->workplace : '',
+                    ($fila->functionaryEsp) ? $fila->functionaryEsp : '',
+                    $fila->sent_external_lab_at,
+                    $fila->case_type
+                ), ';');
+            }
+            fclose($file);
+        };
+        return response()->stream($callback, 200, $headers);
+    }
+
+
+
+
+    public function exportExcel_backup($cod_lab, $date = null)
+    {
+        /** 
+         * Ya no se usa
+         * Fue reemplazada por la función de arriba
+         * sólo para backup
+         */
         $headers = array(
             "Content-type" => "text/csv",
             "Content-Disposition" => "attachment; filename=lista-examenes.csv",
@@ -1499,7 +1625,9 @@ class SuspectCaseController extends Controller
             $filas = SuspectCase::where(function ($q) {
                 $q->whereIn('establishment_id', Auth::user()->establishments->pluck('id'))
                     ->orWhere('user_id', Auth::user()->id);
-            })->orderBy('suspect_cases.id', 'desc')->get();
+            })->orderBy('suspect_cases.id', 'desc')
+            ->with('patient','patient.demographic','establishment','laboratory')
+            ->get();
 
         } elseif ($cod_lab == 'all') {
             $month = Carbon::parse($date)->month;
@@ -1509,6 +1637,7 @@ class SuspectCaseController extends Controller
                 ->whereMonth('sample_at', '=', $month)
                 ->whereNotNull('laboratory_id')
                 ->orderBy('suspect_cases.id', 'desc')
+               ->with('patient','patient.demographic','establishment','laboratory')
                 ->get();
 
         } else {
@@ -1519,6 +1648,7 @@ class SuspectCaseController extends Controller
                 ->whereYear('sample_at', '=', $year)
                 ->whereMonth('sample_at', '=', $month)
                 ->orderBy('suspect_cases.id', 'desc')
+                ->with('patient','patient.demographic','establishment','laboratory')
                 ->get();
         }
 

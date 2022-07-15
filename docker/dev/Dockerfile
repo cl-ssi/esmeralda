@@ -28,6 +28,9 @@ RUN docker-php-ext-install soap
 
 RUN docker-php-ext-install zip
 
+RUN cd /usr/local/etc/php/conf.d/ && \
+  echo 'memory_limit = 512M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+
 RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer"
 
 # Algunos alias
@@ -36,6 +39,8 @@ RUN echo "alias serve='php artisan serve --host=0.0.0.0 --port=8000'" >> ~/.bash
 RUN echo "alias tinker='php artisan tinker'" >> ~/.bashrc
 RUN echo "alias ll='ls -l'" >> ~/.bashrc
 RUN echo "alias s='cd ..'" >> ~/.bashrc
+RUN echo "alias www='su www-data'" >> ~/.bashrc
 
 RUN chmod 777 /root
 RUN usermod -u 1000 -s /bin/bash -d /root www-data && groupmod -g 1000 www-data && usermod -s /bin/bash root
+
