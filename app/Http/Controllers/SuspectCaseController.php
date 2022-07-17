@@ -127,8 +127,6 @@ class SuspectCaseController extends Controller
 
     public function index2(request $request, Laboratory $laboratory)
     {
-        //$suspectCases = collect();        
-        //$cases = collect();
         $collection = collect(['positivos', 'negativos', 'pendientes', 'rechazados', 'indeterminados']);
 
         $filtro = collect([]);
@@ -155,26 +153,17 @@ class SuspectCaseController extends Controller
         if (empty($laboratory->id)) {
             $laboratory = null;
 
-        }
+        }   
 
 
         $searchText = $request->get('text');
         $suspectCases = SuspectCase::whereNotNull('reception_at')
+        ->when($laboratory, function ($query, $laboratory) {
+            return $query->where('laboratory_id', $laboratory->id);
+       })
         ->whereIn('pcr_sars_cov_2', $filtro)
-        ->patientTextFilter($searchText)
-        // ->when($request->get('text') != null, function($request, $query){ 
-        //     //dd('entre');
-        //     //dd($request->get('text'));
-        //     //return $q->where('type',  $request->type);
-            
-        //     $query->patientTextFilter($request->get('text')); 
-        // })
+        ->patientTextFilter($searchText)        
         ->latest('id')->paginate(100);
-        // if($request->get('text') != null)
-        // {
-        //     $suspectCases=$suspectCases->patientTextFilter($request->get('text'));
-
-        // }
 
         return view('lab.suspect_cases.index', compact('suspectCases', 'request', 'laboratory'));
 

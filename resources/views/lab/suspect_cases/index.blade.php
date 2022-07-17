@@ -179,7 +179,7 @@
             <td>{{ $case->external_laboratory }}</td>
             <td>{{ $case->epivigila }}</td>
             <td>{{ ($case->pcr_sars_cov_2_at)?$case->pcr_sars_cov_2_at->format('d-m-Y'):'' }}</td>
-            <td>{{ $case->patient->status }}</td>
+            <td>{{ $case->patient->status?? '' }}</td>
             <td class="text-muted small">{{ $case->observation }}</td>
         </tr>
         @endforeach
