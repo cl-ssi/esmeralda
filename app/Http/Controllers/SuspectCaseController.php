@@ -936,11 +936,12 @@ class SuspectCaseController extends Controller
         }
 
         if (env('APP_ENV') == 'production') {
-            if ($old_pcr == 'pending' and $suspectCase->pcr_sars_cov_2 == 'positive') {
-                $emails = explode(',', env('EMAILS_ALERT'));
-                $emails_bcc = explode(',', env('EMAILS_ALERT_BCC'));
-                Mail::to($emails)->bcc($emails_bcc)->send(new NewPositive($suspectCase));
-            }
+            /** Y no enviar más mails a las cuentas que estaban en el .env */
+            // if ($old_pcr == 'pending' and $suspectCase->pcr_sars_cov_2 == 'positive') {
+            //     $emails = explode(',', env('EMAILS_ALERT'));
+            //     $emails_bcc = explode(',', env('EMAILS_ALERT_BCC'));
+            //     Mail::to($emails)->bcc($emails_bcc)->send(new NewPositive($suspectCase));
+            // }
 
             /* Enviar resultado al usuario, solo si tiene registrado un correo electronico */
             if ($old_pcr == 'pending' && ($suspectCase->pcr_sars_cov_2 == 'negative' || $suspectCase->pcr_sars_cov_2 == 'undetermined' ||
