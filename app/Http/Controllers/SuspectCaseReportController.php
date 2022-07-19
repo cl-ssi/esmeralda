@@ -1099,7 +1099,7 @@ class SuspectCaseReportController extends Controller
     public function report_seremi(Laboratory $laboratory)
     {
         
-        $from = Carbon::now()->subDays(15);
+        $from = Carbon::now()->subDays(5);
         $to = Carbon::now();
 
         $cases = SuspectCase::with('patient','establishment','laboratory')
