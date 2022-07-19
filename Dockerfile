@@ -37,6 +37,9 @@ RUN echo 'html_errors = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
 RUN echo 'log_errors = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
 RUN echo 'error_log = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
 
+RUN cd /usr/local/etc/php/conf.d/ && \
+  echo 'max_execution_time = 60' >> docker-php-max-execution-time.ini
+
 RUN mkdir -p /run/nginx
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
