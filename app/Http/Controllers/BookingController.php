@@ -254,7 +254,8 @@ class BookingController extends Controller
             $to = Carbon::now();
         }
 
-         $bookings = Booking::whereBetween('from', [$from, $to])
+         $bookings = Booking::with('patient','room','patient.demographic','patient.suspectCases')
+         ->whereBetween('from', [$from, $to])
          ->whereNull('deleted_at')
          ->whereHas('room', function ($q) {
             $q->whereNull('deleted_at');
