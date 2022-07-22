@@ -7,7 +7,7 @@
                     <h3>Estimado/a: {{ $suspectCase->patient->FullName }}</h3>
 
                     <br>
-
+                    
                     <p>A través del presente, se informa el resultado de exámen
                         PCR para el virus SARS CoV-2, causante de la enfermedad
                         Covid-19, realizado el día:
@@ -17,6 +17,8 @@
 
                     <p><strong>Resultado: {{ $suspectCase->Covid19 }}</strong></p>
                     <p><strong>Fecha de resultado</strong>: {{ $suspectCase->pcr_sars_cov_2_at->format('d-m-Y') }}</p>
+
+                    <p>Por favor no responda a este correo, ya que es generado automáticamente a través del Sistema Esmeralda.</p> 
                     <br>
 
                     @if($suspectCase->Covid19 == 'Positivo')
@@ -71,8 +73,10 @@
 
             <p class="texto">
                 <span class="linea_firma" style="color: #EE3A43">——</span><span class="linea_firma" style="color: #0168B3">———</span><br>
-                <br><br>
-                No responder. Correo generado automáticamente a través del {{env('APP_NAME')}}.
+                <br>
+                Sistema {{env('APP_NAME')}} - {{ env('SERVICIO') }}.
+                <br>
+                NO RESPONDER.
             </p>
 
         </div>
