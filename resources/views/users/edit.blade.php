@@ -90,6 +90,17 @@
             </div>
 
             <div class="form-row">
+                <fieldset class="form-group col-12 col-md-12">
+                    <label for="for_laboratory_access_ids">Acceso a laboratorios *</label>
+                    <select name="laboratory_access_ids[]" id="for_establishment_id" class="form-control selectpicker" data-live-search="true" multiple="" data-size="10" title="Seleccione..." multiple data-actions-box="true" required>
+                        @foreach($laboratories as $laboratory)
+                            <option value="{{ $laboratory->id }}" @if(in_array($laboratory->id, $laboratory_selected)) selected="selected" @endif>{{ $laboratory->alias }}</option>
+                        @endforeach
+                    </select>
+                </fieldset>
+            </div>
+
+            <div class="form-row">
                 <fieldset class="form-group col-12 col-md-6">
                     <a class="btn btn-secondary btn-sm" href="{{ route('users.password.restore', $user) }}">
                         <i class="fas fa-plus"></i> Generar Nueva Contraseña

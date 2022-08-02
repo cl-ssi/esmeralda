@@ -109,6 +109,17 @@
                     </select>
                 </fieldset>
             </div>
+
+            <div class="form-row">
+                <fieldset class="form-group col-12 col-md-12">
+                    <label for="for_laboratory_access_ids">Laboratorios a los que tiene acceso *</label>
+                    <select name="laboratory_access_ids[]" id="for_establishment_id" class="form-control selectpicker" data-live-search="true" multiple="" data-size="10" title="Seleccione..." multiple data-actions-box="true" required>
+                        @foreach($laboratories as $laboratory)
+                            <option value="{{ $laboratory->id }}">{{ $laboratory->alias }}</option>
+                        @endforeach
+                    </select>
+                </fieldset>
+            </div>
       </div>
   </div>
 

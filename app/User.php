@@ -192,4 +192,8 @@ class User extends Authenticatable implements Auditable
     public function getLastSessionsAttribute() {
         return $this->hasMany('App\LogSession')->limit(30)->orderByDesc('created_at')->get();
     }
+
+    public function laboratories() {
+        return $this->belongsToMany(Laboratory::class)->withTimestamps();
+    }
 }

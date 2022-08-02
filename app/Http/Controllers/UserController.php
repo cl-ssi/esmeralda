@@ -111,6 +111,10 @@ class UserController extends Controller
             $establishment_user->save();
         }
 
+        foreach ($request->laboratory_access_ids as $laboratory_access_id) {
+            $user->laboratories()->attach($laboratory_access_id);
+        }
+
         $user->syncPermissions(
             is_array($request->input('permissions')) ? $request->input('permissions') : array()
         );
@@ -184,7 +188,12 @@ class UserController extends Controller
             $establishment_selected[$key] = $establishment_user->establishment_id;
         }
 
-        return view('users.edit', compact('user','permissions','laboratories', 'establishments', 'establishment_selected', 'establishments_user'));
+        $laboratory_selected = array();
+        foreach($user->laboratories as $key => $laboratory){
+            $laboratory_selected[$key] = $laboratory->id;
+        }
+
+        return view('users.edit', compact('user','permissions','laboratories', 'establishments', 'establishment_selected', 'establishments_user', 'laboratory_selected'));
     }
 
     /**
@@ -239,6 +248,8 @@ class UserController extends Controller
                 $establishment_user->save();
             }
         }
+        
+        $user->laboratories()->sync($request->laboratory_access_ids);
 
         $user->syncPermissions(
             is_array($request->input('permissions')) ? $request->input('permissions') : array()
