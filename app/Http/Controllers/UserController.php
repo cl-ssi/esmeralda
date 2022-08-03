@@ -111,8 +111,10 @@ class UserController extends Controller
             $establishment_user->save();
         }
 
-        foreach ($request->laboratory_access_ids as $laboratory_access_id) {
-            $user->laboratories()->attach($laboratory_access_id);
+        if ($request->laboratory_access_ids) {
+            foreach ($request->laboratory_access_ids as $laboratory_access_id) {
+                $user->laboratories()->attach($laboratory_access_id);
+            }
         }
 
         $user->syncPermissions(
