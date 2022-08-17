@@ -127,6 +127,10 @@ class SuspectCaseController extends Controller
 
     public function index2(request $request, Laboratory $laboratory)
     {
+        if(Auth::user()->cant('SuspectCase: list') and Auth::user()->cant('SuspectCase: list labs with access')){
+            return response('Unauthorized', 401);
+        }
+        
         $collection = collect(['positivos', 'negativos', 'pendientes', 'rechazados', 'indeterminados']);
 
         $filtro = collect([]);
@@ -263,17 +267,10 @@ class SuspectCaseController extends Controller
         $regions = Region::orderBy('id', 'ASC')->get();
         $communes = Commune::orderBy('id', 'ASC')->get();
         $countries = Country::select('name')->orderBy('id', 'ASC')->get();
-
         $env_communes = array_map('trim', explode(",", env('COMUNAS')));
-        //$establishments = Establishment::whereIn('commune_id',$env_communes)->where('name','<>','Otros')->orderBy('name','ASC')->get();
-
         $establishmentsusers = EstablishmentUser::where('user_id', Auth::id())->get();
-
-        //dd($establishmentsusers);
-
         $sampleOrigins = SampleOrigin::orderBy('name')->pluck('name');
-        //dd($sampleOrigins);
-
+        
         return view('lab.suspect_cases.admission', compact('sampleOrigins', 'regions', 'communes', 'establishmentsusers', 'countries'));
     }
 
@@ -287,7 +284,9 @@ class SuspectCaseController extends Controller
         /* Recepciona en sistema */
         $suspectCase->receptor_id = Auth::id();
         $suspectCase->reception_at = date('Y-m-d H:i:s');
-        if (!$suspectCase->minsal_ws_id) $suspectCase->laboratory_id = Auth::user()->laboratory->id;
+//        if (!$suspectCase->minsal_ws_id){ 
+//            $suspectCase->laboratory_id = $request->selected_laboratory_id ?? Auth::user()->laboratory->id;
+//        }
         $suspectCase->save();
 
         /* Webservice minsal */
@@ -304,7 +303,7 @@ class SuspectCaseController extends Controller
                             if ($responseSampleStatus['status'] == 1 && $responseSampleStatus['sample_status'] == 3 && $suspectCase->reception_at != NULL) {
                                 session()->flash('success', 'Se ha recepcionada la muestra: '
                                     . $suspectCase->id . ' en laboratorio: '
-                                    . Auth::user()->laboratory->name);
+                                    . $suspectCase->laboratory->name);
 
                                 if ($barcodeReception) return true;
                                 return redirect()->back();
@@ -324,7 +323,7 @@ class SuspectCaseController extends Controller
 
         session()->flash('success', 'Se ha recepcionada la muestra: '
             . $suspectCase->id . ' en laboratorio: '
-            . Auth::user()->laboratory->name);
+            . $suspectCase->laboratory->name);
 
         if ($barcodeReception) return true;
         return redirect()->back();
@@ -639,6 +638,10 @@ class SuspectCaseController extends Controller
             $suspectCase->laboratory_id = Auth::user()->laboratory_id;
         }
 
+        if ($request->selected_laboratory_id) {
+            $suspectCase->laboratory_id = $request->selected_laboratory_id;
+        }
+
 
         // ws minsal: previo a guardar, se verifica que la información sea correcta.
         //  if (env('ACTIVA_WS', false) == true) {
@@ -654,7 +657,6 @@ class SuspectCaseController extends Controller
 
 
         /* Guarda el caso sospecha */
-
         $patient->suspectCases()->save($suspectCase);
 
         if ($patient->demographic) {
@@ -1390,6 +1392,7 @@ class SuspectCaseController extends Controller
     public function reception_inbox(Request $request)
     {
         $selectedEstablishment = $request->input('establishment_id');
+        $selectedLaboratory = $request->input('selected_laboratory_id') ?: Auth::user()->laboratory_id;
         $nameFilter = $request->input('filter_name_string');
         $idFilter = $request->input('search');
 
@@ -1399,8 +1402,8 @@ class SuspectCaseController extends Controller
                     $q->where('establishment_id', $selectedEstablishment);
                 }
             })
-            ->where(function ($query) {
-                $query->where('laboratory_id', Auth::user()->laboratory_id)
+            ->where(function ($query) use ($selectedLaboratory) {
+                $query->where('laboratory_id', $selectedLaboratory)
                     ->orWhereNull('laboratory_id');
             })
             ->wherehas('patient', function ($q) use ($nameFilter) {
@@ -1414,7 +1417,7 @@ class SuspectCaseController extends Controller
         $establishments = Establishment::whereIn('commune_id', $env_communes)->orderBy('name', 'ASC')->get();
         $laboratories = Laboratory::all();
 
-        return view('lab.suspect_cases.reception_inbox', compact('suspectCases', 'establishments', 'selectedEstablishment', 'laboratories', 'nameFilter', 'idFilter'));
+        return view('lab.suspect_cases.reception_inbox', compact('suspectCases', 'establishments', 'selectedEstablishment', 'laboratories', 'nameFilter', 'idFilter', 'selectedLaboratory'));
     }
 
     /**

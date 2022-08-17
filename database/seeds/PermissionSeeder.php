@@ -401,6 +401,12 @@ class PermissionSeeder extends Seeder
             'description' => 'Mantenedor de los orígenes de muestra',
             'category' => 'Caso Sospechoso'
         ]);
+        
+        $permission = Permission::create([
+            'name' => 'SuspectCase: list labs with access',
+            'description' => 'Lista los laboratorios a los que tiene acceso el usuario',
+            'category' => 'Caso Sospechoso'
+        ]);
 /*
         $users = User::all();
         foreach($users as $user) {

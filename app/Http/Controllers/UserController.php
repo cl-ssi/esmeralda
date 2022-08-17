@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Test1;
+use App\Rules\UserLabInLabAccess;
 use App\User;
 use App\Laboratory;
 use App\Establishment;
@@ -71,6 +72,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+           'laboratory_id' => new UserLabInLabAccess($request->laboratory_access_ids),
            'run' => ['unique:users']
         ],
         [
@@ -207,7 +209,10 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // $user->fill($request->all());
+        $validatedData = $request->validate([
+            'laboratory_id' => new UserLabInLabAccess($request->laboratory_access_ids),
+        ]);
+        
         $user->run = $request->input('run');
         $user->dv = $request->input('dv');
         $user->name = $request->input('name');

@@ -3,30 +3,41 @@
 @section('title', 'Nueva sospecha')
 
 @section('content')
-    <div class="row">
-        <div class="col-4">
-            <h3 class="mb-3">Nueva sospecha</h3>
+    <form method="POST" class="form-horizontal" action="{{ route('lab.suspect_cases.store_admission') }}" enctype="multipart/form-data">
+        @csrf
+        @method('POST')
+        
+        <div class="row">
+            <div class="col-4">
+                <h3 class="mb-3">Nueva sospecha</h3>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4 text-right ">
+                @if(Auth::user()->laboratories()->count() > 1)
+                    <select name="selected_laboratory_id" id="for_selected_laboratory_id" required class="form-control">
+                        <option value="">Seleccionar laboratorio</option>
+                        @foreach(Auth::user()->laboratories as $laboratory)
+                            <option value="{{$laboratory->id}}">{{$laboratory->alias}}</option>
+                        @endforeach
+                    </select>
+                @else
+                    <h6>Laboratorio: {{\Illuminate\Support\Facades\Auth::user()->laboratory->alias}}</h6>
+                @endif
+            </div>
         </div>
-        <div class="col-4"></div>
-        <div class="col-4 text-right ">
-            <h6>Laboratorio: {{\Illuminate\Support\Facades\Auth::user()->laboratory->alias}}</h6>
-        </div>
-    </div>
 
 
-@if ($errors->any())
-    <div class="alert alert-warning">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+        @if ($errors->any())
+            <div class="alert alert-warning">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-<form method="POST" class="form-horizontal" action="{{ route('lab.suspect_cases.store_admission') }}" enctype="multipart/form-data">
-    @csrf
-    @method('POST')
+
     <div class="form-row">
 
         <input type="hidden" name="id_laboratory" id="for_id_laboratory" value="{{Auth::user()->laboratory->id_openagora}}">
