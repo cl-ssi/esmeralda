@@ -130,6 +130,10 @@ class SuspectCaseController extends Controller
         if(Auth::user()->cant('SuspectCase: list') and Auth::user()->cant('SuspectCase: list labs with access')){
             return response('Unauthorized', 401);
         }
+
+        if (Auth::user()->cant('SuspectCase: list') and !Auth::user()->hasAccessTo($laboratory)) {
+            return response('Unauthorized', 401);
+        }
         
         $collection = collect(['positivos', 'negativos', 'pendientes', 'rechazados', 'indeterminados']);
 
