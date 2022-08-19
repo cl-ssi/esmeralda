@@ -43,36 +43,45 @@ class MassPermissions extends Command
         User::disableAuditing();
 
         /** Solo aquellos que se hayan logeado */
-        $users = User::has('logSession')->where('active',true)->get();
+        // $users = User::has('logSessions')->where('active',true)->get();
+
+        // foreach($users as $user)
+        // {
+        //     /** Convertimos en mayúscula la primera letra del nombre */
+        //     $user->name = ucwords(mb_strtolower($user->name));
+
+        //     /** Si no tiene run, le agrego el permiso de redireccionar a esmeralda */
+        //     if(!$user->run) $user->givePermissionTo('Redirection: https://esmeralda.saludtarapaca.org/');
+
+        //     /** Eliminar permisos que ya no se ocupan */
+        //     if($user->can('Patient: tracing old')) $user->revokePermissionTo('Patient: tracing old');
+        //     if($user->can('Report: positives')) $user->revokePermissionTo('Report: positives');
+        //     if($user->can('Epp: list')) $user->revokePermissionTo('Epp: list');
+        //     if($user->can('Report: other')) $user->revokePermissionTo('Report: other');
+        //     if($user->can('SuspectCase: create')) $user->revokePermissionTo('SuspectCase: create');
+        //     if($user->can('Basket:')) $user->revokePermissionTo('Basket:');
+        //     //if($user->can('SuspectCase: bulk load PNTM')) $user->revokePermissionTo('SuspectCase: bulk load PNTM');
+
+        //     /** Si ya tiene el permiso, entonces no hago nada */
+        //     if(!$user->can('Redirection: https://esmeralda.saludtarapaca.org/'))
+        //     {
+        //         /** Si NO es tecnólogo y no es Admin entonces le seteo la redirección */
+        //         if(!$user->can('Admin') AND !$user->can('SuspectCase: tecnologo') AND !$user->can('SuspectCase: tecnologo edit') AND !$user->can('SuspectCase: sequencing')) 
+        //         {
+        //             $user->givePermissionTo('Redirection: https://esmeralda.saludtarapaca.org/');
+        //             echo $user->name."\n";
+        //         }
+                
+        //     }
+        //     $user->save();
+        // }
+
+        $users = User::doesnthave('logSessions')->where('active',true)->get();
 
         foreach($users as $user)
         {
-            /** Convertimos en mayúscula la primera letra del nombre */
-            $user->name = ucwords(mb_strtolower($user->name));
-
-            /** Si no tiene run, le agrego el permiso de redireccionar a esmeralda */
-            if(!$user->run) $user->givePermissionTo('Redirection: https://esmeralda.saludtarapaca.org/');
-
-            /** Eliminar permisos que ya no se ocupan */
-            if($user->can('Patient: tracing old')) $user->revokePermissionTo('Patient: tracing old');
-            if($user->can('Report: positives')) $user->revokePermissionTo('Report: positives');
-            if($user->can('Epp: list')) $user->revokePermissionTo('Epp: list');
-            if($user->can('Report: other')) $user->revokePermissionTo('Report: other');
-            if($user->can('SuspectCase: create')) $user->revokePermissionTo('SuspectCase: create');
-            if($user->can('Basket:')) $user->revokePermissionTo('Basket:');
-            //if($user->can('SuspectCase: bulk load PNTM')) $user->revokePermissionTo('SuspectCase: bulk load PNTM');
-
-            /** Si ya tiene el permiso, entonces no hago nada */
-            if(!$user->can('Redirection: https://esmeralda.saludtarapaca.org/'))
-            {
-                /** Si NO es tecnólogo y no es Admin entonces le seteo la redirección */
-                if(!$user->can('Admin') AND !$user->can('SuspectCase: tecnologo') AND !$user->can('SuspectCase: tecnologo edit') AND !$user->can('SuspectCase: sequencing')) 
-                {
-                    $user->givePermissionTo('Redirection: https://esmeralda.saludtarapaca.org/');
-                    echo $user->name."\n";
-                }
-                
-            }
+            echo $user->name."\n";
+            $user->active=false;
             $user->save();
         }
 
