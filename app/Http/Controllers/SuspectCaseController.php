@@ -2658,23 +2658,26 @@ class SuspectCaseController extends Controller
                     $q->where('run', $patientIdentifierExploded[0])
                         ->orWhere('other_identification', $patientIdentifierExploded[0]);
                 })
-                    ->where('pcr_sars_cov_2', 'pending');
+                    ->where('pcr_sars_cov_2', 'pending')
+                    ->where('laboratory_id', 1);
             } else {
                 $suspectCases = SuspectCase::whereHas('patient', function ($q) use ($patientIdentifier) {
                     $q->where('other_identification', $patientIdentifier);
                 })
-                    ->where('pcr_sars_cov_2', 'pending');
+                    ->where('pcr_sars_cov_2', 'pending')
+                    ->where('laboratory_id', 1);
             }
         }
 
-        //Si no viene la identificacion o no se encontró por run ni other_identification, se busca por nombre
+        //Si no viene la identificación o no se encontró por run ni other_identification, se busca por nombre
         if ($patientIdentifier == null || $suspectCases == null || ($suspectCases != null && $suspectCases->count() == 0)) {
             $suspectCases = SuspectCase::whereHas('patient', function ($q) use ($patientFamilyFather, $patientFamilyMother, $patientNames) {
                 $q->where('fathers_family', 'LIKE', '%' . $patientFamilyFather . '%')
                     ->where('mothers_family', 'like', '%' . $patientFamilyMother . '%')
                     ->where('name', 'like', '%' . $patientNames . '%');
             })
-                ->where('pcr_sars_cov_2', 'pending');
+                ->where('pcr_sars_cov_2', 'pending')
+                ->where('laboratory_id', 1);
         }
 
         //Procesa suspect_case
