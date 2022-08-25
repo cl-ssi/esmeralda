@@ -36,7 +36,7 @@
 <form method="GET" action="{{ route('lab.suspect_cases.reception_inbox') }}">
 <!-------------------------->
 <div class="row align-items-end">
-    <div class="col-12 col-md-3 col-lg-3">
+    <div class="col-12 col-md-3">
         <table class="table table-sm table-bordered">
             <thead>
                 <tr class="text-center">
@@ -51,7 +51,7 @@
         </table>
     </div>
 
-    <div class="col-12 col-md-4 col-lg-3">
+    <div class="col-12 col-md-3">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="ID examen" name="search" id="for_search" value="{{$idFilter}}">
                 <div class="input-group-append">
@@ -59,37 +59,48 @@
                 </div>
             </div>
     </div>
-    <div class="col-12 col-md-5 col-lg-5">
-        @if(Auth::user()->laboratory)
-        <h3>Tu Laboratorio: {{ Auth::user()->laboratory->alias }}</h3>
-        @else
-        <h3 class="text-danger">Usuario no tiene laboratorio asignado</h3>
-        @endif
+    <div class="col-12 col-md-6">
+
+        <div class="input-group mb-3">
+            @if(Auth::user()->laboratories()->count() > 1)
+                <select name="selected_laboratory_id" id="for_selected_laboratory_id" class="form-control">
+                    @foreach(Auth::user()->laboratories as $laboratory)
+                        <option value="{{$laboratory->id}}" {{$laboratory->id == $selectedLaboratory ? 'selected' : '' }} >{{$laboratory->alias}}</option>
+                    @endforeach
+                </select>
+            @elseif( Auth::user()->laboratory)
+                <h3>Tu Laboratorio: {{ Auth::user()->laboratory->alias }}</h3>
+            @else
+                <h3 class="text-danger">Usuario no tiene laboratorio asignado</h3>
+            @endif
+
+        </div>
     </div>
 
 </div>
 <!-------------------------->
 <div class="form-group row">
-    <div class="col-12 col-md-6 col-lg-3">
+    <div class="col-12 col-md-3">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Filtrar por Nombre" id="for_filter_name_string" name="filter_name_string" value="{{$nameFilter}}">
         </div>
     </div>
-    <div class="col-12 col-md-6 col-lg-3">
-        <select name="establishment_id" id="for_establishment_id" class="form-control">
-            <option value=""> Seleccione Establecimiento</option>
-            @foreach($establishments as $establishment)
-                <option value="{{ $establishment->id }}" {{($establishment->id == $selectedEstablishment) ? 'selected' : '' }}>{{ $establishment->alias }}</option>
-            @endforeach
-        </select>
+    <div class="col-12 col-md-3">
+        <div class="input-group mb-3">
+            <select name="establishment_id" id="for_establishment_id" class="form-control">
+                <option value=""> Seleccione Establecimiento</option>
+                @foreach($establishments as $establishment)
+                    <option value="{{ $establishment->id }}" {{($establishment->id == $selectedEstablishment) ? 'selected' : '' }}>{{ $establishment->alias }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
-
-    <div class="col-12 col-md-4 col-lg-3 text-center">
-        <button class="btn btn-primary" id="btn_reception" form="mass_reception_form" type="submit" disabled title="Seleccione las muestras a recepcionar."> <i class="fas fa-inbox"></i> Recepcionar</button>
+    <div class="col-12 col-md-2">
+        <div class="input-group mb-3">
+            <button class="btn btn-primary" id="btn_reception" form="mass_reception_form" type="submit" disabled title="Seleccione las muestras a recepcionar."> <i class="fas fa-inbox"></i> Recepcionar</button>
+        </div>
     </div>
-{{--    <div class="col-12 col-md-4 col-lg-3"></div>--}}
-
-    <div class="col-12 col-md-4 col-lg-3">
+    <div class="col-12 col-md-4">
         <div class="input-group mb-3">
             <select name="laboratory_id_derive" form="derive_form" id="for_laboratory_id_derive" class="form-control selectpicker" required>
                 <option value="">Selec. Laboratorio</option>
@@ -100,7 +111,6 @@
                         @endif
                     @endforeach
                 </optgroup>
-
                 <optgroup label="Externos">
                     @foreach($laboratories as $laboratory)
                         @if($laboratory->external)

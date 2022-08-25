@@ -196,4 +196,15 @@ class User extends Authenticatable implements Auditable
     public function laboratories() {
         return $this->belongsToMany(Laboratory::class)->withTimestamps();
     }
+
+    /**
+     * Retorna si el usuario actual tiene acceso a cierto lab
+     * @param Laboratory $lab
+     * @return bool
+     */
+    public function hasAccessTo(Laboratory $lab): bool
+    {
+        $labsIds = $this->laboratories->pluck('id')->all();
+        return in_array($lab->id, $labsIds); 
+    }
 }

@@ -108,6 +108,18 @@
                                 <a class="dropdown-item" href="{{ route('lab.suspect_cases.index') }}?text=&pendientes=on">Todos los exámenes</a>
                                 <div class="dropdown-divider"></div>
                                 @endcan
+                                
+                                @can('SuspectCase: list labs with access')
+                                @php
+                                $labs = \Auth::user()->laboratories;
+                                @endphp
+
+                                @foreach($labs as $lab)
+                                <a class="dropdown-item" href="{{ route('lab.suspect_cases.index',$lab) }}?&text=&pendientes=on">Laboratorio {{ $lab->alias }}</a>
+                                @endforeach
+
+                                <div class="dropdown-divider"></div>
+                                @endcan
 
                                 @can('DialysisCenter: user')
                                 @php
