@@ -19,7 +19,7 @@
     <div class="form-row">
         <div class="col-12 col-md-2 mb-3">
             <label for="">Nombre y/o apellido</label>
-            <input class="form-control" type="text" name="search" value="{{ old('search') }}" placeholder="Nombre y/o apellido">
+            <input class="form-control" type="text" name="search" value="{{ old('search') }}" placeholder="Nombre y/o apellido" autocomplete="off">
         </div>
        
         <div class="col-12 col-md-3 mb-3">

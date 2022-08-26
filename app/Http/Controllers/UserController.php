@@ -371,29 +371,12 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateActive(User $user)
-    {
-        
-        $msg='';
-        if($user->active)
-        {
-            $user->update([
-                'active' => 0
-            ]);
-            
-        }
-        else
-            {
-                
-                $user->update([
-                        'active' => 1
-                    ]);
-                
-            }
-
-        
+    {        
+        $user->update([
+            'active' => !$user->active
+        ]);
 
         $msg = $user->active ? 'activado' : 'desactivado';
-
         session()->flash('success', "El usuario $user->name fue $msg.");
         return redirect()->route('users.edit', $user);
     }
