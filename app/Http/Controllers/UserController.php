@@ -372,9 +372,25 @@ class UserController extends Controller
      */
     public function updateActive(User $user)
     {
-        $user->update([
-            'active' => !$user->active
-        ]);
+        
+        $msg='';
+        if($user->active)
+        {
+            $user->update([
+                'active' => 0
+            ]);
+            
+        }
+        else
+            {
+                
+                $user->update([
+                        'active' => 1
+                    ]);
+                
+            }
+
+        
 
         $msg = $user->active ? 'activado' : 'desactivado';
 
