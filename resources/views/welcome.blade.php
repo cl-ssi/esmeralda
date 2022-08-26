@@ -71,6 +71,8 @@
                 margin-bottom: 30px;
             }
         </style>
+
+        <link href="{{ asset('css/cu.min.css') }}" rel="stylesheet">
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -93,23 +95,30 @@
                     {{ env('SERVICIO','Configurar variable SERVICIO en .env') }}
                 </div>
 
+                @if(env('APP_ENV') == 'local')
+                <div class="flex-center">
+
+                    <h2> Resultado de exámenes
+                    <a class="btn-cu btn-m btn-color-estandar" href="{{ route('login-patient-form') }}" title="Este es el botón Iniciar sesión de ClaveÚnica">
+                        <span class="cl-claveunica"></span>
+                        <span class="texto">Iniciar sesión</span>
+                    </a>
+                    </h2>
+                </div>
+
+                <br> <br> <br> <br> <br> <br>
+                @endif
+                
+
                 <div class="links">
                     <a href="https://www.minsal.cl">Minsal</a>
                     <a href="https://www.gob.cl/coronavirus/">Coronavirus</a>
-                    @if(env('APP_ENV') == 'local')
-                    <a href="{{ route('login-patient-form') }}">Descarga Resultado Pacientes</a>
-                    @endif
                 </div>
 
-                <br> <br>
-
-                <br> <br>
-
                 <img src="https://cdn.digital.gob.cl/filer_public/bd/1f/bd1f2309-ac14-447e-8aae-ec7228bee7b2/logo-gob-footer.png"
-                    width="150px" alt="Gobierno de Chile">
+                    width="150px" alt="Gobierno de Chile"> 
 
-
-                <p>Ⓒ 2021 Gobierno de Chile.</p>
+                <p>{{ date('Y') }} Gobierno de Chile.</p>
 
             </div>
 
