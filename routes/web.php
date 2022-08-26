@@ -47,13 +47,19 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->middleware('guest')->
 Route::post('login', 'Auth\LoginController@login')->middleware('guest');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-//Rutas Módulo login paciente
 
+/* Rutas consulta de exámenes a través de clave única */
 Route::prefix('examenes')->name('examenes.')->middleware('auth:patients')->group(function () {
 
+    Route::get('autenticar', 'PatientExternalController@login')->name('autenticar');
 
+    Route::get('callback', 'PatientExternalController@callback');
+    Route::get('callback-qa', 'PatientExternalController@callback');
+    Route::get('callback-test', 'PatientExternalController@callback');
 
     Route::get('home', 'PatientExternalController@home')->name('home');
+
+    Route::get('logout-cu', 'PatientExternalController@logoutCu')->name('logout-cu');
     Route::get('logout', 'PatientExternalController@logout')->name('logout');
 });
 

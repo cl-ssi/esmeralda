@@ -95,7 +95,7 @@
                     {{ env('SERVICIO','Configurar variable SERVICIO en .env') }}
                 </div>
 
-                @if(env('APP_ENV') == 'local')
+                @if(env('APP_ENV') == 'local' or $_SERVER['REQUEST_URI'] == '/?dev=true')
                 <div class="flex-center">
 
                     <h2> Resultado de exámenes
