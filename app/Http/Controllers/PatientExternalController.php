@@ -64,22 +64,22 @@ class PatientExternalController extends Controller
         
         $userClaveUnica = json_decode($response);
         
-        echo '<pre>';
-        print_r($userClaveUnica);
-        echo '</pre>';
+        // echo '<pre>';
+        // print_r($userClaveUnica);
+        // echo '</pre>';
 
-        /*
-        $patient = Patient::where('run', $userClaveUnica['RolUnico']['numero'])->first();
+        $run = $userClaveUnica['RolUnico']['numero'];
+
+        $patient = Patient::where('run', $run)->first();
 
         if($patient) {
             Auth::guard('patients')->login($patient, true);            
             return redirect()->route('examenes.home');
         }
         else {         
-            session()->flash('danger', 'La cuenta de usuario no existe o no está activa.');
+            session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema');
             return redirect()->back();
         }     
-        */
 
     }
 
@@ -140,8 +140,8 @@ class PatientExternalController extends Controller
             return redirect()->route('examenes.home');
         }
         else {         
-            session()->flash('danger', 'La cuenta de usuario no existe o no está activa.');
-            return redirect()->back();
+            session()->flash('danger', 'El RUN '.$credentials['run'].' ingresado no tiene registro de exámenes en el sistema');
+            return redirect()->route('welcome');
         }
 
     }

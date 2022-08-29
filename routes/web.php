@@ -61,10 +61,11 @@ Route::prefix('examenes')->name('examenes.')->group(function () {
 
     Route::get('logout-cu', 'PatientExternalController@logoutCu')->name('logout-cu');
     Route::get('logout', 'PatientExternalController@logout')->name('logout');
+    
+    Route::get('login-local', 'PatientExternalController@showLoginForm')->name('login-local');
+    Route::post('login-patient', 'PatientExternalController@login')->name('login-patient');
 });
 
-// Route::get('examenes', 'PatientExternalController@showLoginForm')->name('login-patient-form');
-// Route::post('login-patient', 'PatientExternalController@login')->name('login-patient');
 
 
 

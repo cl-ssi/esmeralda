@@ -8,7 +8,7 @@
                 <div class="card-header">Bienvenido al Módulo de Paciente</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login-patient') }}">
+                    <form method="POST" action="{{ route('examenes.login-patient') }}">
                         @if(Session::get('fail'))
                         <div class="alert alert-danger">
                             {{ Session::get('fail') }}

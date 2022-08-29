@@ -72,7 +72,9 @@
             }
         </style>
 
+		<link href="{{ asset('css/alert.css') }}" rel="stylesheet">
         <link href="{{ asset('css/cu.min.css') }}" rel="stylesheet">
+
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -106,9 +108,19 @@
                     </h2>
                 </div>
 
-                <br> <br> <br> <br> <br> <br>
+                <br> <br> <br> 
+				
+				@foreach (['danger', 'warning', 'success', 'info'] as $key)
+                    @if(session()->has($key))
+                    <div class="alert alert-{{ $key }} alert-dismissable">
+                        <h3>{!! session()->get($key) !!}</h3>
+                    </div>
+                    @endif
+                @endforeach
+				
+				<br> <br> <br>
                 @endif
-                
+
 
                 <div class="links">
                     <a href="https://www.minsal.cl">Minsal</a>
