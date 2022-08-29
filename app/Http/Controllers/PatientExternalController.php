@@ -111,7 +111,7 @@ class PatientExternalController extends Controller
             $url            = $url_logout.urlencode($url_redirect);
         }        
 
-        return redirect()->to($url)->send();
+        return redirect($url);
     }
 
     public function logout(){                
