@@ -51,7 +51,7 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 /* Rutas consulta de exámenes a través de clave única */
 Route::prefix('examenes')->name('examenes.')->group(function () {
 
-    Route::get('autenticar', 'PatientExternalController@login')->name('autenticar');
+    Route::get('autenticar', 'PatientExternalController@autenticar')->name('autenticar');
 
     Route::get('callback', 'PatientExternalController@callback');
     Route::get('callback-qa', 'PatientExternalController@callback');
