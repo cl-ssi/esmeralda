@@ -64,9 +64,10 @@ class PatientExternalController extends Controller
         
         $userClaveUnica = json_decode($response);
         
-        // echo '<pre>';
-        // print_r($userClaveUnica);
-        // echo '</pre>';
+        echo '<pre>';
+        print_r($userClaveUnica);
+        echo '</pre>';
+        die();
 
         $run = $userClaveUnica['RolUnico']['numero'] ?? null;
 
