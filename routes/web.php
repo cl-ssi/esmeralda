@@ -50,6 +50,7 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 /* Rutas consulta de exámenes a través de clave única */
 Route::prefix('examenes')->name('examenes.')->group(function () {
+    Route::get('/', 'PatientExternalController@home')->middleware('auth:patients')->name('home');
 
     Route::get('autenticar', 'PatientExternalController@autenticar')->name('autenticar');
 
@@ -57,11 +58,10 @@ Route::prefix('examenes')->name('examenes.')->group(function () {
     Route::get('callback-qa', 'PatientExternalController@callback');
     Route::get('callback-test', 'PatientExternalController@callback');
 
-    Route::get('home', 'PatientExternalController@home')->middleware('auth:patients')->name('home');
 
     Route::get('logout-cu', 'PatientExternalController@logoutCu')->name('logout-cu');
     Route::get('logout', 'PatientExternalController@logout')->name('logout');
-    
+
     Route::get('login-local', 'PatientExternalController@showLoginForm')->name('login-local');
     Route::post('login-patient', 'PatientExternalController@login')->name('login-patient');
 });

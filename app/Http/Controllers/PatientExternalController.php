@@ -73,7 +73,7 @@ class PatientExternalController extends Controller
         $patient = Patient::where('run', $run)->first();
 
         if($patient AND $run != null) {
-            Auth::guard('patients')->login($patient, true);            
+            Auth::guard('patients')->login($patient);            
             return redirect()->route('examenes.home');
         }
         else {         
