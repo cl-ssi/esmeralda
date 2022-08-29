@@ -56,18 +56,24 @@ class PatientExternalController extends Controller
         ]);
 
        
-        $access_token = json_decode($response)->access_token;
+        $access_token = json_decode($response)->access_token ?? null;
+
+        /** Si no existe el acces token */
+        if(is_null($access_token))
+        {
+            return redirect()->route('welcome');
+        }
 
         /* Paso 3, obtener los datos del usuario en base al $access_token */
         $url_base = "https://www.claveunica.gob.cl/openid/userinfo/";
         $response = Http::withToken(json_decode($response)->access_token)->post($url_base);
         
-        $userClaveUnica = json_decode($response);
+        $userClaveUnica = json_decode($response,true);
         
-        echo '<pre>';
-        print_r($userClaveUnica);
-        echo '</pre>';
-        die();
+        // echo '<pre>';
+        // print_r($userClaveUnica);
+        // echo '</pre>';
+        // die();
 
         $run = $userClaveUnica['RolUnico']['numero'] ?? null;
 
