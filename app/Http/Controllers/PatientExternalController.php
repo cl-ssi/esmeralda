@@ -68,17 +68,17 @@ class PatientExternalController extends Controller
         // print_r($userClaveUnica);
         // echo '</pre>';
 
-        $run = $userClaveUnica['RolUnico']['numero'];
+        $run = $userClaveUnica['RolUnico']['numero'] ?? null;
 
         $patient = Patient::where('run', $run)->first();
 
-        if($patient) {
+        if($patient AND $run != null) {
             Auth::guard('patients')->login($patient, true);            
             return redirect()->route('examenes.home');
         }
         else {         
             session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema');
-            return redirect()->back();
+            return redirect()->route('welcome');
         }     
 
     }
