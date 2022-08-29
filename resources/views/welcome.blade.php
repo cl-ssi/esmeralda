@@ -99,7 +99,7 @@
                 <div class="flex-center">
 
                     <h2> Resultado de exámenes
-                    <a class="btn-cu btn-m btn-color-estandar" href="{{ route('login-patient-form') }}" title="Este es el botón Iniciar sesión de ClaveÚnica">
+                    <a class="btn-cu btn-m btn-color-estandar" href="{{ route('examenes.autenticar') }}" title="Este es el botón Iniciar sesión de ClaveÚnica">
                         <span class="cl-claveunica"></span>
                         <span class="texto">Iniciar sesión</span>
                     </a>
