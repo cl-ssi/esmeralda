@@ -85,7 +85,14 @@ class PatientExternalController extends Controller
         }
         else {         
             session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema');
-            return redirect()->route('welcome');
+            
+            /* Url para cerrar sesión en clave única */
+            $url_logout     = "https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect=";
+            /* Url para luego cerrar sesión en nuestro sisetema */
+            $url_redirect   = env('APP_URL')."/examenes/logout";
+            $url            = $url_logout.urlencode($url_redirect);
+
+            return redirect($url);
         }     
 
     }

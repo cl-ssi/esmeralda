@@ -64,7 +64,7 @@
                         <!-- Authentication Links -->
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('examenes.logout-cu') }}">Cerrar Sesión</a>
+                            <a class="nav-link" href="https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect={{ env('APP_URL').'/examenes/logout' }}">Cerrar Sesión</a>
                         </li>
                         
                     </ul>
