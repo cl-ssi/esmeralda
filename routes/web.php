@@ -60,7 +60,7 @@ Route::prefix('examenes')->name('examenes.')->group(function () {
 
 
     Route::get('logout-cu', 'PatientExternalController@logoutCu')->name('logout-cu');
-    Route::get('logout', 'PatientExternalController@logout')->name('logout');
+    Route::get('logout', 'PatientExternalController@logout')->middleware('auth:patients')->name('logout');
 
     Route::get('login-local', 'PatientExternalController@showLoginForm')->name('login-local');
     Route::post('login-patient', 'PatientExternalController@login')->name('login-patient');

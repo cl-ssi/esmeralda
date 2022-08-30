@@ -17,9 +17,12 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         
-        if (! $request->expectsJson()) {            
-            if ($request->route()->getName() === 'examenes.login-local' or $request->route()->getName() === 'examenes.home') {
-                return route('examenes.login-local');
+        if (! $request->expectsJson()) 
+        {            
+            if ($request->route()->getName() === 'examenes.home' OR
+                $request->route()->getName() === 'examenes.logout-cu') 
+            {
+                return route('welcome');
             }
             else
             {

@@ -83,16 +83,13 @@ class PatientExternalController extends Controller
             Auth::guard('patients')->login($patient);            
             return redirect()->route('examenes.home');
         }
-        else {         
-            session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema');
+        else {
+            /** Cerrar sesión clave única */
+            $response = Http::get('https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout');
             
-            /* Url para cerrar sesión en clave única */
-            $url_logout     = "https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect=";
-            /* Url para luego cerrar sesión en nuestro sisetema */
-            $url_redirect   = env('APP_URL')."/examenes/logout";
-            $url            = $url_logout.urlencode($url_redirect);
+            session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema '.$response->status());
 
-            return redirect($url);
+            return redirect()->route('welcome');
         }     
 
     }
@@ -111,14 +108,21 @@ class PatientExternalController extends Controller
         }
         else
         {
-            /* Url para cerrar sesión en clave única */
-            $url_logout     = "https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect=";
-            /* Url para luego cerrar sesión en nuestro sisetema */
-            $url_redirect   = env('APP_URL')."/examenes/logout";
-            $url            = $url_logout.urlencode($url_redirect);
+            /** Cerrar sesión clave única */
+            $response = Http::get('https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout');
+
+            session()->flash('info', 'Se ha cerrado la sessión '.$response->status());
+
+            return redirect()->route('examenes.logout');
+
+            // /* Url para cerrar sesión en clave única */
+            // $url_logout     = "https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect=";
+            // /* Url para luego cerrar sesión en nuestro sisetema */
+            // $url_redirect   = env('APP_URL')."/examenes/logout";
+            // $url            = $url_logout.urlencode($url_redirect);
+            // return redirect($url);
         }        
 
-        return redirect($url);
     }
 
     public function logout(){                
