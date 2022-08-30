@@ -64,7 +64,7 @@
                         <!-- Authentication Links -->
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('examenes.logout') }}">Cerrar Sesión</a>
+                            <a class="nav-link" href="{{ route('examenes.logout-cu') }}">Cerrar Sesión</a>
                         </li>
                         
                     </ul>
