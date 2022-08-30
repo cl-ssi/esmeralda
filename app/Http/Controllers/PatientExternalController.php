@@ -101,7 +101,7 @@ class PatientExternalController extends Controller
     
     public function logoutCu() {
         /* Nos iremos al cerrar sesión en clave única y luego volvermos a nuestro sistema */
-        if(env('APP_ENV') == 'local')
+        if(env('APP_ENV') == 'locsal')
         {
             /* Si estamos desarrollando cerramos localmente no más */
             return redirect()->route('examenes.logout');
@@ -125,8 +125,16 @@ class PatientExternalController extends Controller
 
     }
 
-    public function logout(){                
+    public function logout(){        
+        if(session()->has('info'))
+        {
+            $info = session()->get('info');
+        }
+              
         Auth::guard('patients')->logout();
+
+        session()->flash('info', $info ?? null);
+
         return redirect()->route('welcome');
     }
 

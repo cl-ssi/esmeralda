@@ -20,7 +20,7 @@ class Authenticate extends Middleware
         if (! $request->expectsJson()) 
         {            
             if ($request->route()->getName() === 'examenes.home' OR
-                $request->route()->getName() === 'examenes.logout-cu') 
+                $request->route()->getName() === 'examenes.logout') 
             {
                 return route('welcome');
             }
