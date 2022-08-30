@@ -101,75 +101,62 @@ class PatientExternalController extends Controller
     
     public function logoutCu() {
         /* Nos iremos al cerrar sesión en clave única y luego volvermos a nuestro sistema */
-        if(env('APP_ENV') == 'locsal')
+        if(env('APP_ENV') == 'local')
         {
-            /* Si estamos desarrollando cerramos localmente no más */
+            /* Si es ambiente de desarrollo cerramos sólo localmente */
             return redirect()->route('examenes.logout');
         }
         else
         {
             /** Cerrar sesión clave única */
-            $response = Http::get('https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout');
 
-            session()->flash('info', 'Se ha cerrado la sessión '.$response->status());
-
-            return redirect()->route('examenes.logout');
-
-            // /* Url para cerrar sesión en clave única */
-            // $url_logout     = "https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect=";
-            // /* Url para luego cerrar sesión en nuestro sisetema */
-            // $url_redirect   = env('APP_URL')."/examenes/logout";
-            // $url            = $url_logout.urlencode($url_redirect);
-            // return redirect($url);
+            /* Url para cerrar sesión en clave única */
+            $url_logout     = "https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect=";
+            /* Url para luego cerrar sesión en nuestro sisetema */
+            $url_redirect   = env('APP_URL')."/examenes/logout";
+            $url            = $url_logout.urlencode($url_redirect);
+            return redirect($url);
         }        
 
     }
 
-    public function logout(){        
-        if(session()->has('info'))
-        {
-            $info = session()->get('info');
-        }
-              
+    public function logout(){                    
         Auth::guard('patients')->logout();
-
-        session()->flash('info', $info ?? null);
-
         return redirect()->route('welcome');
     }
 
 
-    /** Eliminar ambas una vez que esté integrado clave única */
-    public function showLoginForm()
-    {
-        return view('auth.login-patient');
-    }
+    // /** Eliminar ambas una vez que esté integrado clave única */
+    // public function showLoginForm()
+    // {
+    //     return view('auth.login-patient');
+    // }
    
 
-    public function login(Request $request)
-    {       
-        $this->validate($request, [
-            'run'           => 'required|max:255',
-        ]);
+    // public function login(Request $request)
+    // {       
+    //     $this->validate($request, [
+    //         'run'           => 'required|max:255',
+    //     ]);
 
-        $credentials = $request->only('run', 'password');
-        $credentials['run'] = str_replace('.','',$credentials['run']);
-        $credentials['run'] = str_replace('-','',$credentials['run']);
-        $credentials['run'] = substr($credentials['run'], 0, -1);
+    //     $credentials = $request->only('run', 'password');
+    //     $credentials['run'] = str_replace('.','',$credentials['run']);
+    //     $credentials['run'] = str_replace('-','',$credentials['run']);
+    //     $credentials['run'] = substr($credentials['run'], 0, -1);
 
-        $run = $credentials['run'];
+    //     $run = $credentials['run'];
 
-        $patient = Patient::where('run', $run)->first();
+    //     $patient = Patient::where('run', $run)->first();
 
-        if($patient) {
-            Auth::guard('patients')->login($patient);            
-            return redirect()->route('examenes.home');
-        }
-        else {         
-            session()->flash('danger', 'El RUN '.$credentials['run'].' ingresado no tiene registro de exámenes en el sistema');
-            return redirect()->route('welcome');
-        }
+    //     if($patient) {
+    //         Auth::guard('patients')->login($patient);            
+    //         return redirect()->route('examenes.home');
+    //     }
+    //     else {         
+    //         session()->flash('danger', 'El RUN '.$credentials['run'].' ingresado no tiene registro de exámenes en el sistema');
+    //         return redirect()->route('welcome');
+    //     }
 
-    }
+    // }
 
 }

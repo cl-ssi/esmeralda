@@ -97,16 +97,19 @@
                     {{ env('SERVICIO','Configurar variable SERVICIO en .env') }}
                 </div>
 
+                <br>
 
+                <!--
+                <h2 class="flex-center">Resultado de exámenes</h2>
+                
                 <div class="flex-center">
-
-                    <h2> Resultado de exámenes
                     <a class="btn-cu btn-m btn-color-estandar" href="{{ route('examenes.autenticar') }}" title="Este es el botón Iniciar sesión de ClaveÚnica">
                         <span class="cl-claveunica"></span>
                         <span class="texto">Iniciar sesión</span>
                     </a>
-                    </h2>
+                    
                 </div>
+                -->
 
                 <br> <br> <br> 
 				
