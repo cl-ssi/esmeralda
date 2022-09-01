@@ -113,7 +113,7 @@ class PatientExternalController extends Controller
             /* Url para cerrar sesión en clave única */
             $url_logout     = "https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect=";
             /* Url para luego cerrar sesión en nuestro sisetema */
-            $url_redirect   = env('APP_URL')."/examenes/logout";
+            $url_redirect   = env('APP_URL')."/examenes-test";
             $url            = $url_logout.urlencode($url_redirect);
             return redirect($url);
         }        

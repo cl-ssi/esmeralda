@@ -99,7 +99,7 @@
 
                 <br>
 
-                <!--
+                
                 <h2 class="flex-center">Resultado de exámenes</h2>
                 
                 <div class="flex-center">
@@ -109,7 +109,6 @@
                     </a>
                     
                 </div>
-                -->
 
                 <br> <br> <br> 
 				
