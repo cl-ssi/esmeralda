@@ -35,9 +35,6 @@ class PatientExternalController extends Controller
         /* Recepcionamos los siguientes parametros desde CU */
         $code   = $request->input('code');
         $state  = $request->input('state'); 
-
-        /* Acá deberías validar que el state que recibiste, sea el mismo que enviamos a Clave Única */
-        // if($sate != csrf_token()) { die('el token enviado es distinto del recibido'); }
         
         $url_base       = "https://accounts.claveunica.gob.cl/openid/token/";
         $client_id      = env("CLAVEUNICA_CLIENT_ID");
@@ -69,11 +66,6 @@ class PatientExternalController extends Controller
         $response = Http::withToken(json_decode($response)->access_token)->post($url_base);
         
         $userClaveUnica = json_decode($response,true);
-        
-        // echo '<pre>';
-        // print_r($userClaveUnica);
-        // echo '</pre>';
-        // die();
 
         $run = $userClaveUnica['RolUnico']['numero'] ?? null;
 
@@ -108,7 +100,7 @@ class PatientExternalController extends Controller
             /* Url para cerrar sesión en clave única */
             $url_logout     = "https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect=";
             /* Url para luego cerrar sesión en nuestro sisetema */
-            $url_redirect   = env('APP_URL')."/examenes-test";
+            $url_redirect   = env('APP_URL')."/examenes/logout";
             $url            = $url_logout.urlencode($url_redirect);
             return redirect($url);
         }        
@@ -127,40 +119,6 @@ class PatientExternalController extends Controller
         }
 
         return redirect()->route('welcome');
-    }
-
-
-    // /** Eliminar ambas una vez que esté integrado clave única */
-    public function showLoginForm()
-    {
-        return view('auth.login-patient');
-    }
-   
-
-    public function login(Request $request)
-    {       
-        $this->validate($request, [
-            'run'           => 'required|max:255',
-        ]);
-
-        $credentials = $request->only('run', 'password');
-        $credentials['run'] = str_replace('.','',$credentials['run']);
-        $credentials['run'] = str_replace('-','',$credentials['run']);
-        $credentials['run'] = substr($credentials['run'], 0, -1);
-
-        $run = $credentials['run'];
-
-        $patient = Patient::where('run', $run)->first();
-
-        if($patient) {
-            Auth::guard('patients')->login($patient);            
-            return redirect()->route('examenes.home');
-        }
-        else {
-            $request->session()->put('run_not_found', $request->run);
-            return redirect()->route('examenes.logout');
-        }
-
     }
 
 }
