@@ -117,7 +117,7 @@ class PatientExternalController extends Controller
 
     public function logout(Request $request) {
         if ($request->session()->has('run_not_found')) {
-            $run = $request->session()->get('run_not_found');
+            $run = $request->session()->pull('run_not_found');
         }
         
         Auth::guard('patients')->logout();
