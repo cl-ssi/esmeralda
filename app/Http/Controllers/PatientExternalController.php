@@ -84,18 +84,8 @@ class PatientExternalController extends Controller
             return redirect()->route('examenes.home');
         }
         else {
- 
-            // Specifying a default value...
             session('run_not_found', $run);
-
             return redirect()->route('examenes.logout-cu');
-            
-            /** Cerrar sesión clave única */
-            // $response = Http::get('https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect='.env('APP_URL').'/examenes-test');
-            
-            // session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema '.$response->status());
-
-            // return redirect()->route('welcome');
         }     
 
     }
@@ -115,7 +105,6 @@ class PatientExternalController extends Controller
         else
         {
             /** Cerrar sesión clave única */
-
             /* Url para cerrar sesión en clave única */
             $url_logout     = "https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect=";
             /* Url para luego cerrar sesión en nuestro sisetema */
@@ -127,13 +116,13 @@ class PatientExternalController extends Controller
     }
 
     public function logout() {
-        if ($request->session()->has('run_not_found')) {
+        if (session()->has('run_not_found')) {
             $run = session('run_not_found');
         }
         
         Auth::guard('patients')->logout();
 
-        if ($run) {
+        if(isset($run)) {
             session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema');
         }
 
@@ -142,36 +131,36 @@ class PatientExternalController extends Controller
 
 
     // /** Eliminar ambas una vez que esté integrado clave única */
-    // public function showLoginForm()
-    // {
-    //     return view('auth.login-patient');
-    // }
+    public function showLoginForm()
+    {
+        return view('auth.login-patient');
+    }
    
 
-    // public function login(Request $request)
-    // {       
-    //     $this->validate($request, [
-    //         'run'           => 'required|max:255',
-    //     ]);
+    public function login(Request $request)
+    {       
+        $this->validate($request, [
+            'run'           => 'required|max:255',
+        ]);
 
-    //     $credentials = $request->only('run', 'password');
-    //     $credentials['run'] = str_replace('.','',$credentials['run']);
-    //     $credentials['run'] = str_replace('-','',$credentials['run']);
-    //     $credentials['run'] = substr($credentials['run'], 0, -1);
+        $credentials = $request->only('run', 'password');
+        $credentials['run'] = str_replace('.','',$credentials['run']);
+        $credentials['run'] = str_replace('-','',$credentials['run']);
+        $credentials['run'] = substr($credentials['run'], 0, -1);
 
-    //     $run = $credentials['run'];
+        $run = $credentials['run'];
 
-    //     $patient = Patient::where('run', $run)->first();
+        $patient = Patient::where('run', $run)->first();
 
-    //     if($patient) {
-    //         Auth::guard('patients')->login($patient);            
-    //         return redirect()->route('examenes.home');
-    //     }
-    //     else {         
-    //         session()->flash('danger', 'El RUN '.$credentials['run'].' ingresado no tiene registro de exámenes en el sistema');
-    //         return redirect()->route('welcome');
-    //     }
+        if($patient) {
+            Auth::guard('patients')->login($patient);            
+            return redirect()->route('examenes.home');
+        }
+        else {         
+            session()->flash('danger', 'El RUN '.$credentials['run'].' ingresado no tiene registro de exámenes en el sistema');
+            return redirect()->route('welcome');
+        }
 
-    // }
+    }
 
 }
