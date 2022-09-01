@@ -84,12 +84,18 @@ class PatientExternalController extends Controller
             return redirect()->route('examenes.home');
         }
         else {
-            /** Cerrar sesión clave única */
-            $response = Http::get('https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect='.env('APP_URL').'/examenes-test');
-            
-            session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema '.$response->status());
+ 
+            // Specifying a default value...
+            session('run_not_found', $run);
 
-            return redirect()->route('welcome');
+            return redirect()->route('examenes.logout-cu');
+            
+            /** Cerrar sesión clave única */
+            // $response = Http::get('https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect='.env('APP_URL').'/examenes-test');
+            
+            // session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema '.$response->status());
+
+            // return redirect()->route('welcome');
         }     
 
     }
@@ -120,8 +126,17 @@ class PatientExternalController extends Controller
 
     }
 
-    public function logout(){                    
+    public function logout() {
+        if ($request->session()->has('run_not_found')) {
+            $run = session('run_not_found');
+        }
+        
         Auth::guard('patients')->logout();
+
+        if ($run) {
+            session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema');
+        }
+
         return redirect()->route('welcome');
     }
 
