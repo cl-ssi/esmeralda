@@ -84,7 +84,7 @@ class PatientExternalController extends Controller
             return redirect()->route('examenes.home');
         }
         else {
-            session('run_not_found', $run);
+            $request->session()->put('run_not_found', $run);
             return redirect()->route('examenes.logout-cu');
         }     
 
@@ -115,9 +115,9 @@ class PatientExternalController extends Controller
 
     }
 
-    public function logout() {
-        if (session()->has('run_not_found')) {
-            $run = session('run_not_found');
+    public function logout(Request $request) {
+        if ($request->session()->has('run_not_found')) {
+            $run = $request->session()->get('run_not_found');
         }
         
         Auth::guard('patients')->logout();
@@ -156,9 +156,9 @@ class PatientExternalController extends Controller
             Auth::guard('patients')->login($patient);            
             return redirect()->route('examenes.home');
         }
-        else {         
-            session()->flash('danger', 'El RUN '.$credentials['run'].' ingresado no tiene registro de exámenes en el sistema');
-            return redirect()->route('welcome');
+        else {
+            $request->session()->put('run_not_found', $request->run);
+            return redirect()->route('examenes.logout');
         }
 
     }
