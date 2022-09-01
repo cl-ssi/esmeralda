@@ -85,7 +85,7 @@ class PatientExternalController extends Controller
         }
         else {
             /** Cerrar sesión clave única */
-            $response = Http::get('https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout');
+            $response = Http::get('https://accounts.claveunica.gob.cl/api/v1/accounts/app/logout?redirect='.env('APP_URL').'/examenes-test');
             
             session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema '.$response->status());
 
