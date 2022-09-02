@@ -100,7 +100,10 @@
                 <br>
 
                 
-                <h2 class="flex-center">Resultado de exámenes</h2>
+                <h2 class="flex-center">Resultado de exámenes PCR</h2>
+				<p>Si perteneces a la región de Tarapacá, <br>puedes revisar
+				el resultado de tu exámen de Covid-19 <br>utilizando tu
+				clave única del estado, haciendo click en el botón a continuación.</p>
                 
                 <div class="flex-center">
                     <a class="btn-cu btn-m btn-color-estandar" href="{{ route('examenes.autenticar') }}" title="Este es el botón Iniciar sesión de ClaveÚnica">
@@ -132,8 +135,10 @@
                 <img src="https://cdn.digital.gob.cl/filer_public/bd/1f/bd1f2309-ac14-447e-8aae-ec7228bee7b2/logo-gob-footer.png"
                     width="150px" alt="Gobierno de Chile"> 
 
-                <p>{{ date('Y') }} Gobierno de Chile.</p>
-
+                <p>Desarrollado por Departamento TIC del SSI<br>
+                {{ date('Y') }} Gobierno de Chile. <br>
+                <a class="text-muted" href="mailto:sistemas.ssi@redsalud.gobc.">sistemas.ssi@redsalud.gob.cl</a></li>
+                </p>
             </div>
 
 
