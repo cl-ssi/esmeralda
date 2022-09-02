@@ -136,7 +136,7 @@
                     width="150px" alt="Gobierno de Chile"> 
 
                 <p>Desarrollado por Departamento TIC del SSI<br>
-                {{ date('Y') }} Gobierno de Chile. <br>
+                2019 Gobierno de Chile. <br>
                 <a class="text-muted" href="mailto:sistemas.ssi@redsalud.gobc.">sistemas.ssi@redsalud.gob.cl</a></li>
                 </p>
             </div>
