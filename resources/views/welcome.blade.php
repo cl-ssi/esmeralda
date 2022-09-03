@@ -98,12 +98,11 @@
                 </div>
 
                 <br>
-
                 
-                <h2 class="flex-center">Resultado de exámenes PCR</h2>
-				<p>Si perteneces a la región de Tarapacá, <br>puedes revisar
-				el resultado de tu exámen de Covid-19 <br>utilizando tu
-				clave única del estado, haciendo click en el botón a continuación.</p>
+                <h2 class="flex-center">Resultado de exámenes</h2>
+				<p>Si perteneces a la región de Tarapacá, <br>
+                puedes revisar el resultado de tu exámen de Covid-19 <br>
+                utilizando tu clave única, haciendo click en el botón a continuación.</p>
                 
                 <div class="flex-center">
                     <a class="btn-cu btn-m btn-color-estandar" href="{{ route('examenes.autenticar') }}" title="Este es el botón Iniciar sesión de ClaveÚnica">
@@ -129,15 +128,18 @@
 
                 <div class="links">
                     <a href="https://www.minsal.cl">Minsal</a>
-                    <a href="https://www.gob.cl/coronavirus/">Coronavirus</a>
+                    <a href="https://www.gob.cl/pasoapaso">Paso a Paso</a>
+                    <a href="https://portal.saludtarapaca.gob.cl">Sistemas</a>
                 </div>
 
                 <img src="https://cdn.digital.gob.cl/filer_public/bd/1f/bd1f2309-ac14-447e-8aae-ec7228bee7b2/logo-gob-footer.png"
                     width="150px" alt="Gobierno de Chile"> 
 
                 <p>Desarrollado por Departamento TIC del SSI<br>
-                2019 Gobierno de Chile. <br>
-                <a class="text-muted" href="mailto:sistemas.ssi@redsalud.gobc.">sistemas.ssi@redsalud.gob.cl</a></li>
+                <a class="text-muted" href="mailto:sistemas.ssi@redsalud.gob.cl">
+                    sistemas.ssi@redsalud.gob.cl
+                </a><br>
+                2019 Gobierno de Chile. 
                 </p>
             </div>
 
