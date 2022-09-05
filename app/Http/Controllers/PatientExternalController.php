@@ -62,7 +62,7 @@ class PatientExternalController extends Controller
         }
 
         /* Paso 3, obtener los datos del usuario en base al $access_token */
-        $url_base = "https://www.claveunica.gob.cl/openid/userinfo/";
+        $url_base = "https://accounts.claveunica.gob.cl/openid/userinfo/";
         $response = Http::withToken(json_decode($response)->access_token)->post($url_base);
         
         $userClaveUnica = json_decode($response,true);
@@ -72,7 +72,7 @@ class PatientExternalController extends Controller
         $patient = Patient::where('run', $run)->first();
 
         if($patient AND $run != null) {
-            Auth::guard('patients')->login($patient);            
+            Auth::guard('patients')->login($patient);
             return redirect()->route('examenes.home');
         }
         else {
@@ -113,6 +113,9 @@ class PatientExternalController extends Controller
         }
         
         Auth::guard('patients')->logout();
+
+		/** Obtenemos un nuevo CSRF token */
+		$request->session()->regenerateToken();
 
         if(isset($run)) {
             session()->flash('danger', 'El RUN '.$run.' no tiene registro de exámenes en el sistema');
