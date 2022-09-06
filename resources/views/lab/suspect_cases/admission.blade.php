@@ -217,7 +217,7 @@
             <select name="case_type" id="for_case_type" class="form-control" required>
                 <option value="" {{(old('case_type') == '') ? 'selected' : '' }}></option>
                 <option value="Atención médica" {{(old('case_type') == 'Atención médica') ? 'selected' : '' }}>Atención médica</option>
-                <option value="Busqueda activa" {{(old('case_type') == 'Busqueda activa') ? 'selected' : '' }}>Busqueda activa</option>
+                <option value="Busqueda activa" {{(old('case_type') == 'Busqueda activa') ? 'selected' : '' }}>Búsqueda activa</option>
             </select>
         </fieldset>
 
@@ -265,12 +265,12 @@
         </fieldset>
 
         <fieldset class="form-group col-8 col-md-2">
-            <label for="for_run_medic_s_dv">Run Médico SIN DV </label>
+            <label for="for_run_medic_s_dv" id="for_run_medic_s_dv_label" >Run Médico SIN DV*</label>
             <input type="number" class="form-control" id="for_run_medic_s_dv" name="run_medic_s_dv" value="{{old('run_medic_s_dv')}}">
         </fieldset>
 
         <fieldset class="form-group col-4 col-md-1">
-            <label for="for_run_medic_dv">DV </label>
+            <label for="for_run_medic_dv">DV*</label>
             <input type="text" class="form-control" id="for_run_medic_dv" name="run_medic_dv" value="{{old('run_medic_dv')}}" readonly>
         </fieldset>
 
@@ -573,6 +573,21 @@ $(document).ready(function(){
         var year_age = Math.floor(differenceInMilisecond / 31536000000);
         $("#for_age").val(year_age);
 
+    })
+    
+    $("#for_case_type").change(function(){
+        let responsableLabel = $("#for_run_medic_s_dv_label")
+        let responsableInput = $("#for_run_medic_s_dv")
+        if($(this).val() === 'Atención médica') {
+            responsableLabel.text("Run Médico SIN DV*")
+            responsableLabel.prop('title', "Run del médico solicitante SIN DV*");
+            responsableInput.prop('title', "Run del médico solicitante SIN DV*");
+        }
+        else {
+            responsableLabel.text("Run Prof. SIN DV*");
+            responsableLabel.prop('title', "Run del profesional responsable SIN DV*");
+            responsableInput.prop('title', "Run del profesional responsable SIN DV*");
+        }
     })
 
 });
