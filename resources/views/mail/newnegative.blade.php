@@ -18,7 +18,9 @@
                     <p><strong>Resultado: {{ $suspectCase->Covid19 }}</strong></p>
                     <p><strong>Fecha de resultado</strong>: {{ $suspectCase->pcr_sars_cov_2_at->format('d-m-Y') }}</p>
 
-                    <p>Por favor no responda a este correo, ya que es generado automáticamente a través del Sistema Esmeralda.</p> 
+                    <p>Por favor no responda a este correo, ya que es generado automáticamente a través del Sistema Esmeralda.</p>
+                    <p>Usted puede acceder a ver los resultados de sus exámenes con su clave única en el siguiente link {{ env('APP_URL') }}</p>
+
                     <br>
 
                     @if($suspectCase->Covid19 == 'Positivo')
