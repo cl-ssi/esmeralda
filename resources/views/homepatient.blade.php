@@ -4,13 +4,13 @@
 
 <h3>{{ auth()->user()->fullName }}</h3>
 
-<table class="table table-bordered">
+<table class="table table-bordered h4">
 	<tr>
 		<th>Id muestra</th>
 		<th>Fecha de muestra</th>
 		<th>Fecha de resultado</th>
 		<th>Resultado</th>
-		<th></th>
+        <th></th>
 	</tr>
 	
 	@foreach(auth()->user()->SuspectCases->sortByDesc('id') as $sc)
@@ -19,11 +19,13 @@
 		<td>{{ $sc->id }}</td>
 		<td>{{ $sc->sample_at }}</td>
 		<td>{{ $sc->pcr_sars_cov_2_at }}</td>
-		<td>{{ $sc->Covid19 }}</td>
+		<td class="{{ $sc->pcr_sars_cov_2 == 'positive' ? 'text-danger' : '' }}">
+            {{ $sc->Covid19 }}
+            {{ $sc->pcr_sars_cov_2 == 'positive' ? '🥵' : '' }}
 		<td>
 			@if($sc->file)
 				<a href="{{ route('examenes.download', $sc->id) }}"
-					target="_blank"><i class="fas fa-paperclip"></i>
+					target="_blank"><i class="fas fa-file-pdf"></i>
 				</a>
 			@endif
 		</td>
