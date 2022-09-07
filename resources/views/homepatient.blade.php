@@ -4,9 +4,9 @@
 
 <h3>{{ auth()->user()->fullName }}</h3>
 
-<table class="table table-bordered h4">
+<table class="table table-bordered h5">
 	<tr>
-		<th>Id muestra</th>
+		<th class="d-none d-sm-block">Id muestra</th>
 		<th>Fecha de muestra</th>
 		<th>Fecha de resultado</th>
 		<th>Resultado</th>
@@ -16,7 +16,7 @@
 	@foreach(auth()->user()->SuspectCases->sortByDesc('id') as $sc)
 	
 	<tr>
-		<td>{{ $sc->id }}</td>
+		<td class="d-none d-sm-block">{{ $sc->id }}</td>
 		<td>{{ $sc->sample_at }}</td>
 		<td>{{ $sc->pcr_sars_cov_2_at }}</td>
 		<td class="{{ $sc->pcr_sars_cov_2 == 'positive' ? 'text-danger' : '' }}">
