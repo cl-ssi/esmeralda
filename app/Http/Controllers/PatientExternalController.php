@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Patient;
+use App\SuspectCase;
 
 class PatientExternalController extends Controller
 {
@@ -86,6 +88,22 @@ class PatientExternalController extends Controller
     {
         return view('homepatient');
     }
+
+    
+    public function download(SuspectCase $sc)
+    {
+        if(auth()->id() == $sc->patient_id) {
+            return Storage::disk('gcs')
+                ->response('esmeralda/suspect_cases/' . $sc->filename_gcs . '.pdf',
+                mb_convert_encoding($sc->id . '.pdf', 'ASCII'),
+                ['CacheControl' => 'no-cache, must-revalidate']
+            );
+        }
+        else {
+            session()->flash('danger', 'No puede descargar exámenes que no correspondan a su run');
+            return redirect()->route('examenes.home');
+        }
+    }
     
     public function logoutCu() {
         /* Nos iremos al cerrar sesión en clave única y luego volvermos a nuestro sistema */
@@ -124,4 +142,20 @@ class PatientExternalController extends Controller
         return redirect()->route('welcome');
     }
 
+    /** Para desarrollo, sólo Local */
+    public function loginLocal($run)
+    { 
+        if (env('APP_ENV') == 'local') {
+            $patient = Patient::where('run', $run)->first();
+
+            if($patient AND $run != null) {
+                Auth::guard('patients')->login($patient);
+                return redirect()->route('examenes.home');
+            }
+            else {
+                $request->session()->put('run_not_found', $run);
+                return redirect()->route('examenes.logout');
+            } 
+        }
+    }
 }
