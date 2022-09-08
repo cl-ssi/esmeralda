@@ -578,15 +578,21 @@ $(document).ready(function(){
     $("#for_case_type").change(function(){
         let responsableLabel = $("#for_run_medic_s_dv_label")
         let responsableInput = $("#for_run_medic_s_dv")
+        let responsableDv = $('#for_run_medic_dv')
         if($(this).val() === 'Atención médica') {
             responsableLabel.text("Run Médico SIN DV*")
             responsableLabel.prop('title', "Run del médico solicitante SIN DV*");
             responsableInput.prop('title', "Run del médico solicitante SIN DV*");
+            responsableInput.val('');
+            responsableDv.val('');
         }
         else {
+            var userRun = {!! auth()->user()->run !!};
             responsableLabel.text("Run Prof. SIN DV*");
             responsableLabel.prop('title', "Run del profesional responsable SIN DV*");
             responsableInput.prop('title', "Run del profesional responsable SIN DV*");
+            responsableInput.val(userRun);
+            responsableDv.val($.rut.dv(userRun));
         }
     })
 
