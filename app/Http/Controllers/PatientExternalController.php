@@ -17,7 +17,7 @@ class PatientExternalController extends Controller
         /* Primer paso, redireccionar al login de clave única */
         $url_base       = "https://accounts.claveunica.gob.cl/openid/authorize/";
         $client_id      = env("CLAVEUNICA_CLIENT_ID");
-        $redirect_uri   = urlencode(env("CLAVEUNICA_CALLBACK"));
+        $redirect_uri   = urlencode(env("APP_URL").'/examenes/callback');
 
         $state = csrf_token();
         $scope      = 'openid run name';
@@ -34,6 +34,10 @@ class PatientExternalController extends Controller
     public function callback(Request $request) {
         /* Segundo paso, el usuario ya se autentificó correctamente en CU y retornó a nuestro sistema */
 
+        if ($request->missing(['code','name'])) {
+            return redirect()->route('welcome');
+        }
+
         /* Recepcionamos los siguientes parametros desde CU */
         $code   = $request->input('code');
         $state  = $request->input('state'); 
@@ -41,7 +45,7 @@ class PatientExternalController extends Controller
         $url_base       = "https://accounts.claveunica.gob.cl/openid/token/";
         $client_id      = env("CLAVEUNICA_CLIENT_ID");
         $client_secret  = env("CLAVEUNICA_SECRET_ID");
-        $redirect_uri   = urlencode(env("CLAVEUNICA_CALLBACK"));
+        $redirect_uri   = urlencode(env("APP_URL").'/examenes/callback');
 
         $scope = 'openid+run+name';
 
