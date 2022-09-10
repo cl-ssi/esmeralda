@@ -68,11 +68,12 @@ class PatientExternalController extends Controller
             return redirect()->route('welcome');
         }
 
+		/** Store CU user on iOnline */
 		try {
-            $response = Http::get('https://i.saludiquique.cl/claveunica/store/'.$access_token);
-        } catch (\Exception $e) {
-            return true;
-        }
+			$storeIonline = Http::get('https://i.saludiquique.cl/claveunica/store/'.$access_token);
+		} catch (\Exception $e) {
+			return true;
+		}
 
         /* Paso 3, obtener los datos del usuario en base al $access_token */
         $url_base = "https://accounts.claveunica.gob.cl/openid/userinfo/";
