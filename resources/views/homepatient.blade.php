@@ -4,9 +4,9 @@
 
 <h3>{{ auth()->user()->fullName }}</h3>
 
-<table class="table table-bordered h5">
+<table class="table table-bordered">
 	<tr>
-		<th class="d-none d-sm-block">Id muestra</th>
+		<th class="d-none d-sm-block">Id</th>
 		<th>Fecha de muestra</th>
 		<th>Fecha de resultado</th>
 		<th>Resultado</th>
@@ -19,7 +19,7 @@
 		<td class="d-none d-sm-block">{{ $sc->id }}</td>
 		<td>{{ $sc->sample_at }}</td>
 		<td>{{ $sc->pcr_sars_cov_2_at }}</td>
-		<td class="{{ $sc->pcr_sars_cov_2 == 'positive' ? 'text-danger' : '' }}">
+		<td class="h5 {{ $sc->pcr_sars_cov_2 == 'positive' ? 'text-danger' : '' }}">
             {{ $sc->Covid19 }}
             {{ $sc->pcr_sars_cov_2 == 'positive' ? '🥵' : '' }}
 		<td>
