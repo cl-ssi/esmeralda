@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Patient;
 use App\SuspectCase;
+use App\LogAccessCu;
 
 class PatientExternalController extends Controller
 {
@@ -78,7 +79,12 @@ class PatientExternalController extends Controller
         $patient = Patient::where('run', $run)->first();
 
         if($patient AND $run != null) {
+            /** Iniciar sessión con el paciente */
             Auth::guard('patients')->login($patient);
+            
+            /** Log access a través de CU */
+            LogAccessCu::create(['patient_id' => $patient->id]);
+            
             return redirect()->route('examenes.home');
         }
         else {
