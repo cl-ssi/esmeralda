@@ -491,6 +491,8 @@
                                 <a class="dropdown-item" href="{{ route('patients.tracings.withouttracing') }}">Pacientes (+) sin tracing</a>
 
                                 <a class="dropdown-item" href="{{ route('patients.tracings.cartoindex') }}">BETA Pacientes CAR que pasaron a Indice</a>
+                                
+                                <a class="dropdown-item" href="{{ route('patients.log-access') }}">Registro de acceso con CU</a>
                                 @endcan
 
                                 <a class="dropdown-item" href="{{ route('users.password.show_form') }}">
