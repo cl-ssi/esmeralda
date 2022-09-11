@@ -50,21 +50,22 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 /* Rutas consulta de exámenes a través de clave única */
 Route::prefix('examenes')->name('examenes.')->group(function () {
+    Route::get('/',             'PatientExternalController@home')->middleware('auth:patients')->name('home');
+    Route::get('/download/{sc}','PatientExternalController@download')->middleware('auth:patients')->name('download');
 
-    Route::get('autenticar', 'PatientExternalController@login')->name('autenticar');
+    Route::get('autenticar',    'PatientExternalController@autenticar')->name('autenticar');
 
-    Route::get('callback', 'PatientExternalController@callback');
-    Route::get('callback-qa', 'PatientExternalController@callback');
+    Route::get('callback',      'PatientExternalController@callback');
+    Route::get('callback-qa',   'PatientExternalController@callback');
     Route::get('callback-test', 'PatientExternalController@callback');
 
-    Route::get('home', 'PatientExternalController@home')->middleware('auth:patients')->name('home');
 
-    Route::get('logout-cu', 'PatientExternalController@logoutCu')->name('logout-cu');
-    Route::get('logout', 'PatientExternalController@logout')->name('logout');
+    Route::get('logout-cu',     'PatientExternalController@logoutCu')->name('logout-cu');
+    Route::get('logout',        'PatientExternalController@logout')->name('logout');
+
+    /** Sólo para APP_ENV = local */
+    Route::get('login/{run}',   'PatientExternalController@loginLocal');
 });
-
-// Route::get('examenes', 'PatientExternalController@showLoginForm')->name('login-patient-form');
-// Route::post('login-patient', 'PatientExternalController@login')->name('login-patient');
 
 
 
@@ -111,6 +112,8 @@ Route::prefix('patients')->name('patients.')->middleware('auth')->group(function
     Route::get('/export', 'PatientController@export')->name('export');
     Route::get('/exportPositives', 'PatientController@exportPositives')->name('exportPositives');
     Route::get('/in_residence', 'PatientController@inResidence')->name('in_residence');
+
+    Route::get('log-access','LogAcessCuController@index')->name('log-access');
 
     Route::get('/{patient}/fhir', 'PatientController@fhir');
 

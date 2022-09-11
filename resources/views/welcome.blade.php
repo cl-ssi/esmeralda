@@ -72,7 +72,9 @@
             }
         </style>
 
+		<link href="{{ asset('css/alert.css') }}" rel="stylesheet">
         <link href="{{ asset('css/cu.min.css') }}" rel="stylesheet">
+
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -95,32 +97,49 @@
                     {{ env('SERVICIO','Configurar variable SERVICIO en .env') }}
                 </div>
 
-                @if(env('APP_ENV') == 'local' or $_SERVER['REQUEST_URI'] == '/?dev=true')
+                <br>
+                
+                <h2 class="flex-center">Resultado de exámenes</h2>
+				        <p>Si perteneces a la región de Tarapacá, <br>
+                puedes revisar el resultado de tu exámen de Covid-19 <br>
+                utilizando tu clave única, haciendo click en el botón a continuación.</p>
+                
                 <div class="flex-center">
-
-                    <h2> Resultado de exámenes
                     <a class="btn-cu btn-m btn-color-estandar" href="{{ route('examenes.autenticar') }}" title="Este es el botón Iniciar sesión de ClaveÚnica">
                         <span class="cl-claveunica"></span>
                         <span class="texto">Iniciar sesión</span>
                     </a>
-                    </h2>
+                    
                 </div>
 
-                <br> <br> <br> <br> <br> <br>
-                
-                @endif
-                
+                <br> <br> <br> 
+				
+				        @foreach (['danger', 'warning', 'success', 'info'] as $key)
+                    @if(session()->has($key))
+                    <div class="alert alert-{{ $key }} alert-dismissable">
+                        <h3>{!! session()->get($key) !!}</h3>
+                    </div>
+                    @endif
+                @endforeach
+				
+				        <br> <br> <br>
+  
 
                 <div class="links">
                     <a href="https://www.minsal.cl">Minsal</a>
-                    <a href="https://www.gob.cl/coronavirus/">Coronavirus</a>
+                    <a href="https://www.gob.cl/pasoapaso">Paso a Paso</a>
+                    <a href="https://portal.saludtarapaca.gob.cl">Sistemas</a>
                 </div>
 
                 <img src="https://cdn.digital.gob.cl/filer_public/bd/1f/bd1f2309-ac14-447e-8aae-ec7228bee7b2/logo-gob-footer.png"
                     width="150px" alt="Gobierno de Chile"> 
 
-                <p>{{ date('Y') }} Gobierno de Chile.</p>
-
+                <p>Desarrollado por Departamento TIC del SSI<br>
+                <a class="text-muted" href="mailto:sistemas.ssi@redsalud.gob.cl">
+                    sistemas.ssi@redsalud.gob.cl
+                </a><br>
+                2019 Gobierno de Chile. 
+                </p>
             </div>
 
 

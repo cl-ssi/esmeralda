@@ -51,6 +51,7 @@
                 <th>Nombre</th>
                 <th>Genero</th>
                 <th>Fecha Nac.</th>
+                <th>Nac.</th>
                 <th>Comuna</th>
                 <th>Dirección</th>
                 <th>Teléfono</th>
@@ -77,6 +78,7 @@
                 </td>
                 <td>{{ $patient->sexEsp }}</td>
                 <td nowrap>{{ ($patient->birthday)?$patient->birthday->format('d-m-Y'):'' }}</td>
+                <td>{{ ($patient->demographic)?$patient->demographic->nationality:'' }}</td>
                 <td class="text-right" nowrap>{{ ($patient->demographic AND $patient->demographic->commune)  ?$patient->demographic->commune->name:'' }}</td>
                 <td class="text-right">
                     {{ ($patient->demographic)?$patient->demographic->address:'' }}

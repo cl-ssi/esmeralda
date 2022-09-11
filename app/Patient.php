@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\LogAccessCu;
 
 /**
  * Patient
@@ -77,6 +78,12 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
     public function tracing() {
         return $this->hasOne('App\Tracing\Tracing');
     }
+
+	public function logAccess()
+	{
+		return $this->hasMany(LogAccessCu::class);
+	}
+	
 
     public function lastExam() {
         return $this->hasOne('App\SuspectCase')
