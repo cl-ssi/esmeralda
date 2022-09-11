@@ -113,7 +113,9 @@ Route::prefix('patients')->name('patients.')->middleware('auth')->group(function
     Route::get('/exportPositives', 'PatientController@exportPositives')->name('exportPositives');
     Route::get('/in_residence', 'PatientController@inResidence')->name('in_residence');
 
-    Route::get('log-access','LogAcessCuController@index')->name('log-access');
+    
+	Route::get('log-access','LogAcessCuController@index')->name('log-access');
+    Route::get('pcrs/{patient}','PatientController@pcrs')->name('pcrs');
 
     Route::get('/{patient}/fhir', 'PatientController@fhir');
 

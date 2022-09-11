@@ -238,6 +238,10 @@ class PatientController extends Controller
         return view('patients.positives', compact('patients'));
     }
 
+	public function pcrs(Patient $patient)
+	{
+		return view('patients.pcrs', compact('patient'));
+	}
 
     public function getPatient($rut)
     {

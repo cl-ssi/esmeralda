@@ -22,7 +22,14 @@
         <tr>
             <td>{{ $access->id }}</td>
             <td><a href="{{ route('patients.edit',$access->patient) }}">{{ $access->patient->fullName }}</a></td>
-            <td>{{ $access->patient->lastExam->sample_at }} - {{ $access->patient->lastExam->pcr_sars_cov_2 }}</a></td>
+            <td>
+				<a href="{{ route('patients.pcrs', $access->patient) }}"
+					class="{{ $access->patient->lastExam->pcr_sars_cov_2 == 'positive' ? 'text-danger' : '' }}">
+					{{ $access->patient->lastExam->sample_at }} - 
+					{{ $access->patient->lastExam->pcr_sars_cov_2 }}
+				</a>
+				<span class="badge badge-secondary">{{ $access->patient->suspect_cases_count }}</span>
+			</td>
             <td>{{ $access->created_at }}</td>
         </tr>
         @endforeach

@@ -247,4 +247,6 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
         return $patients;
     }
 
+	protected $withCount = ['suspectCases'];
+
 }
