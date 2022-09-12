@@ -51,6 +51,7 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 /* Rutas consulta de exámenes a través de clave única */
 Route::prefix('examenes')->name('examenes.')->group(function () {
     Route::get('/',             'PatientExternalController@home')->middleware('auth:patients')->name('home');
+    Route::get('/download/{sc}','PatientExternalController@download')->middleware('auth:patients')->name('download');
 
     Route::get('autenticar',    'PatientExternalController@autenticar')->name('autenticar');
 
@@ -61,6 +62,9 @@ Route::prefix('examenes')->name('examenes.')->group(function () {
 
     Route::get('logout-cu',     'PatientExternalController@logoutCu')->name('logout-cu');
     Route::get('logout',        'PatientExternalController@logout')->name('logout');
+
+    /** Sólo para APP_ENV = local */
+    Route::get('login/{run}',   'PatientExternalController@loginLocal');
 });
 
 
@@ -108,6 +112,10 @@ Route::prefix('patients')->name('patients.')->middleware('auth')->group(function
     Route::get('/export', 'PatientController@export')->name('export');
     Route::get('/exportPositives', 'PatientController@exportPositives')->name('exportPositives');
     Route::get('/in_residence', 'PatientController@inResidence')->name('in_residence');
+
+    
+	Route::get('log-access','LogAcessCuController@index')->name('log-access');
+    Route::get('pcrs/{patient}','PatientController@pcrs')->name('pcrs');
 
     Route::get('/{patient}/fhir', 'PatientController@fhir');
 

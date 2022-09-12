@@ -100,7 +100,7 @@
                 <br>
                 
                 <h2 class="flex-center">Resultado de exámenes</h2>
-				<p>Si perteneces a la región de Tarapacá, <br>
+				        <p>Si perteneces a la región de Tarapacá, <br>
                 puedes revisar el resultado de tu exámen de Covid-19 <br>
                 utilizando tu clave única, haciendo click en el botón a continuación.</p>
                 
@@ -114,7 +114,7 @@
 
                 <br> <br> <br> 
 				
-				@foreach (['danger', 'warning', 'success', 'info'] as $key)
+				        @foreach (['danger', 'warning', 'success', 'info'] as $key)
                     @if(session()->has($key))
                     <div class="alert alert-{{ $key }} alert-dismissable">
                         <h3>{!! session()->get($key) !!}</h3>
@@ -122,9 +122,8 @@
                     @endif
                 @endforeach
 				
-				<br> <br> <br>
-
-
+				        <br> <br> <br>
+  
 
                 <div class="links">
                     <a href="https://www.minsal.cl">Minsal</a>

@@ -1,8 +1,10 @@
-@extends('layouts.apppatients')
+@extends('layouts.app')
+
+@section('title', 'PCRS')
 
 @section('content')
 
-<h3>{{ auth()->user()->fullName }}</h3>
+<h3>{{ $patient->fullName }}</h3>
 
 <table class="table table-bordered">
 	<tr>
@@ -13,7 +15,7 @@
         <th></th>
 	</tr>
 	
-	@foreach(auth()->user()->SuspectCases->sortByDesc('id') as $sc)
+	@foreach($patient->SuspectCases->sortByDesc('id') as $sc)
 	
 	<tr>
 		<td class="d-none d-sm-block">{{ $sc->id }}</td>
