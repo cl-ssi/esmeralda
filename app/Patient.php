@@ -32,7 +32,7 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
      */
     protected $fillable = [
         'id', 'run', 'dv', 'other_identification', 'name', 'fathers_family',
-        'mothers_family', 'gender', 'birthday', 'status', 'deceased_at'
+        'mothers_family', 'gender', 'birthday', 'status', 'deceased_at', 'logged_by_cu_at'
     ];
 
     /**
@@ -245,6 +245,32 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
             });
         }
         return $patients;
+    }
+
+    /**
+     * Actualiza nombre de paciente
+     * @param string $name
+     * @param string $fathersFamily
+     * @param string $mothersFamily
+     */
+    public function updateName(string $name, string $fathersFamily, string $mothersFamily)
+    {
+        $this->name = $name;
+        $this->fathers_family = $fathersFamily;
+        $this->mothers_family = $mothersFamily;
+        $this->save();
+    }
+    
+    /**
+     * Actualiza nombre del paciente desde CU
+     * @param array $userClaveUnica
+     */
+    public function updateNameFromCU(array $userClaveUnica)
+    {
+        $fathersFamily = $userClaveUnica['name']['apellidos'][0];
+        $mothersFamily = implode(' ', array_slice($userClaveUnica['name']['apellidos'], 1));
+        $name = implode($userClaveUnica['name']['nombres']);
+        $this->updateName($fathersFamily, $mothersFamily, $name);
     }
 
 	protected $withCount = ['suspectCases'];

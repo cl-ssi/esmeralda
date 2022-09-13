@@ -85,6 +85,10 @@ class PatientExternalController extends Controller
             /** Log access a través de CU */
             LogAccessCu::create(['patient_id' => $patient->id]);
             
+            /** Marcar usuario como logueado por CU y actualizar nombre */
+            $patient->update(['logged_by_cu' => now()]); 
+            $patient->updateNameFromCU($userClaveUnica);
+            
             return redirect()->route('examenes.home');
         }
         else {
