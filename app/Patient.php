@@ -267,10 +267,10 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
      */
     public function updateNameFromCU(array $userClaveUnica)
     {
-        $fathersFamily = $userClaveUnica['name']['apellidos'][0];
-        $mothersFamily = implode(' ', array_slice($userClaveUnica['name']['apellidos'], 1));
-        $name = implode($userClaveUnica['name']['nombres']);
-        $this->updateName($fathersFamily, $mothersFamily, $name);
+        $fathersFamily = $userClaveUnica['name']['apellidos'][0] ?? null;
+        $mothersFamily = $userClaveUnica['name']['apellidos'][1] ?? null;
+        $name = implode(" ", $userClaveUnica['name']['nombres']);
+        $this->updateName($name, $fathersFamily, $mothersFamily);
     }
 
 	protected $withCount = ['suspectCases'];

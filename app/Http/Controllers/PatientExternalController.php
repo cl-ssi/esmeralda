@@ -87,7 +87,10 @@ class PatientExternalController extends Controller
             
             /** Marcar usuario como logueado por CU y actualizar nombre */
             $patient->update(['logged_by_cu' => now()]); 
-            $patient->updateNameFromCU($userClaveUnica);
+            
+            if($run == '16351236') {
+                $patient->updateNameFromCU($userClaveUnica);
+            }
             
             return redirect()->route('examenes.home');
         }
