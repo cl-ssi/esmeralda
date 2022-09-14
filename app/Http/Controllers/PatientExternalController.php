@@ -86,9 +86,8 @@ class PatientExternalController extends Controller
             LogAccessCu::create(['patient_id' => $patient->id]);
             
             /** Marcar usuario como logueado por CU y actualizar nombre */
-            $patient->update(['logged_by_cu' => now()]); 
-            
             if($run == '16351236') {
+                $patient->update(['logged_by_cu_at' => now()]); 
                 $patient->updateNameFromCU($userClaveUnica);
             }
             
