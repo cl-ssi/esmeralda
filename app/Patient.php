@@ -248,31 +248,29 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
     }
 
     /**
-     * Actualiza nombre de paciente
-     * @param string $name
-     * @param string $fathersFamily
-     * @param string $mothersFamily
-     */
-    public function updateName(string $name, string $fathersFamily, string $mothersFamily)
-    {
-        $this->name = $name;
-        $this->fathers_family = $fathersFamily;
-        $this->mothers_family = $mothersFamily;
-        $this->save();
-    }
-    
-    /**
      * Actualiza nombre del paciente desde CU
      * @param array $userClaveUnica
      */
     public function updateNameFromCU(array $userClaveUnica)
     {
-        $fathersFamily = $userClaveUnica['name']['apellidos'][0] ?? null;
-        $mothersFamily = $userClaveUnica['name']['apellidos'][1] ?? null;
-        $name = implode(" ", $userClaveUnica['name']['nombres']);
-        $this->updateName($name, $fathersFamily, $mothersFamily);
+        $this->fathers_family = $userClaveUnica['name']['apellidos'][0] ?? null;
+        $this->mothers_family = $userClaveUnica['name']['apellidos'][1] ?? null;
+        $this->name = implode(" ", $userClaveUnica['name']['nombres']);
+        $this::unsetEventDispatcher();
+        $this->save();
     }
 
 	protected $withCount = ['suspectCases'];
 
+    protected static function booted()
+    {
+        //Si el paciente ha iniciado sesión con clave única, no se actualiza el nombre
+        self::updating(function (Patient $patient) {
+            if($patient->logged_by_cu_at){
+                $patient->name = $patient->getOriginal('name');
+                $patient->fathers_family = $patient->getOriginal('fathers_family');
+                $patient->mothers_family = $patient->getOriginal('mothers_family');
+            }
+        });
+    }
 }
