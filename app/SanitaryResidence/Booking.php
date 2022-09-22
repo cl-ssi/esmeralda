@@ -83,9 +83,9 @@ class Booking extends Model implements Auditable //Authenticatable
     {
         if ($request->input('search') != "") {            
                 $query->whereHas('patient', function ($q) use ($request) {
-                $users = Patient::getPatientsBySearch($request->input('search'));
-                $q->whereIn('id', $users->get('id'));
-              });            
+                $users = Patient::getPatientsReleaseBySearch($request->input('search'));                
+                $q->whereIn('id', $users->pluck('id')->toArray());
+              });
           }
     }
 
