@@ -1,3 +1,4 @@
+// Usar con la extenisón REST Client
 // Configuration
 @fhirUrl = http://hapi.fhir.org/baseR4
 //@fhirUrl = https://healthcare.googleapis.com...
