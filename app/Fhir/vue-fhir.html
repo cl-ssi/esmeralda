@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<pre>
+			{{ info  }}
+			</pre>
+		</div>
+
+		<script>
+			new Vue({
+				el: '#app',
+				data () {
+					return {
+						info: null
+					}
+				},
+				mounted () {
+					axios.defaults.baseURL = 'https://healthcare.googleapis.com....';
+					axios.defaults.headers.common['Authorization'] = 'Bearer ya29......';
+					axios.defaults.headers.post['Content-Type'] = 'application/fhir+json; charset=utf-8';
+					axios
+						.get('/Patient?identifier=http://www.registrocivil.cl/run|15287582-7')
+						.then(response => (this.info = response))
+				}	
+			})
+		</script>
+
+	</body>
+</html>

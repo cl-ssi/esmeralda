@@ -1,0 +1,24 @@
+// Configuration
+@fhirUrl = http://hapi.fhir.org/baseR4
+//@fhirUrl = https://healthcare.googleapis.com...
+@token = ya29.a0A...
+
+
+### Get-based search for Patients
+GET {{fhirUrl}}/Patient?gender=male
+Accept: application/fhir+json
+Authorization: Bearer {{token}}
+
+### Get-based search by id
+GET {{fhirUrl}}/Patient/1059
+Accept: application/fhir+json
+Authorization: Bearer {{token}}
+
+
+### Post-based search for Patients
+POST {{fhirUrl}}/Patient/_search
+Accept: application/fhir+json
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{token}}
+
+gender=male
