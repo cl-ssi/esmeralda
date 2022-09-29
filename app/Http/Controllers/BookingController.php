@@ -22,17 +22,7 @@ class BookingController extends Controller
     public function index(Request $request,Residence $residence)
     {
         $rooms = Room::where('residence_id',$residence->id)->orderBy('floor')->orderBy('number')->get();
-
-        //$bookings = Booking::All();
-        // $bookings = Booking::whereNull('real_to')->whereHas('room', function ($q) use($residence)
-        // {
-        //     $q->where('residence_id', $residence->id);
-        // })->get();
-
-        // $releases = Booking::whereNotNull('real_to')->whereHas('room', function ($q) use($residence)
-        // {
-        //     $q->where('residence_id', $residence->id);
-        // })->orderByDesc('real_to')->paginate(200);
+        
         $releases = Booking::SearchRelease($request)->whereHas('room', function ($q) use($residence)
         {
             $q->where('residence_id', $residence->id);

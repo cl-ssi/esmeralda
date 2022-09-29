@@ -34,3 +34,6 @@ Route::post('hl7_errors', 'SuspectCaseController@getHl7Errors')->middleware('aut
 Route::post('case_create', 'WebserviceController@caseCreate')->middleware('auth.basic');
 Route::post('case_reception', 'WebserviceController@caseReception')->middleware('auth.basic');
 Route::post('case_result', 'WebserviceController@caseResult')->middleware('auth.basic');
+
+Route::get('patients/{id}','FhirController@show');
+Route::get('patients','FhirController@storeToFhir');

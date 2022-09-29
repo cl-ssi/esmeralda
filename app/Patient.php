@@ -131,6 +131,9 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
 
 
 
+
+
+
     function getFullNameAttribute(){
         return mb_strtoupper($this->name . ' ' . $this->fathers_family . ' ' . $this->mothers_family);
     }
@@ -234,6 +237,24 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
     public static function getPatientsBySearch($searchText)
     {
         $patients = Patient::query();
+        $array_search = explode(' ', $searchText);
+        foreach ($array_search as $word) {
+            $patients->where(function ($q) use ($word) {
+                $q->where('name', 'LIKE', '%' . $word . '%')
+                    ->orwhere('fathers_family', 'LIKE', '%' . $word . '%')
+                    ->orwhere('mothers_family', 'LIKE', '%' . $word . '%')
+                    ->orwhere('run', 'LIKE', '%' . $word . '%')
+                    ->orwhere('other_identification', 'LIKE', '%' . $word . '%');
+            });
+        }
+        return $patients;
+    }
+
+
+    public static function getPatientsReleaseBySearch($searchText)
+    {
+        $patients = Patient::query();
+        $patients->where('status','<>','Residencia Sanitaria');
         $array_search = explode(' ', $searchText);
         foreach ($array_search as $word) {
             $patients->where(function ($q) use ($word) {
