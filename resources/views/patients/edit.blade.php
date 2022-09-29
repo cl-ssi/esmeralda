@@ -56,17 +56,23 @@
             <div class="form-row">
                 <fieldset class="form-group col-12 col-sm-4 col-md-4">
                     <label for="for_name">Nombres*</label>
-                    <input type="text" class="form-control" id="for_name" name="name" value="{{ $patient->name }}" style="text-transform: uppercase;" required>
+                    <input type="text" class="form-control" id="for_name" name="name" value="{{ $patient->name }}"
+                           {{($patient->logged_by_cu_at) ? 'readonly' : '' }}
+                           style="text-transform: uppercase;" required>
                 </fieldset>
 
                 <fieldset class="form-group col-12 col-sm-4 col-md-4">
                     <label for="for_fathers_family">Apellido Paterno*</label>
-                    <input type="text" class="form-control" id="for_fathers_family" name="fathers_family" value="{{ $patient->fathers_family }}" style="text-transform: uppercase;" required>
+                    <input type="text" class="form-control" id="for_fathers_family" name="fathers_family"
+                           {{($patient->logged_by_cu_at) ? 'readonly' : '' }}
+                           value="{{ $patient->fathers_family }}" style="text-transform: uppercase;" required>
                 </fieldset>
 
                 <fieldset class="form-group col-12 col-sm-4 col-md-4">
                     <label for="for_mothers_family">Apellido Materno</label>
-                    <input type="text" class="form-control" id="for_mothers_family" name="mothers_family" value="{{ $patient->mothers_family }}" style="text-transform: uppercase;">
+                    <input type="text" class="form-control" id="for_mothers_family" name="mothers_family"
+                           {{($patient->logged_by_cu_at) ? 'readonly' : '' }}
+                           value="{{ $patient->mothers_family }}" style="text-transform: uppercase;">
                 </fieldset>
 
             </div>
