@@ -285,7 +285,7 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
 
     protected static function booted()
     {
-        //Si el paciente ha iniciado sesión con clave única, no se actualiza el nombre
+        //Si el paciente alguna vez ha iniciado sesión con clave única, no se actualiza el nombre
         self::updating(function (Patient $patient) {
             if($patient->logged_by_cu_at){
                 $patient->name = $patient->getOriginal('name');
