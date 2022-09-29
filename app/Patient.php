@@ -274,9 +274,9 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
      */
     public function updateNameFromCU(array $userClaveUnica)
     {
-        $this->fathers_family = strtoupper($userClaveUnica['name']['apellidos'][0]) ?? null;
-        $this->mothers_family = strtoupper($userClaveUnica['name']['apellidos'][1]) ?? null;
-        $this->name = strtoupper(implode(" ", $userClaveUnica['name']['nombres']));
+        $this->fathers_family = mb_strtoupper($userClaveUnica['name']['apellidos'][0]) ?? null;
+        $this->mothers_family = mb_strtoupper($userClaveUnica['name']['apellidos'][1]) ?? null;
+        $this->name = mb_strtoupper(implode(" ", $userClaveUnica['name']['nombres']));
         $this::unsetEventDispatcher();
         $this->save();
     }
