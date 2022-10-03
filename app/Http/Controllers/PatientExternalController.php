@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Patient;
 use App\SuspectCase;
 use App\LogAccessCu;
+use App\Jobs\StorePatientOnFhir;
 
 class PatientExternalController extends Controller
 {
@@ -88,6 +89,8 @@ class PatientExternalController extends Controller
             /** Marcar usuario como logueado por CU y actualizar nombre */
             $patient->update(['logged_by_cu_at' => now()]); 
             $patient->updateNameFromCU($userClaveUnica);
+
+			StorePatientOnFhir::dispatch($patient);
             
             return redirect()->route('examenes.home');
         }
@@ -158,12 +161,13 @@ class PatientExternalController extends Controller
 
     /** Para desarrollo, sólo Local */
     public function loginLocal($run)
-    { 
+    {
         if (env('APP_ENV') == 'local') {
             $patient = Patient::where('run', $run)->first();
 
             if($patient AND $run != null) {
                 Auth::guard('patients')->login($patient);
+				StorePatientOnFhir::dispatch($patient);
                 return redirect()->route('examenes.home');
             }
             else {

@@ -26,8 +26,8 @@ class WebserviceController extends Controller
             return json_encode("Debe incluir run y dv");
         }
 
-        $urlWs = env('FONASA_WS_URL');
-        $response = Http::get($urlWs, ['run' => $request->run, 'dv' => $request->dv]);
+        $url_ws_fonasa = env('URL_WSSSI').'/fonasa';
+        $response = Http::get($url_ws_fonasa, ['run' => $request->run, 'dv' => $request->dv]);
 
         if ($response->failed()) {
             return json_encode("No se pudo conectar a FONASA: " . $response->reason());
