@@ -36,11 +36,11 @@ class StorePatientOnFhir implements ShouldQueue
      */
     public function handle()
     {
-		// $url = env('URL_WSSSI').'/store-patient-on-fhir';
-		// $response = Http::get($url, $this->patient);
+		$url = env('URL_WSSSI').'/store-patient-on-fhir';
+		$response = Http::get($url, $this->patient);
 
-		// if ($response->failed()) {
-		// 	return json_encode("No se pudo almacenar en fhir " . $response->reason());
-		// }
+		if ($response->failed()) {
+			return json_encode("No se pudo almacenar en fhir " . $response->reason());
+		}
     }
 }
