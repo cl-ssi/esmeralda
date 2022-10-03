@@ -76,8 +76,9 @@ class PatientExternalController extends Controller
         $userClaveUnica = json_decode($response,true);
 
         $run = $userClaveUnica['RolUnico']['numero'] ?? null;
+        $dv  = $userClaveUnica['RolUnico']['DV'] ?? null;
 
-        $patient = Patient::where('run', $run)->first();
+        $patient = Patient::where('run', $run)->where('dv',$dv)->first();
 
         if($patient AND $run != null) {
             /** Iniciar sessión con el paciente */

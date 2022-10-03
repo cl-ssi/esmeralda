@@ -24,6 +24,7 @@ class StorePatientOnFhir implements ShouldQueue
      */
     public function __construct(Patient $patient)
     {
+        $this->patient['run'] = $patient->run.'-'.$patient->dv;
         $this->patient['name'] = $patient->name;
         $this->patient['fathers_family'] = $patient->mothers_family;
         $this->patient['mothers_family'] = $patient->mothers_family;
