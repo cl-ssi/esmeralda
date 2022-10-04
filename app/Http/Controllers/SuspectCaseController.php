@@ -1133,14 +1133,15 @@ class SuspectCaseController extends Controller
         $laboratories = Laboratory::withTrashed()->get();
         
         //Fix  temp ultimo año
-        $beginExamDate = Carbon::now()->subYear()->startOfDay();
+        //$beginExamDate = Carbon::now()->subYear()->startOfDay();
         
         //$lastday2021 = Carbon::endOfYear();
         $firstday2021 = Carbon::now()->subYear()->startOfYear();
         $lastday2021 = Carbon::now()->subYear()->endOfYear();
         //$endExamDate = Carbon::now()->subYear(2021)->startOfDay();
+        //dd($firstday2021);
 
-        $periods = CarbonPeriod::create($beginExamDate, now()->addDay());
+        $periods = CarbonPeriod::create($firstday2021, now()->addDay());
         $periods_count = $periods->count();
 
         // NUEVO CODIGO
