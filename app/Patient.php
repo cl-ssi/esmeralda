@@ -32,7 +32,7 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
      */
     protected $fillable = [
         'id', 'run', 'dv', 'other_identification', 'name', 'fathers_family',
-        'mothers_family', 'gender', 'birthday', 'status', 'deceased_at', 'logged_by_cu_at'
+        'mothers_family', 'gender', 'birthday', 'status', 'deceased_at', 'logged_by_cu_at', 'sent_to_fhir_at',
     ];
 
     /**
