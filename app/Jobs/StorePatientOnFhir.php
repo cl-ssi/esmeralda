@@ -37,9 +37,6 @@ class StorePatientOnFhir implements ShouldQueue
 
 		$response = Http::post($url, $this->userClaveUnica);
 
-		$url2 = 'https://i.saludiquique.gob.cl/api/post-request-inputs';
-		$response2 = Http::post($url2, $this->userClaveUnica);
-
 		if($response->getStatusCode() != 200){
 			abort($response->getStatusCode());
 		}
