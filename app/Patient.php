@@ -280,6 +280,22 @@ class Patient extends Authenticatable implements Auditable //Authenticatable
         $this::unsetEventDispatcher();
         $this->save();
     }
+    
+    /**
+     * Check if patient's name is the same as Clave Unica
+     * @param array $userClaveUnica
+     * @return bool
+     */
+    public function isNameDifferentFromCu(array $userClaveUnica): bool
+    {
+        $fathers_family = mb_strtoupper($userClaveUnica['name']['apellidos'][0]) ?? null;
+        $mothers_family = mb_strtoupper($userClaveUnica['name']['apellidos'][1]) ?? null;
+        $name = mb_strtoupper(implode(" ", $userClaveUnica['name']['nombres']));
+        if(mb_strtoupper($this->fathers_family) == $fathers_family && mb_strtoupper($this->mothers_family) == $mothers_family && mb_strtoupper($this->name == $name)){
+            return false;
+        }
+        return true;
+    }
 
 	protected $withCount = ['suspectCases'];
 

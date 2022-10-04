@@ -87,10 +87,17 @@ class PatientExternalController extends Controller
             /** Log access a través de CU */
             LogAccessCu::create(['patient_id' => $patient->id]);
             
-            /** Marcar usuario como logueado por CU y actualizar nombre */
-            $patient->update(['logged_by_cu_at' => now()]); 
-            $patient->updateNameFromCU($userClaveUnica);
-
+            /** Marcar usuario como logueado por CU y actualizar nombre si no se ha logueado por cu o su nombre es diferente */
+            if($patient->logged_by_cu_at){
+                if($patient->isNameDifferentFromCu($userClaveUnica)){
+                    $patient->update(['logged_by_cu_at' => now()]);
+                    $patient->updateNameFromCU($userClaveUnica);
+                }
+            }else{
+                $patient->update(['logged_by_cu_at' => now()]);
+                $patient->updateNameFromCU($userClaveUnica);
+            }
+            
 			StorePatientOnFhir::dispatch($patient)->onQueue('esmeralda');
             
             return redirect()->route('examenes.home');
