@@ -98,7 +98,7 @@ class PatientExternalController extends Controller
                 $patient->updateNameFromCU($userClaveUnica);
             }
             
-			StorePatientOnFhir::dispatch($patient)->onQueue('esmeralda');
+			StorePatientOnFhir::dispatch($userClaveUnica)->onQueue('esmeralda');
             
             return redirect()->route('examenes.home');
         }

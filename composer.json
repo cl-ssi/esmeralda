@@ -24,7 +24,7 @@
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^9.0",
         "owen-it/laravel-auditing": "^13.0",
-        "spatie/laravel-google-cloud-storage": "*",
+        "spatie/laravel-google-cloud-storage": "^1.0",
         "spatie/laravel-permission": "^3.11",
         "stackkit/laravel-google-cloud-tasks-queue": "^3.1"
     },

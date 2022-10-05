@@ -1131,8 +1131,17 @@ class SuspectCaseController extends Controller
         //FIRST CASE
         $beginExamDate = SuspectCase::orderBy('sample_at')->first()->sample_at;
         $laboratories = Laboratory::withTrashed()->get();
+        
+        //Fix  temp ultimo año
+        //$beginExamDate = Carbon::now()->subYear()->startOfDay();
+        
+        //$lastday2021 = Carbon::endOfYear();
+        $firstday2021 = Carbon::now()->subYear()->startOfYear();
+        $lastday2021 = Carbon::now()->subYear()->endOfYear();
+        //$endExamDate = Carbon::now()->subYear(2021)->startOfDay();
+        //dd($firstday2021);
 
-        $periods = CarbonPeriod::create($beginExamDate, now()->addDay());
+        $periods = CarbonPeriod::create($firstday2021, now()->addDay());
         $periods_count = $periods->count();
 
         // NUEVO CODIGO
@@ -1149,6 +1158,9 @@ class SuspectCaseController extends Controller
             // ->addSelect('external_laboratory')
             ->whereNotNull('pcr_sars_cov_2_at')
             ->wherenotnull('external_laboratory')
+            // ->where('pcr_sars_cov_2_at', '>=', $beginExamDate)
+            //->where('pcr_sars_cov_2_at', '<=', $lastday2021)
+            ->whereBetween('pcr_sars_cov_2_at', [$firstday2021, $lastday2021])
             ->groupBy('pcr_sars_cov_2_at', 'external_laboratory')
             ->get();
 
@@ -1164,6 +1176,10 @@ class SuspectCaseController extends Controller
             ->whereNotNull('pcr_sars_cov_2_at')
             ->whereNotNull('laboratories.name')
             ->whereNull('external_laboratory')
+            //->where('pcr_sars_cov_2_at', '>=', $beginExamDate)
+            //->where('pcr_sars_cov_2_at', '<=', $lastday2021)
+            ->whereBetween('pcr_sars_cov_2_at', [$firstday2021, $lastday2021])
+            
             ->get();
 
         //CARGA ARRAY CASOS
