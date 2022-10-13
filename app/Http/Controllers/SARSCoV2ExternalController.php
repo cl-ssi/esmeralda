@@ -95,7 +95,7 @@ class SARSCoV2ExternalController extends Controller
         $covid19->fill($request->all());
         $covid19->result_at = date('Y-m-d H:i:s');
         $covid19->validator_id = Auth::id();
-        $covid19->file = $request->file('file')->store('external_results');
+        $covid19->file = Storage::disk('gcs')->put('esmeralda/external_results/' . $covid19->id, $request->file('file'), ['CacheControl' => 'no-cache, must-revalidate']);  
         $covid19->save();
 
         session()->flash('info', 'El resultado ha sido cargado a muestra: '.$covid19->id);
