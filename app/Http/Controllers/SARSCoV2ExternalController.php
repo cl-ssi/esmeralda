@@ -141,7 +141,11 @@ class SARSCoV2ExternalController extends Controller
     }
 
     public function download($storage, $file) {
-        return Storage::download($storage.'/'.$file, 'resultado.pdf');
+        return Storage::disk('gcs')
+                ->response('esmeralda/' .$storage . '/' . $file,
+                mb_convert_encoding('resultado.pdf', 'ASCII'),
+                ['CacheControl' => 'no-cache, must-revalidate']
+            );
     }
 
     public function export()
