@@ -47,7 +47,7 @@ class AdmissionSurvey extends Model implements Auditable //Authenticatable
     }
 
     public function user() {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withTrashed();
     }
 
     function getResultAttribute(){
