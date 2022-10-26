@@ -17,8 +17,7 @@
             <th>Nombre</th>
             <th>Dirección</th>
             <th>Fono</th>
-            <th>Fecha Encuesta</th>
-            <th>Observaciones</th>
+            <th>Fecha Encuesta</th>            
             <th>Antecedentes Morbidos</th>
             <th>Aprobar Ingreso</th>
             <th>Rechazar Ingreso (Elimina Encuesta)</th>
@@ -31,8 +30,7 @@
             <td>{{$admission->patient->fullname}}</td> 
             <td>{{($admission->patient->demographic)?$admission->patient->demographic->fulladdress:''}}</td>
             <td>{{ ($admission->patient->demographic)?$admission->patient->demographic->telephone:'' }}</td>
-            <td>{{$admission->created_at}}</td>
-            <td>{{$admission->observations}}</td>
+            <td>{{$admission->created_at}}</td>            
             <td>{{$admission->morbid_history ?? ''}}</td>
             <td>
                 
