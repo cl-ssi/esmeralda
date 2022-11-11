@@ -5,10 +5,10 @@
 @section('content')
 
 <h3 class="mb-3"><i class="fas fa-lungs-virus"></i>
-    Estadisticas de exámenes
+    Estadisticas de exámenes por {{ $stadistics_by }}
 </h3>
 
-<form method="post" action="{{ route('lab.suspect_cases.reports.exams-stadistics-posts') }}">
+<form method="post" action="{{ route('lab.suspect_cases.reports.exams-stadistics-posts',$stadistics_by) }}">
 	@method('POST')
 	@csrf
 	<div class="form-row">

@@ -185,7 +185,8 @@
                                 Lab
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('lab.suspect_cases.reports.exams-stadistics-form') }}">Estadística de exámenes</a>
+                                <a class="dropdown-item" href="{{ route('lab.suspect_cases.reports.exams-by-estabs-stadistics-form') }}">Estadística de exámenes por establecimientos</a>
+                                <a class="dropdown-item" href="{{ route('lab.suspect_cases.reports.exams-by-labs-stadistics-form') }}">Estadística de exámenes por laboratorios</a>
                                 
                                 <a class="dropdown-item" href="{{ route('lab.exams.covid19.index') }}">Exámenes externos</a>
 
