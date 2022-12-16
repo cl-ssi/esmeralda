@@ -349,6 +349,8 @@ Route::prefix('lab')->name('lab.')->group(function () {
         Route::put('/{sampleOrigin}', 'SampleOriginController@update')->name('update');
         //Route::delete('/{sample_origins}', 'SampleOriginController@destroy')->name('destroy');
     });
+
+
     Route::prefix('inmuno_tests')->name('inmuno_tests.')->group(function () {
         Route::get('/', 'InmunoTestController@index')->name('index')->middleware('auth');
         Route::get('/create/{search}', 'InmunoTestController@create')->name('create')->middleware('auth');
@@ -424,6 +426,14 @@ Route::prefix('parameters')->as('parameters.')->middleware('auth')->group(functi
     Route::post('/establishment/store', 'EstablishmentController@store')->name('establishment.store');
     Route::get('/establishment/{establishment}/edit', 'EstablishmentController@edit')->name('establishment.edit');
     Route::put('/establishment/update/{establishment}', 'EstablishmentController@update')->name('establishment.update');
+
+    Route::prefix('sample_types')->name('sample_types.')->group(function () {
+        Route::get('/', 'SampleTypeController@index')->name('index');
+        Route::get('/create', 'SampleTypeController@create')->name('create');
+        Route::post('/store', 'SampleTypeController@store')->name('store');
+        Route::get('/{sampleType}/edit', 'SampleTypeController@edit')->name('edit');
+        Route::put('/update/{sampleType}', 'SampleTypeController@update')->name('update');
+    });
 
 });
 

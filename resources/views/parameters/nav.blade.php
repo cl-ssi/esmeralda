@@ -46,6 +46,17 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" href="#">
+            <i class="fas fa-clipbard-list"></i> Tipos de examenes</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('parameters.sample_types.index') }}">
+            <i class="fas fa-dna"></i> Tipos de muestras</a>
+    </li>
+
+
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('parameters.establishment') }}">
             <i class="fas fa-store"></i> Establecimientos</a>
     </li>
