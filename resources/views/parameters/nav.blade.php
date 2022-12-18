@@ -46,8 +46,8 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fas fa-clipbard-list"></i> Tipos de examenes</a>
+        <a class="nav-link" href="{{ route('parameters.exam_types.index') }}">
+            <i class="fas fa-medkit"></i> Tipos de examenes</a>
     </li>
 
     <li class="nav-item">
