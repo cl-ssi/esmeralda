@@ -12,7 +12,7 @@ class SampleProcedure extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'name', 'pdf_all_exam'
     ];
 
     protected $dates = ['deleted_at'];

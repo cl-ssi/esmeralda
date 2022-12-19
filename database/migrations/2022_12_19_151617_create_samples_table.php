@@ -15,6 +15,18 @@ class CreateSamplesTable extends Migration
     {
         Schema::create('samples', function (Blueprint $table) {
             $table->id();
+
+            /**
+             * Columna "procedure_id" de tipo entero con clave externa. Se utilizará para almacenar el ID del procedimiento que se va a realizar
+             */
+            $table->foreignId('procedure_id')->nullable()->constrained('sample_procedures');
+
+            /**
+             * Columna "procedure_name" de tipo string para saber lo solicitado y obtener reportería de manera más fácil
+             */
+            $table->string('procedure_name')->nullable();
+
+
             /**
              * Columna "date" de tipo fecha. Se utilizará para almacenar la fecha de la muestra.
              */

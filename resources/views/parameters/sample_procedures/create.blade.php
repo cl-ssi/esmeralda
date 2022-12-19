@@ -8,7 +8,7 @@
 <h3 class="mb-3">Crear Procedimiento</h3>
 
 <form method="POST" class="form-horizontal" action="{{ route('parameters.sample_procedures.store') }}">
-@csrf
+    @csrf
     @method('POST')
     <div class="form-row">
         <fieldset class="form-group col-6 col-md-4">
@@ -25,8 +25,18 @@
                 @endforeach
             </select>
         </fieldset>
-        <small class="form-text text-muted">El Procedimiento debe tener mínimo un examen, posteriormente se pueden añadir más examenes</small>
+        <small class="form-text text-muted">El Procedimiento debe tener mínimo un examen, posteriormente se pueden añadir más examenes</small><br><br><br><br><br>
     </div>
+
+    <div class="form-row">
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                <label for="for_pdf_all_exam">examenes en un PDF (sin separar)</label>
+                <input type="checkbox" name="pdf_all_exam" id="for_pdf_all_exam" value="1">
+            </div>
+        </div>
+    </div>
+
 
     <button type="submit" class="btn btn-primary">Guardar</button>
 

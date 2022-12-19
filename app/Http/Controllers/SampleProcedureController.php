@@ -48,9 +48,12 @@ class SampleProcedureController extends Controller
             'exam_id' => 'required',
         ]);
 
-        // Crea un Procedimiento y en la pivote
+        $pdf_all_exam = $request->input('pdf_all_exam',0);
+
+        // Crea un Procedimiento y en la pivote escribe
         $sampleProcedure = new SampleProcedure;
         $sampleProcedure->name = $request->input('name');
+        $sampleProcedure->pdf_all_exam = $pdf_all_exam;
         $sampleProcedure->save();
         $sampleProcedureExam = new SampleProcedureExam;
         $sampleProcedureExam->procedure_id = $sampleProcedure->id;

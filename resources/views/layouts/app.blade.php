@@ -97,16 +97,11 @@
                                 @endphp
                                 @foreach($sampleProcedures as $sampleProcedure)
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('lab.samples.create') }}">Agregar nueva muestra de {{ $sampleProcedure->name }}</a>
-                                <a class="dropdown-item" href="{{ route('lab.samples.reception_inbox') }}">Recepcionar muestra de {{ $sampleProcedure->name }}</a>
+                                <a class="dropdown-item" href="{{ route('lab.samples.create') }}">Agregar {{ $sampleProcedure->name }}</a>
+                                <a class="dropdown-item" href="{{ route('lab.samples.reception_inbox') }}">Recepcionar {{ $sampleProcedure->name }}</a>
                                 <div class="dropdown-divider"></div>                                
                                 @endforeach
-
-
-
-
                                 @endcan
-
                                 @can('SuspectCase: list')
                                 @php
                                 $labs = App\Laboratory::where('external',0)->get();
