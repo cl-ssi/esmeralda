@@ -379,6 +379,27 @@ Route::prefix('lab')->name('lab.')->group(function () {
         Route::post('/import-no-creation', 'SuspectCaseController@bulk_load_import_from_pntm_no_creation')->name('import.excel.no.creation')->middleware('auth');
         Route::post('/importpassport', 'SuspectCaseController@bulk_load_import_from_pntm_passport')->name('import.excel.passport')->middleware('auth');
     });
+
+    // Se crea un prefijo para las rutas de muestras
+    Route::prefix('samples')->name('samples.')->group(function () {
+        // Esta ruta muestra la lista de muestras
+        Route::get('/', 'SampleController@index')->name('index');
+
+        // Esta ruta muestra el formulario para crear una nueva muestra
+        Route::get('/create', 'SampleController@create')->name('create');
+
+        // Esta ruta procesa la petición de creación de una nueva muestra
+        Route::post('/store', 'SampleController@store')->name('store');
+
+        // Esta ruta muestra el formulario para editar una muestra existente
+        Route::get('/{sample}/edit', 'SampleController@edit')->name('edit');
+
+        // Esta ruta procesa la petición de actualización de una muestra existente
+        Route::put('/update/{sample}', 'SampleController@update')->name('update');
+
+        // Esta ruta procesa es la bandeja de entrada de las muestras sin recepcionar
+        Route::get('/reception_inbox', 'SampleController@reception_inbox')->name('reception_inbox');
+    });
 });
 
 Route::prefix('parameters')->as('parameters.')->middleware('auth')->group(function () {
@@ -442,6 +463,8 @@ Route::prefix('parameters')->as('parameters.')->middleware('auth')->group(functi
     });
 
 
+
+
     // Se crea un prefijo para las rutas de tipos de exámenes
     Route::prefix('exam_types')->name('exam_types.')->group(function () {
         // Esta ruta muestra la lista de tipos de exámenes
@@ -458,6 +481,28 @@ Route::prefix('parameters')->as('parameters.')->middleware('auth')->group(functi
 
         // Esta ruta procesa la petición de actualización de un tipo de examen existente
         Route::put('/update/{examType}', 'ExamTypeController@update')->name('update');
+    });
+
+
+    // Se crea un prefijo para las rutas de procedimientos
+    Route::prefix('sample_procedures')->name('sample_procedures.')->group(function () {
+        // Esta ruta muestra la lista de procedimientos de muestra
+        Route::get('/', 'SampleProcedureController@index')->name('index');
+
+        // Esta ruta muestra el formulario para crear un nuevo procedimiento de muestra
+        Route::get('/create', 'SampleProcedureController@create')->name('create');
+
+        // Esta ruta procesa la petición de creación de un nuevo procedimiento de muestra
+        Route::post('/store', 'SampleProcedureController@store')->name('store');
+
+        // Esta ruta muestra el formulario para editar un procedimiento de muestra existente
+        Route::get('/{sampleProcedure}/edit', 'SampleProcedureController@edit')->name('edit');
+
+        // Esta ruta procesa la petición de actualización de un procedimiento de muestra existente
+        Route::put('/update/{sampleProcedure}', 'SampleProcedureController@update')->name('update');
+
+        // Esta ruta elimina un procedimiento de muestra existente
+        Route::delete('/{sampleProcedure}', 'SampleProcedureController@destroy')->name('destroy');
     });
 });
 

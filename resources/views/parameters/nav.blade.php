@@ -46,13 +46,18 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('parameters.exam_types.index') }}">
-            <i class="fas fa-medkit"></i> Tipos de examenes</a>
+        <a class="nav-link" href="{{ route('parameters.sample_types.index') }}">
+            <i class="fas fa-dna"></i> Tipos de muestras</a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('parameters.sample_types.index') }}">
-            <i class="fas fa-dna"></i> Tipos de muestras</a>
+        <a class="nav-link" href="{{ route('parameters.exam_types.index') }}">
+            <i class="fas fa-medkit"></i> Tipos de examenes</a>
+    </li>    
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('parameters.sample_procedures.index') }}">
+            <i class="fas fa-microscope"></i> Procedimientos</a>
     </li>
 
 

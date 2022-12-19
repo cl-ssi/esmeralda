@@ -11,8 +11,8 @@
     <title>{{ config('app.name') }} @yield('title')</title>
 
     <!-- Font Awesome - load everything-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
-    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -25,11 +25,10 @@
     <style media="screen">
         .navbar-custom {
             background-color:
-                @switch(App::environment()) 
-                    @case('local') #CE9DD9; @break 
-                    @case('testing') #B5EAD7; @break 
-                    @case('production') #4FB7DE; @break 
-                @endswitch
+                @switch(App::environment()) @case('local') #CE9DD9;
+            @break @case('testing') #B5EAD7;
+            @break @case('production') #4FB7DE;
+            @break @endswitch
         }
     </style>
 
@@ -92,7 +91,21 @@
                                 <a class="dropdown-item" href="{{ route('lab.suspect_cases.reception_inbox') }}">Recepcionar muestras</a>
                                 @endcan
 
+                                @can('Admin')
+                                @php
+                                $sampleProcedures = App\SampleProcedure::all();
+                                @endphp
+                                @foreach($sampleProcedures as $sampleProcedure)
                                 <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('lab.samples.create') }}">Agregar nueva muestra de {{ $sampleProcedure->name }}</a>
+                                <a class="dropdown-item" href="{{ route('lab.samples.reception_inbox') }}">Recepcionar muestra de {{ $sampleProcedure->name }}</a>
+                                <div class="dropdown-divider"></div>                                
+                                @endforeach
+
+
+
+
+                                @endcan
 
                                 @can('SuspectCase: list')
                                 @php
@@ -108,7 +121,7 @@
                                 <a class="dropdown-item" href="{{ route('lab.suspect_cases.index') }}?text=&pendientes=on">Todos los exámenes</a>
                                 <div class="dropdown-divider"></div>
                                 @endcan
-                                
+
                                 @can('SuspectCase: list labs with access')
                                 @php
                                 $labs = \Auth::user()->laboratories;
@@ -187,7 +200,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('lab.suspect_cases.reports.exams-by-estabs-stadistics-form') }}">Estadística de exámenes por establecimientos</a>
                                 <a class="dropdown-item" href="{{ route('lab.suspect_cases.reports.exams-by-labs-stadistics-form') }}">Estadística de exámenes por laboratorios</a>
-                                
+
                                 <a class="dropdown-item" href="{{ route('lab.exams.covid19.index') }}">Exámenes externos</a>
 
                                 @can('Inmuno Test: list')
@@ -211,15 +224,15 @@
                                 @endcan
 
                                 @can('SuspectCase: bulk load PNTM')
-                                    <a class="dropdown-item" href="{{ route('lab.bulk_load_from_pntm.index') }}">Carga Masiva Resultados PNTM</a>
+                                <a class="dropdown-item" href="{{ route('lab.bulk_load_from_pntm.index') }}">Carga Masiva Resultados PNTM</a>
                                 @endcan
 
                                 @can('SuspectCase: bulk load PNTM')
-                                    <a class="dropdown-item" href="{{ route('lab.bulk_load_from_pntm.index.no.creation') }}">Carga Masiva Resultados PNTM HETG a Bluelab</a>
+                                <a class="dropdown-item" href="{{ route('lab.bulk_load_from_pntm.index.no.creation') }}">Carga Masiva Resultados PNTM HETG a Bluelab</a>
                                 @endcan
 
                                 @can('SuspectCase: edit')
-                                  <a class="dropdown-item" href="{{ route('lab.suspect_cases.reports.integration_hetg_monitor_pendings') }}">Integración HETG - Esmeralda - Pendientes</a>
+                                <a class="dropdown-item" href="{{ route('lab.suspect_cases.reports.integration_hetg_monitor_pendings') }}">Integración HETG - Esmeralda - Pendientes</a>
                                 @endcan
 
 
@@ -371,7 +384,7 @@
                                 @endcan
 
                                 @can('Report: hospitalized commune')
-                                    <a class="dropdown-item" href="{{ route('lab.suspect_cases.reports.hospitalizedByUserCommunes') }}">Hospitalizados de mis comunas</a>
+                                <a class="dropdown-item" href="{{ route('lab.suspect_cases.reports.hospitalizedByUserCommunes') }}">Hospitalizados de mis comunas</a>
                                 @endcan
 
                                 @can('Report: deceased')
@@ -444,22 +457,22 @@
                         @endcan
 
                         @canany(['NotContacted: create',
-                                'NotContacted: list'])
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-phone"></i>
-                                    No Contactados
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        'NotContacted: list'])
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-phone"></i>
+                                No Contactados
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                                    @can('NotContacted: create')
-                                        <a class="dropdown-item" href="{{ route('pending_patient.create') }}">Crear paciente no contactado</a>
-                                    @endcan()
-                                    @can('NotContacted: list')
-                                        <a class="dropdown-item" href="{{ route('pending_patient.index') }}">Listar pacientes</a>
-                                    @endcan
-                                </div>
-                            </li>
+                                @can('NotContacted: create')
+                                <a class="dropdown-item" href="{{ route('pending_patient.create') }}">Crear paciente no contactado</a>
+                                @endcan()
+                                @can('NotContacted: list')
+                                <a class="dropdown-item" href="{{ route('pending_patient.index') }}">Listar pacientes</a>
+                                @endcan
+                            </div>
+                        </li>
                         @endcanany
                         @endauth
                     </ul>
@@ -492,7 +505,7 @@
                                 <a class="dropdown-item" href="{{ route('patients.tracings.withouttracing') }}">Pacientes (+) sin tracing</a>
 
                                 <a class="dropdown-item" href="{{ route('patients.tracings.cartoindex') }}">BETA Pacientes CAR que pasaron a Indice</a>
-                                
+
                                 <a class="dropdown-item" href="{{ route('patients.log-access') }}">Registro de acceso con CU</a>
                                 @endcan
 
@@ -516,35 +529,34 @@
         </nav>
 
         <main class="py-4 container">
-        
+
             @foreach (['danger', 'warning', 'success', 'info'] as $key)
-                @if(session()->has($key))
-                <div class="alert alert-{{ $key }} alert-dismissable">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    {!! session()->get($key) !!}
-                </div>
-                @endif
+            @if(session()->has($key))
+            <div class="alert alert-{{ $key }} alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {!! session()->get($key) !!}
+            </div>
+            @endif
             @endforeach
 
             @auth
-                @if(
-                    is_null(auth()->user()->run) OR 
-                    is_null(auth()->user()->dv) OR 
-                    is_null(auth()->user()->name) OR 
-                    count(preg_split('/\W+/u', auth()->user()->name, -1, PREG_SPLIT_NO_EMPTY)) <= 2 OR
-                    is_null(auth()->user()->telephone) OR 
-                    is_null(auth()->user()->establishment_id) OR 
-                    is_null(auth()->user()->function)
+            @if(
+            is_null(auth()->user()->run) OR
+            is_null(auth()->user()->dv) OR
+            is_null(auth()->user()->name) OR
+            count(preg_split('/\W+/u', auth()->user()->name, -1, PREG_SPLIT_NO_EMPTY)) <= 2 OR is_null(auth()->user()->telephone) OR
+                is_null(auth()->user()->establishment_id) OR
+                is_null(auth()->user()->function)
                 )
 
-                    @include('users.partials.self-update')
+                @include('users.partials.self-update')
                 @else
-                    @yield('content')
-                @endif
-            @else
                 @yield('content')
-            @endauth
-        
+                @endif
+                @else
+                @yield('content')
+                @endauth
+
         </main>
     </div>
     @auth

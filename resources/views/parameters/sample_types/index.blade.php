@@ -17,12 +17,15 @@
         </tr>
     </thead>
     <tbody>
-    @foreach($sample_types as $sample_type)
-    <td>{{ $sample_type->name }}</td>
-    <td>
-            <a href="{{ route('parameters.sample_types.edit', $sample_type) }}" class="btn btn-secondary float-left"><i class="fas fa-edit"></i></a>
+        @foreach($sample_types as $sample_type)
+        <tr>
+            <td>{{ $sample_type->name }}</td>
+            <td>
+                <a href="{{ route('parameters.sample_types.edit', $sample_type) }}" class="btn btn-secondary float-left"><i class="fas fa-edit"></i></a>
             </td>
-    @endforeach
+        </tr>
+        @endforeach
+
     </tbody>
 </table>
 
