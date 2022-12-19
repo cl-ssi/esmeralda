@@ -17,10 +17,15 @@ class SampleProcedure extends Model
 
     protected $dates = ['deleted_at'];
 
-    
+
 
     public function exams()
-{
-    return $this->belongsToMany(ExamType::class, 'sample_procedure_exams', 'procedure_id', 'exam_id');
-}
+    {
+        return $this->belongsToMany(ExamType::class, 'sample_procedure_exams', 'procedure_id', 'exam_id');
+    }
+
+    public function samples()
+    {
+        return $this->hasMany(Sample::class);
+    }
 }

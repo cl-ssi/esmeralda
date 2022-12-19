@@ -3,10 +3,14 @@
 @section('title', 'Crear nueva Muestra')
 
 @section('content')
-<h1>Crear nueva Muestra</h1>
+<h1>Crear {{$sampleProcedure->name }}</h1>
 
 <form method="post" action="{{ route('lab.samples.store') }}">
     @csrf
+
+    <input type="hidden" id="procedure_id" name="procedure_id" value="{{ $sampleProcedure->id }}">
+    <input type="hidden" id="procedure_name" name="procedure_name" value="{{ $sampleProcedure->name }}">
+
 
     <div class="form-row">
 

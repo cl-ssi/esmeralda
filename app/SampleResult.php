@@ -12,7 +12,7 @@ class SampleResult extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'sample_id', 'exam_type', 'result', 'result_at', 'pdf'
+        'sample_id', 'exam_id', 'exam_name', 'result', 'result_at', 'pdf', 'reception_at'
     ];
 
         /**

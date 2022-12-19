@@ -28,7 +28,7 @@ class CreateSamplesTable extends Migration
 
 
             /**
-             * Columna "date" de tipo fecha. Se utilizará para almacenar la fecha de la muestra.
+             * Columna "sample_at" de tipo fecha. Se utilizará para almacenar la fecha de la muestra.
              */
             $table->datetime('sample_at')->nullable();
 
@@ -37,10 +37,25 @@ class CreateSamplesTable extends Migration
              */
             $table->string('sample_type')->nullable();
 
+
+            /**
+             * Columna "reception_at" de tipo fecha. Se utilizará para almacenar la fecha de recepcion la muestra.
+             */
+            $table->datetime('reception_at')->nullable();
+
+            /**
+             * Columna "receptor_id" de tipo entero con clave externa. Se utilizará para almacenar el ID del receptor de la muestra
+             */
+            $table->foreignId('receptor_id')->nullable()->constrained('users');
+
             /**
              * Columna "establishment_id" de tipo entero con clave externa. Se utilizará para almacenar el ID del establecimiento al que pertenece la muestra.
              */
             $table->foreignId('establishment_id')->nullable()->constrained('establishments');
+
+            
+
+
 
             /**
              * Columna "user_id" de tipo cadena con clave externa. Se utilizará para almacenar el ID del usuario que creó la muestra.

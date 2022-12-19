@@ -380,13 +380,17 @@ Route::prefix('lab')->name('lab.')->group(function () {
         Route::post('/importpassport', 'SuspectCaseController@bulk_load_import_from_pntm_passport')->name('import.excel.passport')->middleware('auth');
     });
 
-    // Se crea un prefijo para las rutas de muestras
+    // Se crea un prefijo para las rutas de muestras    
     Route::prefix('samples')->name('samples.')->group(function () {
+        // Esta ruta procesa la recepcion con la fecha de ahora
+        Route::post('/reception/{sample}', 'SampleController@reception')->name('reception');
+
         // Esta ruta muestra la lista de muestras
         Route::get('/', 'SampleController@index')->name('index');
 
         // Esta ruta muestra el formulario para crear una nueva muestra
-        Route::get('/create', 'SampleController@create')->name('create');
+        
+        Route::get('/create/{sampleProcedure}', 'SampleController@create')->name('create');
 
         // Esta ruta procesa la petición de creación de una nueva muestra
         Route::post('/store', 'SampleController@store')->name('store');
@@ -397,8 +401,16 @@ Route::prefix('lab')->name('lab.')->group(function () {
         // Esta ruta procesa la petición de actualización de una muestra existente
         Route::put('/update/{sample}', 'SampleController@update')->name('update');
 
+        
+
         // Esta ruta procesa es la bandeja de entrada de las muestras sin recepcionar
-        Route::get('/reception_inbox', 'SampleController@reception_inbox')->name('reception_inbox');
+        Route::get('/reception_inbox/{sampleProcedure}', 'SampleController@reception_inbox')->name('reception_inbox');
+
+
+        // // Esta ruta procesa la recepcion con la fecha de ahora
+        // Route::post('/kaka/', 'SampleController@kaka')->name('kaka');
+
+        
     });
 });
 
