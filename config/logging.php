@@ -80,9 +80,9 @@ return [
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'Laravel Log',
-            'emoji' => ':boom:',
-            'level' => 'critical',
+            'username' => env('APP_NAME'),
+            'emoji' => ':ship:',
+            'level' => env('LOG_LEVEL', 'debug'),
         ],
 
         'papertrail' => [
