@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aquaro/laravel-maintenance-mode",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AquaroTorres/laravel-maintenance-mode.git",
-                "reference": "024daece2c0194a2a91edf848324b05dd59dd073"
+                "reference": "43c0a836482eb4922243067749a1a8b297f06369"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AquaroTorres/laravel-maintenance-mode/zipball/024daece2c0194a2a91edf848324b05dd59dd073",
-                "reference": "024daece2c0194a2a91edf848324b05dd59dd073",
+                "url": "https://api.github.com/repos/AquaroTorres/laravel-maintenance-mode/zipball/43c0a836482eb4922243067749a1a8b297f06369",
+                "reference": "43c0a836482eb4922243067749a1a8b297f06369",
                 "shasum": ""
             },
             "require": {
@@ -49,9 +49,9 @@
             "description": "Laravel Maintenance Mode without terminal access.",
             "support": {
                 "issues": "https://github.com/AquaroTorres/laravel-maintenance-mode/issues",
-                "source": "https://github.com/AquaroTorres/laravel-maintenance-mode/tree/v0.1.0"
+                "source": "https://github.com/AquaroTorres/laravel-maintenance-mode/tree/v0.1.1"
             },
-            "time": "2022-11-14T18:23:31+00:00"
+            "time": "2022-12-19T19:02:14+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -1133,16 +1133,16 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v6.3.1",
+            "version": "v6.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "ddfaddcb520488b42bca3a75e17e9dd53c3667da"
+                "reference": "ea7dda77098b96e666c5ef382452f94841e439cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/ddfaddcb520488b42bca3a75e17e9dd53c3667da",
-                "reference": "ddfaddcb520488b42bca3a75e17e9dd53c3667da",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/ea7dda77098b96e666c5ef382452f94841e439cd",
+                "reference": "ea7dda77098b96e666c5ef382452f94841e439cd",
                 "shasum": ""
             },
             "require": {
@@ -1189,9 +1189,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v6.3.1"
+                "source": "https://github.com/firebase/php-jwt/tree/v6.3.2"
             },
-            "time": "2022-11-01T21:20:08+00:00"
+            "time": "2022-12-19T17:10:46+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",
