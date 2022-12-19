@@ -62,6 +62,7 @@ class SampleController extends Controller
                 'sample_id' => $sample->id,
                 'exam_id' => $exam->id,
                 'exam_name' => $exam->name,
+                'result' => 'No Solicitado',
             ]);
         }
 
@@ -85,6 +86,7 @@ class SampleController extends Controller
     public function reception(Request $request, Sample $sample)
     {
         $sample->reception_at = date('Y-m-d H:i:s');
+        $sample->receptor_id = Auth::id();
         $sample->save();
 
         session()->flash('success', 'Se ha Recepciono exitosamente la muestra');

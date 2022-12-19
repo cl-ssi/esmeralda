@@ -18,6 +18,7 @@ class Sample extends Model
         'sample_type',
         'type',
         'reception_at',
+        'receptor_id',
         'establishment_id',
         'user_id',
         'patient_id',

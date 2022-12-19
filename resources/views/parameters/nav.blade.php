@@ -57,7 +57,7 @@
 
     <li class="nav-item">
         <a class="nav-link" href="{{ route('parameters.sample_procedures.index') }}">
-            <i class="fas fa-microscope"></i> Procedimientos</a>
+            <i class="fas fa-microscope"></i> Prestación</a>
     </li>
 
 

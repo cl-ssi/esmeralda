@@ -5,14 +5,14 @@
 @section('content')
 @include('parameters.nav')
 
-<h3 class="mb-3">Listado de Procedimientos</h3>
+<h3 class="mb-3">Listado de Prestación</h3>
 
 <a class="btn btn-primary mb-3" href="{{ route('parameters.sample_procedures.create') }}">Crear nuevo Procedimiento</a>
 
 <table class="table table-sm table-bordered">
     <thead>
         <tr>
-            <th>Nombre del procedimiento</th>
+            <th>Nombre de la prestación</th>
             <th>Examenes</th>
             <th>Agregar Examen</th>
             <th>Eliminar Examen</th>
