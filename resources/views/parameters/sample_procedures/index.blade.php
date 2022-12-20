@@ -15,7 +15,7 @@
             <th>Nombre de la prestación</th>
             <th>Examenes</th>
             <th>Agregar Examen</th>
-            <th>Eliminar Examen</th>
+            <th>Eliminar Prestación</th>
     <tbody>
         @foreach($sampleProcedures as $sampleProcedure)
         <tr>
