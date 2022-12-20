@@ -190,6 +190,7 @@
                                 @foreach($sampleProcedures as $sampleProcedure)                                
                                 <a class="dropdown-item" href="{{ route('lab.samples.create', $sampleProcedure) }}">Agregar {{ $sampleProcedure->name }}</a>
                                 <a class="dropdown-item" href="{{ route('lab.samples.reception_inbox', $sampleProcedure) }}">Recepcionar {{ $sampleProcedure->name }}</a>
+                                <a class="dropdown-item" href="{{ route('lab.samples.result_inbox', $sampleProcedure) }}">Resultados {{ $sampleProcedure->name }}</a>
                                 <div class="dropdown-divider"></div>
                                 @endforeach
                                 @endcan

@@ -15,7 +15,7 @@ class SampleResult extends Model
         'sample_id', 'exam_id', 'exam_name', 'result', 'result_at', 'pdf', 'reception_at'
     ];
 
-        /**
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -24,5 +24,13 @@ class SampleResult extends Model
         'result_at' => 'datetime',
     ];
 
+    public function sample()
+    {
+        return $this->belongsTo(Sample::class);
+    }
 
+    public function exam()
+    {
+        return $this->belongsTo(ExamType::class);
+    }
 }

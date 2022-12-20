@@ -33,4 +33,14 @@ class Sample extends Model
     {
         return $this->belongsTo(Establishment::class);
     }
+
+    public function sampleResults()
+    {
+        return $this->hasMany(SampleResult::class);
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo('App\Patient');
+    }
 }
