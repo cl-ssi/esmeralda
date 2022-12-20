@@ -404,6 +404,9 @@ Route::prefix('lab')->name('lab.')->group(function () {
         // Esta ruta procesa la petición de actualización de una muestra existente
         Route::put('/update_result/{sampleResult}', 'SampleController@update_result')->name('update_result');
 
+        // Esta ruta procesa la petición de actualización de fecha y archivo de una prestación
+        Route::put('/update_file/{sample}', 'SampleController@update_file')->name('update_file');
+
         // Esta ruta procesa es la bandeja de entrada de las muestras sin recepcionar
         Route::get('/reception_inbox/{sampleProcedure}', 'SampleController@reception_inbox')->name('reception_inbox');
 

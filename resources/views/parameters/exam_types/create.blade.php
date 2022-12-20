@@ -18,7 +18,7 @@
         <fieldset class="form-group col-6 col-md-4">
             <label for="for_values">Valores</label>
             <input type="text" class="form-control" name="values" id="for_values" required placeholder="" autocomplete="off">
-            <small class="form-text text-muted">Ingresar valores separados por coma (ej. No Informado, Positivo, Negativo)</small>
+            <small class="form-text text-muted">Ingresar valores separados por coma, el primero siempre debe ser No Solicitado (ej. No Informado, Positivo, Negativo)</small>
         </fieldset>
         <fieldset class="form-group col-6 col-md-4">
             <label for="for_unit">Unidad (opcional)</label>

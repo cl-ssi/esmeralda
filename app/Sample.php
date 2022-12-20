@@ -17,11 +17,18 @@ class Sample extends Model
         'sample_at',
         'sample_type',
         'type',
+        'result_at',
         'reception_at',
         'receptor_id',
         'establishment_id',
         'user_id',
+        'laboratory_id',
         'patient_id',
+    ];
+
+    protected $dates = [
+        'sample_at','result_at',
+
     ];
 
     public function procedure()

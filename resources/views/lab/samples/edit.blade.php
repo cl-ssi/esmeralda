@@ -64,31 +64,50 @@ $suspectCase = $sample;
     <button type="submit" class="btn btn-primary">Actualizar Datos Muestra</button>
 </form>
 <hr>
+<form method="POST" action="{{ route('lab.samples.update_file', $sample) }}">
+    @csrf
+    @method('PUT')
+    <div class="form-row">
+        <fieldset class="form-group col-6 col-md-6 alert-danger">
+            <label for="for_result_at">Fecha Resultado {{$sample->procedure_name}}</label>
+            <input type="datetime-local" class="form-control" id="for_result_at" name="result_at" value="{{ isset($sample->result_at)? $sample->result_at->format('Y-m-d\TH:i:s'):'' }}" max="{{ date('Y-m-d\T23:59:59') }}" required>
+        </fieldset>
+        <fieldset class="form-group col-6 col-md-6 alert-danger">
+            <label for="for_pcr_sars_cov_2">Archivo</label>
+            <div class="custom-file">
+                <input type="file" name="forfile" class="custom-file-input" id="forfile" lang="es" accept="application/pdf" required>
+                <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
+            </div>
+        </fieldset>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Subir Resultado de {{$sample->procedure_name}}</button>
+</form>
 
 <hr>
 
 @foreach($sample->sampleResults as $sampleResult)
-    <div class="card mt-3">
-        <div class="card-body">
-            <h5 class="card-title">Resultado {{$sampleResult->exam_name}}</h5>
-            <form method="POST" action="{{ route('lab.samples.update_result', $sampleResult) }}">
-                
-                @csrf
-                @method('PUT')
-                <div class="form-group">
-                
-                    <select name="result" id="for_result" class="form-control">
-                    
-                    
-                        @foreach(json_decode($sampleResult->exam->values) as $value)
-                        <option value="{{$value}}" {{ (trim($sampleResult->result) == trim($value))?'selected':'' }}>{{$value}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar resultado</button>
-            </form>
-        </div>
+<div class="card mt-3">
+    <div class="card-body">
+        <h5 class="card-title">Resultado {{$sampleResult->exam_name}}</h5>
+        <form method="POST" action="{{ route('lab.samples.update_result', $sampleResult) }}">
+
+            @csrf
+            @method('PUT')
+            <div class="form-group">
+
+                <select name="result" id="for_result" class="form-control">
+
+
+                    @foreach(json_decode($sampleResult->exam->values) as $value)
+                    <option value="{{$value}}" {{ (trim($sampleResult->result) == trim($value))?'selected':'' }}>{{$value}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar resultado</button>
+        </form>
     </div>
+</div>
 @endforeach
 
 

@@ -139,6 +139,12 @@ class SampleController extends Controller
     {
         $sample->reception_at = date('Y-m-d H:i:s');
         $sample->receptor_id = Auth::id();
+        
+        
+        /* La muestra se recepciona al laboratorio asignado al usuario*/
+        if (Auth::user()->laboratory_id) {
+            $sample->laboratory_id = Auth::user()->laboratory_id;
+        }
         $sample->save();
 
         session()->flash('success', 'Se ha Recepcionado exitosamente la muestra');
@@ -205,8 +211,20 @@ class SampleController extends Controller
 
         session()->flash('success', 'Se Actualizó exitosamente el resultado');
 
-        // Redirigir a la vista deseada        
+        // Redirigir a la vista deseada
         return redirect()->back();
+    }
+
+    public function update_file(Request $request, Sample $sample)
+    {
+        // Obtener el valor del resultado del formulario        
+        $result_at = $request->input('result_at');
+
+        $sample->update(['result_at' => $result_at]);
+        session()->flash('success', 'Se Subio la fecha de resultado y el archivo correctamente');
+        // Redirigir a la vista deseada
+        return redirect()->back();
+
     }
 
 

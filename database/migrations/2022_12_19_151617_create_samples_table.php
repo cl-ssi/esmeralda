@@ -32,6 +32,14 @@ class CreateSamplesTable extends Migration
              */
             $table->datetime('sample_at')->nullable();
 
+
+            /**
+             * Columna "sample_at" de tipo fecha. Se utilizará para almacenar la fecha del resultado de la muestra
+             */
+            $table->datetime('result_at')->nullable();
+
+            
+
             /**
              * Columna "type" de tipo cadena. Se utilizará para almacenar el tipo de muestra.
              */
@@ -54,18 +62,22 @@ class CreateSamplesTable extends Migration
             $table->foreignId('establishment_id')->nullable()->constrained('establishments');
 
             
+            /**
+             * Columna "laboratory_id" de tipo cadena con clave externa. Se utilizará para almacenar el Laboratorio a cargo de la muestra.
+             */            
+            $table->foreignId('laboratory_id')->nullable()->constrained('laboratories');
 
 
 
             /**
              * Columna "user_id" de tipo cadena con clave externa. Se utilizará para almacenar el ID del usuario que creó la muestra.
              */
-            $table->string('user_id')->nullable()->constrained('users');
+            $table->foreignId('user_id')->nullable()->constrained('users');
 
             /**
              * Columna "patient_id" de tipo cadena con clave externa. Se utilizará para almacenar el ID del paciente al que pertenece la muestra.
              */
-            $table->string('patient_id')->nullable()->constrained('patients');
+            $table->foreignId('patient_id')->nullable()->constrained('patients');
 
 
             $table->timestamps();
