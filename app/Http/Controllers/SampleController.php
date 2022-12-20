@@ -188,7 +188,27 @@ class SampleController extends Controller
     public function update(Request $request, Sample $sample)
     {
         //
+        $sample->fill($request->all());
+        $sample->save();
+        //$sample->sampleResults()->sync($request->input('results'));
+        session()->flash('success', 'Se Actualizó exitosamente la muestra');
+        return redirect()->back();
     }
+
+    public function update_result(Request $request, SampleResult $sampleResult)
+    {
+        // Obtener el valor del resultado del formulario        
+        $result = $request->input('result');
+
+        // Actualizar el resultado del examen
+        $sampleResult->update(['result' => $result]);
+
+        session()->flash('success', 'Se Actualizó exitosamente el resultado');
+
+        // Redirigir a la vista deseada        
+        return redirect()->back();
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -199,5 +219,6 @@ class SampleController extends Controller
     public function destroy(Sample $sample)
     {
         //
+
     }
 }
