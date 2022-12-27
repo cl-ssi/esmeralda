@@ -149,19 +149,11 @@ class BookingController extends Controller
      */
     public function update(Request $request, Booking $booking)
     {
-        // $logPatient = new Log();
-        // $logPatient->old = clone $booking;
-
         $booking->fill($request->all());
         $booking->save();
-
         session()->flash('success', 'Se modificó la información.');
 
-        // return redirect()->route('sanitary_residences.bookings.index');
-
-        $patients = Patient::orderBy('name')->get();
-        $rooms = Room::All();
-        return view('sanitary_residences.bookings.show', compact('booking', 'patients', 'rooms'));
+        return redirect()->route('sanitary_residences.bookings.index', $booking->room->residence_id);        
     }
 
 
