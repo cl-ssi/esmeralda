@@ -38,6 +38,7 @@ class SuspectCase extends Model implements Auditable
         'notification_at', 'notification_mechanism',
         'discharged_at',
         'observation', 'minsal_ws_id', 'case_type', 'positive_condition',
+        'strategy', 'substrategy',
         'patient_id', 'laboratory_id', 'establishment_id',
         'user_id',
         'ct', 'candidate_for_sq', 'hl7_result_message_id', 'filename_gcs'

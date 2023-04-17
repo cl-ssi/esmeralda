@@ -232,7 +232,27 @@
 
     </div>
 <!-------------------------------->
-    <hr>
+
+<hr>
+    <div class="form-row">
+        <fieldset class="form-group col-4 col-md-4">
+            <label for="for_strategy">Estrategia*</label>
+            <select name="strategy" id="for_strategy" class="form-control" required>
+                <option value="" {{(old('strategy') == '') ? 'selected' : '' }}>Seleccionar Estrategia</option>
+            </select>
+        </fieldset>
+
+
+        <fieldset class="form-group col-4 col-md-4">
+            <label for="for_substrategy">Subestrategia</label>
+            <select name="substrategy" id="for_substrategy" class="form-control">
+                <option value="" {{(old('substrategy') == '') ? 'selected' : '' }}>Solo Obligatorio con BAC Brotes</option>
+            </select>
+        </fieldset>
+
+
+    </div>
+<hr>
 
 
     <div class="form-row">
@@ -599,6 +619,50 @@ $(document).ready(function(){
 });
 
 
+$(document).ready(function(){
+            $('#for_case_type').change(function(){
+                var caseType = $(this).val();
+                var strategyOptions = '';
+                var substrategyOptions = '';
+
+                if(caseType == 'Busqueda activa'){
+                    strategyOptions += '<option value="BAC Punto de Entrada">BAC Punto de Entrada</option>';
+                    strategyOptions += '<option value="BAC Brotes">BAC Brotes</option>';
+                    strategyOptions += '<option value="BAC Autotest (sólo disponible para antigenos)">BAC Autotest (sólo disponible para antigenos)</option>';
+                } else if(caseType == 'Atención médica'){
+                    strategyOptions += '<option value="Residencias sanitarias">Residencias sanitarias</option>';
+                    strategyOptions += '<option value="Sintomáticos">Sintomáticos</option>';
+                    strategyOptions += '<option value="Atención Médica">Atención Médica</option>';
+                }
+
+            // Actualizar las opciones de estrategias
+                $('#for_strategy').html(strategyOptions);
+                // Ocultar el campo de subestrategias
+                $('#for_substrategy').hide();
+            });
+
+            $('#for_strategy').change(function(){
+                var strategy = $(this).val();
+                var substrategyOptions = '';
+
+                if(strategy == 'BAC Brotes'){
+                    $('#for_substrategy').show();
+                    substrategyOptions += '<option value="BAC Escolar">BAC Escolar</option>';
+                    substrategyOptions += '<option value="BAC ELEAM">BAC ELEAM</option>';
+                    substrategyOptions += '<option value="BAC Mejor Niñez/SENAME">BAC Mejor Niñez/SENAME</option>';
+                    substrategyOptions += '<option value="BAC Centros Penitenciarios">BAC Centros Penitenciarios</option>';
+                    substrategyOptions += '<option value="BAC OAL/AD/Centros de Salud">BAC OAL/AD/Centros de Salud</option>';
+                    substrategyOptions += '<option value="BAC centro de diálisis">BAC centro de diálisis</option>';
+                    substrategyOptions += '<option value="BAC entorno prioritario">BAC entorno prioritario</option>';
+                    substrategyOptions += '<option value="BAC otros hogares">BAC otros hogares</option>';
+                    substrategyOptions += '<option value="BAC recintos de FFA">BAC recintos de FFA</option>';
+                    substrategyOptions += '<option value="BAC viviendas colectivas y campamentos">BAC viviendas colectivas y campamentos</option>';
+                    substrategyOptions += '<option value="BAC comunitarios (gran magnitud y/o importancia mediática)">BAC comunitarios (gran magnitud y/o importancia mediática)</option>';
+                }
+
+                $('#for_substrategy').html(substrategyOptions);
+            });
+        });
 
 
 </script>

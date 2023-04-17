@@ -375,8 +375,43 @@
                     <option value="Busqueda activa" {{($suspectCase->case_type == 'Busqueda activa') ? 'selected' : '' }}>Busqueda activa</option>
                 </select>
             </fieldset>
-
         </div>
+        <hr>
+    <div class="form-row">
+        
+        <fieldset class="form-group col-4 col-md-4">
+            <label for="for_strategy">Estrategia*</label>
+            <select name="strategy" id="for_strategy" class="form-control" required>
+            <option value="" >Seleccionar Estrategia</option>
+            <option value="BAC Punto de Entrada" {{($suspectCase->strategy == 'BAC Punto de Entrada') ? 'selected' : '' }}>BAC Punto de Entrada</option>
+            <option value="BAC Brotes" {{($suspectCase->strategy == 'BAC Brotes') ? 'selected' : '' }}>BAC Brotes</option>
+            <option value="BAC Autotest (sólo disponible para antigenos)" {{($suspectCase->strategy == 'BAC Autotest (sólo disponible para antigenos)') ? 'selected' : '' }}>BAC Autotest (sólo disponible para antigenos)</option>
+            <option value="Residencias sanitarias" {{($suspectCase->strategy == 'Residencias sanitarias') ? 'selected' : '' }}>Residencias sanitarias</option>
+            </select>
+        </fieldset>
+
+
+        <fieldset class="form-group col-4 col-md-4">
+            <label for="for_substrategy">Subestrategia</label>
+            <select name="substrategy" id="for_substrategy" class="form-control">
+                <option value="" {{(old('substrategy') == '') ? 'selected' : '' }}>Solo Obligatorio con BAC Brotes</option>
+                <option value="BAC Escolar" {{($suspectCase->substrategy == 'BAC Escolar') ? 'selected' : '' }}>BAC Escolar</option>
+                <option value="BAC ELEAM" {{($suspectCase->substrategy == 'BAC ELEAM') ? 'selected' : '' }}>BAC ELEAM</option>
+                <option value="BAC Mejor Niñez/SENAME" {{($suspectCase->substrategy == 'BAC Mejor Niñez/SENAME') ? 'selected' : '' }}>BAC Mejor Niñez/SENAME</option>
+                <option value="BAC Centros Penitenciarios" {{($suspectCase->substrategy == 'BAC Centros Penitenciarios') ? 'selected' : '' }}>BAC Centros Penitenciarios</option>
+                <option value="BAC OAL/AD/Centros de Salud" {{($suspectCase->substrategy == 'BAC OAL/AD/Centros de Salud') ? 'selected' : '' }}>BAC OAL/AD/Centros de Salud</option>
+                <option value="BAC centro de diálisis" {{($suspectCase->substrategy == 'BAC centro de diálisis') ? 'selected' : '' }}>BAC centro de diálisis</option>
+                <option value="BAC entorno prioritario" {{($suspectCase->substrategy == 'BAC entorno prioritario') ? 'selected' : '' }}>BAC entorno prioritario</option>
+                <option value="BAC otros hogares" {{($suspectCase->substrategy == 'BAC otros hogares') ? 'selected' : '' }}>BAC otros hogares</option>
+                <option value="BAC recintos de FFA" {{($suspectCase->substrategy == 'BAC recintos de FFA') ? 'selected' : '' }}>BAC recintos de FFA</option>
+                <option value="BAC viviendas colectivas y campamentos" {{($suspectCase->substrategy == 'BAC viviendas colectivas y campamentos') ? 'selected' : '' }}>BAC viviendas colectivas y campamentos</option>
+                <option value="BAC comunitarios (gran magnitud y/o importancia mediática)" {{($suspectCase->substrategy == 'BAC comunitarios (gran magnitud y/o importancia mediática)') ? 'selected' : '' }}>BAC comunitarios (gran magnitud y/o importancia mediática)</option>
+            </select>
+        </fieldset>
+
+
+    </div>
+<hr>
         <div class="form-row">
             <fieldset class="form-group col-6 col-md-4">
                 <label for="for_status">Estado</label>
@@ -651,4 +686,6 @@
         });
 
     </script>
+
+
 @endsection
