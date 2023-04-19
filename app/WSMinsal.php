@@ -233,6 +233,8 @@ class WSMinsal extends Model
                 'id_laboratorio' => $suspectCase->laboratory->id_openagora,
                 'sin_orden_medica' => !$suspectCase->medical_order,
                 'epivigila' => $suspectCase->epivigila,
+                'estrategia' => $suspectCase->strategy,
+                'subestrategia' => $suspectCase->substrategy ??'',
             )
         );
 
