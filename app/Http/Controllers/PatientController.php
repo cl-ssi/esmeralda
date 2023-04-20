@@ -243,9 +243,11 @@ class PatientController extends Controller
 		return view('patients.pcrs', compact('patient'));
 	}
 
-    public function getPatient($rut)
+    public function getPatient($rut = null)
     {
-        return Patient::where('run', $rut)->first();
+        if($rut) {
+            return Patient::where('run', $rut)->first();
+        }
     }
 
     public function getPatientOtherIdentification($other_identification)
