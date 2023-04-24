@@ -2126,7 +2126,7 @@ class SuspectCaseController extends Controller
      */
     public function bulk_load_import_from_pntm(Request $request)
     {
-        dd('kaka');
+        
         set_time_limit(0);
         $timeStart = microtime(true);
 
