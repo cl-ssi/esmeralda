@@ -27,7 +27,7 @@
 
         @method('POST')
         <div class="custom-file mb-3">
-            <input type="file" class="custom-file-input"  name="file" required>
+            <input type="file" class="custom-file-input"  name="file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
             <label class="custom-file-label" for="customFile" data-browse="Elegir">Seleccione el archivo excel...</label>
         </div>
 
