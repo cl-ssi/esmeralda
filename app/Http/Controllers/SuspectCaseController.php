@@ -2297,6 +2297,9 @@ class SuspectCaseController extends Controller
                     if ($patient['estrategia']) {
                         $new_suspect_case->strategy = $patient['estrategia'];
                     }
+                    else{
+                        session()->flash('warning', "Excel de carga masiva no tiene campo estrategia siendo que este ya es obligatorio");
+                    }
                                         
                     if ($patient['subestrategia']) {
                         $new_suspect_case->substrategy = $patient['subestrategia'];
