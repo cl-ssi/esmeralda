@@ -2126,10 +2126,8 @@ class SuspectCaseController extends Controller
      */
     public function bulk_load_import_from_pntm(Request $request)
     {
-        
         set_time_limit(0);
         $timeStart = microtime(true);
-
         $file = $request->file('file');
         $warningMsg = '';
         $casesInsertedNumber = 0;
