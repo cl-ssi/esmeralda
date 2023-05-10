@@ -2295,8 +2295,11 @@ class SuspectCaseController extends Controller
                         $new_suspect_case->case_type = 'Atención médica';
                     }
 
-                    // se añade los campos estrategia y subestrategia a carga masiva
-                    $new_suspect_case->strategy = $patient['estrategia'];
+                    // se añade los campos estrategia y subestrategia a carga masiva                    
+                    if ($patient['estrategia']) {
+                        $new_suspect_case->strategy = $patient['estrategia'];
+                    }
+                                        
                     if ($patient['subestrategia']) {
                         $new_suspect_case->substrategy = $patient['subestrategia'];
                     }
