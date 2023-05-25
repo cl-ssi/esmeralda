@@ -66,6 +66,10 @@ class PatientExternalController extends Controller
         /** Si no existe el acces token */
         if(is_null($access_token))
         {
+            session()->flash(
+                'info',
+                'No se pudo iniciar Sesión con Clave Única'
+            );
             return redirect()->route('welcome');
         }
 
