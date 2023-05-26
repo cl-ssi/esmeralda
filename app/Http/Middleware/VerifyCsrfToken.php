@@ -15,12 +15,12 @@ class VerifyCsrfToken extends Middleware
     ];
 
 
-    public function handle($request, \Closure $next)
-    {
-        $response = $next($request);
+    // public function handle($request, \Closure $next)
+    // {
+    //     $response = $next($request);
 
-        $response->header('X-Frame-Options', 'sameorigin'); // Agrega esta línea
+    //     $response->header('X-Frame-Options', 'sameorigin'); // Agrega esta línea
 
-        return $response;
-    }
+    //     return $response;
+    // }
 }
