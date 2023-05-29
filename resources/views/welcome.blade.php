@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta name="author" content="Servicio de Salud Tarapacá">
         <title>{{ env('SERVICIO','Configurar variable SERVICIO en .env') }}</title>
 
         <!-- Fonts -->
@@ -72,7 +72,7 @@
             }
         </style>
 
-		<link href="{{ asset('css/alert.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/alert.css') }}" rel="stylesheet">
         <link href="{{ asset('css/cu.min.css') }}" rel="stylesheet">
 
     </head>
@@ -100,7 +100,7 @@
                 <br>
                 
                 <h2 class="flex-center">Resultado de exámenes</h2>
-				        <p>Si perteneces a la región de Tarapacá, <br>
+                        <p>Si perteneces a la región de Tarapacá, <br>
                 puedes revisar el resultado de tu exámen de Covid-19 <br>
                 utilizando tu clave única, haciendo click en el botón a continuación.</p>
                 
@@ -113,16 +113,16 @@
                 </div>
 
                 <br> <br> <br> 
-				
-				        @foreach (['danger', 'warning', 'success', 'info'] as $key)
+                
+                @foreach (['danger', 'warning', 'success', 'info'] as $key)
                     @if(session()->has($key))
                     <div class="alert alert-{{ $key }} alert-dismissable">
                         <h3>{!! session()->get($key) !!}</h3>
                     </div>
                     @endif
                 @endforeach
-				
-				        <br> <br> <br>
+                
+                        <br> <br> <br>
   
 
                 <div class="links">
@@ -134,7 +134,7 @@
                 <img src="https://cdn.digital.gob.cl/filer_public/bd/1f/bd1f2309-ac14-447e-8aae-ec7228bee7b2/logo-gob-footer.png"
                     width="150px" alt="Gobierno de Chile"> 
 
-                <p>Desarrollado por Departamento TIC del SSI<br>
+                <p>Desarrollado por Departamento TIC del SST<br>
                 <a class="text-muted" href="mailto:sistemas.ssi@redsalud.gob.cl">
                     sistemas.ssi@redsalud.gob.cl
                 </a><br>
