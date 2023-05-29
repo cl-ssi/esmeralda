@@ -138,7 +138,7 @@
                 <a class="text-muted" href="mailto:sistemas.ssi@redsalud.gob.cl">
                     sistemas.ssi@redsalud.gob.cl
                 </a><br>
-                2019 Gobierno de Chile. 
+                    2019 Gobierno de Chile. 
                 </p>
             </div>
 
