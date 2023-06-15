@@ -83,7 +83,8 @@
             <td nowrap>{{$booking->room->residence->name}}</td>
             <td nowrap>{{$booking->room->floor}}</td>
             <td nowrap>{{$booking->room->number}}</td>
-            <td nowrap>{{ ($booking->patient->demographic)?$booking->patient->demographic->commune->name:'' }}</td>
+            <td nowrap>{{ ($booking->patient && $booking->patient->demographic) ? $booking->patient->demographic->commune->name : '' }}</td>
+
             
             <td nowrap>{{ ($booking->patient->suspectCases->last() and $booking->patient->suspectCases->last()->establishment)? $booking->patient->suspectCases->last()->establishment->alias.' - '.$booking->patient->suspectCases->last()->origin:'' }}</td>
             <td nowrap> {{$booking->doctor}} </td>
@@ -100,7 +101,7 @@
             <td nowrap>{{ $booking->morbid_history }}</td>
             <td nowrap>{{$booking->commonly_used_drugs}}</td>
             <td nowrap>{{ $booking->prevision }}</td>
-            <td nowrap>{{$booking->responsible_family_member}}</td>            
+            <td nowrap>{{$booking->responsible_family_member}}</td>
             <td nowrap>{{ $booking->relationship }}</td>
             <td nowrap>{{$booking->onset_on_symptoms}}</td>
             <td nowrap> {{ $booking->from }} </td>
