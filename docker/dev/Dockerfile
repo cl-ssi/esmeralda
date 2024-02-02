@@ -31,7 +31,7 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-install bcmath
 
 RUN cd /usr/local/etc/php/conf.d/ && \
-  echo 'memory_limit = 256M' >> docker-php-memlimit.ini
+  echo 'memory_limit = 512M' >> docker-php-memlimit.ini
 
 RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer"
 
