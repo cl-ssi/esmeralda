@@ -1495,8 +1495,8 @@ class SuspectCaseController extends Controller
 
 
 
-    public function exportExcel($cod_lab, $date = null)
-{
+    public function exportExcelConChunk($cod_lab, $date = null)
+     {   
     $month = Carbon::parse($date)->month;
     $year  = Carbon::parse($date)->year;
 
@@ -1616,7 +1616,7 @@ class SuspectCaseController extends Controller
 
 
 
-    public function exportExcel_backup2($cod_lab, $date = null)
+    public function exportExcel($cod_lab, $date = null)
     {
         /** Query */
 
