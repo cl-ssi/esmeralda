@@ -39,7 +39,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['teams','google_cloud_logging'],
+            'channels' => ['teams'],
             'ignore_exceptions' => false,
         ],
 
