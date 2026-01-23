@@ -36,6 +36,8 @@ RUN echo 'error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED' >> /u
 RUN echo 'html_errors = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
 RUN echo 'log_errors = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
 RUN echo 'error_log = On' >> /usr/local/etc/php/conf.d/docker-php-errors.ini
+# Desactivar cabecera X-Powered-By
+RUN echo 'expose_php = Off' >> /usr/local/etc/php/conf.d/security.ini
 
 RUN cd /usr/local/etc/php/conf.d/ && \
   echo 'max_execution_time = 240' >> docker-php-max-execution-time.ini
